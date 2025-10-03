@@ -1,44 +1,50 @@
+// Standard C++ libraries
 #include <iostream>
-#include "game.h"
+#include <sstream>
 #include <string>
-using namespace std;
+#include <regex>
+
+// User created libraries
+#include "game.h"
 
 int main() {
     Game game; // Create game object
 
     game.mainMenu(); // Load initial main menu
-	cout << "Hello, Voyager!" << endl;
+    game.displayOutput(); // Displays the initial output
+	std::cout << "Hello, Voyager!" << std::endl;
 	return 0;
 }
 
+
 // Function implementation for Game class
 
-Game::Game() : text_output(""), art_output(""), output("") {} // Default constructor for game class
+Game::Game() : text_output(""), art_output("") {} // Default constructor for game class
 
-void Game::setTextOutput(const string& text) {
+void Game::setTextOutput(const std::string& text) {
     text_output = text; // Set text output
 } 
 
-string Game::getTextOutput() const {
+std::string Game::getTextOutput() const {
 	return text_output; // Get text output
 }
 
-string Game::getArtOutput() const {
+std::string Game::getArtOutput() const {
 	return art_output; // Get art output
 }
 
-void Game::setArtOutput(const string& art) {
+void Game::setArtOutput(const std::string& art) {
     art_output = art; // Set art output
 } 
 
 void Game::displayOutput() const {
-	string output = Game::getArtOutput() + "\n" + Game::getTextOutput() + "\n"; // Combine text and art output
-	cout << output; // Display combined output
+	std::string output = Game::getArtOutput() + "\n\n" + Game::getTextOutput(); // Combine text and art output
+	std::cout << output; // Display combined output
 }
 
 void Game::mainMenu(){
     art_output = R"(
-                :::     ::: :::::::: :::   :::  :::     :::::::: :::::::::::::::::::              
+                :::     ::: :::::::: :::   :::  :::     :::::::: :::::::::::::::::::             
                :+:     :+::+:    :+::+:   :+::+: :+:  :+:    :+::+:       :+:    :+:              
               +:+     +:++:+    +:+ +:+ +:++:+   +:+ +:+       +:+       +:+    +:+               
              +#+     +:++#+    +:+  +#++:+#++:++#++::#:       +#++:++#  +#++:++#:                 
@@ -47,7 +53,7 @@ void Game::mainMenu(){
               ###     ########    ### ###     ### ######## #############    ###                   
 ____ _  _ ____ ____ _   _ ____ ____ ____ ____ _ ____ _ ____ ____ _  _ ____ ___ ___ ____ ____ ____ 
 |___ |  | |___ |__/  \_/  [__  |__| |    |__/ | |___ | |    |___ |\/| |__|  |   |  |___ |__/ [__  
-|___  \/  |___ |  \   |   ___] |  | |___ |  \ | |    | |___ |___ |  | |  |  |   |  |___ |  \ ___] )";
+|___  \/  |___ |  \   |   ___] |  | |___ |  \ | |    | |___ |___ |  | |  |  |   |  |___ |  \ ___] )";  //ASCII art title screen ooooooo
 
     text_output = "1. Start Game\n"
                   "2. Load Game\n"
@@ -56,6 +62,4 @@ ____ _  _ ____ ____ _   _ ____ ____ ____ ____ _ ____ _ ____ ____ _  _ ____ ___ _
                   "5. Exit\n\n"
                   "Please enter your choice\n\n"
                   "> "; // Main menu text
-
-    Game::displayOutput(); // Display main menu
 }
