@@ -3,6 +3,7 @@
 #include <sstream>
 #include <string>
 #include <regex>
+#include <vector>
 
 // User created libraries
 #include "game.h"
@@ -12,6 +13,7 @@ int main() {
 
     game.mainMenu(); // Load initial main menu
     game.displayOutput(); // Displays the initial output
+    game.getInput(); // provides input field
 	std::cout << "Hello, Voyager!" << std::endl;
 	return 0;
 }
@@ -42,6 +44,22 @@ void Game::displayOutput() const {
 	std::cout << output; // Display combined output
 }
 
+void Game::getInput() {
+    tokens.clear(); // Empties command vector of previous commands
+
+    std::cout << "> "; // Input field
+    std::getline(std::cin, input); // Take in input from entire line
+
+    std::stringstream untokenizedInput(input); // Convert the input to a stringstream to tokenize input
+    std::string token; // Temp variable that will store the individual tokens of the input
+
+    while (untokenizedInput >> token) { // While loop that pushes each token to the end of the list
+        tokens.push_back(token); // Appends the token to the end of the list, tokens[0] contains the command and tokens[1] contains the argument. If the is a predicate, token[2] will contain the argument
+    }
+
+    std::cout << "Command: " << tokens[0] << std::endl << "Argument: " << tokens[1] << std::endl; // Test to see if parsing was successful
+}
+
 void Game::mainMenu(){
     art_output = R"(
                 :::     ::: :::::::: :::   :::  :::     :::::::: :::::::::::::::::::             
@@ -60,6 +78,5 @@ ____ _  _ ____ ____ _   _ ____ ____ ____ ____ _ ____ _ ____ ____ _  _ ____ ___ _
                   "3. Instructions\n"
                   "4. Credits\n"
                   "5. Exit\n\n"
-                  "Please enter your choice\n\n"
-                  "> "; // Main menu text
+                  "Please enter your choice\n\n"; // Main menu text
 }

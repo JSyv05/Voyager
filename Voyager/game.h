@@ -3,6 +3,7 @@
 #include <sstream>
 #include <string>
 #include <regex>
+#include <vector>
 /*
 - Game class to manage game state and interactions
 - Game class will take in input for the command as a stringstream to parse the 2-3 words in the command
@@ -12,7 +13,8 @@ class Game {
 private:
     std::string text_output; // Text output
     std::string art_output; // Art output
-    std::stringstream input; // Command input
+    std::string input; // Command input
+    std::vector<std::string> tokens; // Tokenized version of our command input
     std::regex regexv; // Regex to search for verbs
     std::regex regexn; // Regex to search for nouns
 
