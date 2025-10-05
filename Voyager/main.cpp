@@ -13,7 +13,8 @@ int main() {
 
     game.mainMenu(); // Load initial main menu
     game.displayOutput(); // Displays the initial output
-    game.getInput(); // provides input field
+    game.getInput(); // Provides input field
+    game.clearScreen(); // Clear the screen
 	std::cout << "Hello, Voyager!" << std::endl;
 	return 0;
 }
@@ -44,6 +45,22 @@ void Game::displayOutput() const {
 	std::cout << output; // Display combined output
 }
 
+void Game::clearScreen() {
+    std::cout << "\033[2J\033[1;1H"; 
+    
+    /*
+    - This code uses an ANSI escape code, a highly extensible feature that can allow you to format text
+    format for ansi escape characters: <escape-character>[<parameter><command>
+    - \033 represents the escape character. \x1b and \e are also viable options for their own reasons
+    - in this case there are two ANSI escape codes being used
+    - \033 initializes the escape character, [ is the Control Sequence Intoducer and allows us to pass certain parameters
+    - J is the command to erase in display, 2 is the parameter that erases the entire screen. 1 would erase everything behind the cursor
+    - The same logic applies to the second ANSI escape character \033[1;1H
+    - H is the command for the cursor
+    - 1;1 is the position the cursor will return to, in this case, the beginning of the file
+    */
+}
+
 void Game::getInput() {
     tokens.clear(); // Empties command vector of previous commands
 
@@ -54,10 +71,8 @@ void Game::getInput() {
     std::string token; // Temp variable that will store the individual tokens of the input
 
     while (untokenizedInput >> token) { // While loop that pushes each token to the end of the list
-        tokens.push_back(token); // Appends the token to the end of the list, tokens[0] contains the command and tokens[1] contains the argument. If the is a predicate, token[2] will contain the argument
+        tokens.push_back(token); // Appends the token to the end of the list tokens, tokens[0] contains the command and tokens[1] contains the argument. If the is a predicate, token[2] will contain the argument
     }
-
-    std::cout << "Command: " << tokens[0] << std::endl << "Argument: " << tokens[1] << std::endl; // Test to see if parsing was successful
 }
 
 void Game::mainMenu(){

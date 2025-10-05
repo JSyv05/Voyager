@@ -25,10 +25,9 @@ public:
     std::string getTextOutput() const; // Output text getter
     void setArtOutput(const std::string& art); // Art text setter
     std::string getArtOutput() const; // Art text getter
-    void clearOutputs();
+    void clearScreen();
     void getInput();
     void mainMenu(); // Displays the default main menu
-    void startGame();
 };
 
 #endif // GAME_H
