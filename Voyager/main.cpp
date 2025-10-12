@@ -8,6 +8,8 @@
 // User created libraries
 #include "game.h"
 
+using namespace std;
+
 int main() {
     Game game; // Create game object
 
@@ -15,41 +17,18 @@ int main() {
     game.displayOutput(); // Displays the initial output
     game.getInput(); // Provides input field
     game.clearScreen(); // Clear the screen
-	std::cout << "Hello, Voyager!" << std::endl;
+	cout << "Hello, Voyager!" << endl;
 	return 0;
 }
 
 
 // Function implementation for Game class
 
-Game::Game() : text_output(""), art_output("") {} // Default constructor for game class
+Game::Game() : text_output(""), art_output(""), clear_screen("\033[2J\033[1;1H") {
 
-void Game::setTextOutput(const std::string& text) {
-    text_output = text; // Set text output
-} 
 
-std::string Game::getTextOutput() const {
-	return text_output; // Get text output
-}
-
-std::string Game::getArtOutput() const {
-	return art_output; // Get art output
-}
-
-void Game::setArtOutput(const std::string& art) {
-    art_output = art; // Set art output
-} 
-
-void Game::displayOutput() const {
-	std::string output = Game::getArtOutput() + "\n\n" + Game::getTextOutput(); // Combine text and art output
-	std::cout << output; // Display combined output
-}
-
-void Game::clearScreen() {
-    std::cout << "\033[2J\033[1;1H"; 
-    
     /*
-    - This code uses an ANSI escape code, a highly extensible feature that can allow you to format text
+    - clear_screen uses an ANSI escape code, a highly extensible feature that can allow you to format text
     format for ansi escape characters: <escape-character>[<parameter><command>
     - \033 represents the escape character. \x1b and \e are also viable options for their own reasons
     - in this case there are two ANSI escape codes being used
@@ -59,16 +38,42 @@ void Game::clearScreen() {
     - H is the command for the cursor
     - 1;1 is the position the cursor will return to, in this case, the beginning of the file
     */
+
+} // Default constructor for game class
+
+void Game::setTextOutput(const string& text) {
+    text_output = text; // Set text output
+} 
+
+string Game::getTextOutput() const {
+	return text_output; // Get text output
+}
+
+string Game::getArtOutput() const {
+	return art_output; // Get art output
+}
+
+void Game::setArtOutput(const string& art) {
+    art_output = art; // Set art output
+} 
+
+void Game::displayOutput() const {
+	string output = Game::getArtOutput() + "\n\n" + Game::getTextOutput(); // Combine text and art output
+	cout << output; // Display combined output
+}
+
+void Game::clearScreen() {
+    cout << clear_screen;
 }
 
 void Game::getInput() {
     tokens.clear(); // Empties command vector of previous commands
 
-    std::cout << "> "; // Input field
-    std::getline(std::cin, input); // Take in input from entire line
+    cout << "> "; // Input field
+    getline(cin, input); // Take in input from entire line
 
-    std::stringstream untokenizedInput(input); // Convert the input to a stringstream to tokenize input
-    std::string token; // Temp variable that will store the individual tokens of the input
+    stringstream untokenizedInput(input); // Convert the input to a stringstream to tokenize input
+    string token; // Temp variable that will store the individual tokens of the input
 
     while (untokenizedInput >> token) { // While loop that pushes each token to the end of the list
         tokens.push_back(token); // Appends the token to the end of the list tokens, tokens[0] contains the command and tokens[1] contains the argument. If the is a predicate, token[2] will contain the argument

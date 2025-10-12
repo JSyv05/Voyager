@@ -1,0 +1,27 @@
+var NAVTREEINDEX0 =
+{
+"annotated.html":[0,0],
+"class_game.html":[0,0,0],
+"class_game.html#a0a691558b17c2b649f2518b0ccafb4ad":[0,0,0,2],
+"class_game.html#a25a6d0d565de8042563e36952bd1e77f":[0,0,0,7],
+"class_game.html#a3fa5929baa0faddc57bd2e32e6ab6276":[0,0,0,3],
+"class_game.html#a43a51eaa8b6fdb3dc6faa4d3417bad1e":[0,0,0,1],
+"class_game.html#a441a866c9d7ead8b5aedd50233ab5fce":[0,0,0,4],
+"class_game.html#a5ed7fc5be77080f7f6dd5363f7f007a1":[0,0,0,6],
+"class_game.html#ad59df6562a58a614fda24622d3715b65":[0,0,0,0],
+"class_game.html#ae4d65b001820fb4228f92a02efc0e495":[0,0,0,5],
+"class_game.html#aee2c7e6d31fd577cce6ecc9b1708510b":[0,0,0,8],
+"classes.html":[0,1],
+"files.html":[1,0],
+"functions.html":[0,2,0],
+"functions_func.html":[0,2,1],
+"game_8h.html":[1,0,0],
+"game_8h_source.html":[1,0,0],
+"globals.html":[1,1,0],
+"globals_func.html":[1,1,1],
+"index.html":[],
+"main_8cpp.html":[1,0,1],
+"main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4":[1,0,1,0],
+"main_8cpp_source.html":[1,0,1],
+"pages.html":[]
+};
