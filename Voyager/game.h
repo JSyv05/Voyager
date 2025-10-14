@@ -14,6 +14,7 @@ using namespace std;
 class Game {
 private:
     string text_output; // Text output
+    string error_output; // Error output
     string art_output; // Art output
     string input; // Command input
     string clear_screen; // Clear screen string using ANSI escape characters
@@ -28,8 +29,12 @@ public:
     string getTextOutput() const; // Output text getter
     void setArtOutput(const string& art); // Art text setter
     string getArtOutput() const; // Art text getter
-    void clearScreen();
-    void getInput();
+    void setErrorOutput(const string& error); // Error text setter
+    string getErrorOutput() const; // Error text getter
+    void clearScreen() const;
+    void setInput();
+    vector<string> *getInput();
+    void mainMenuLoop();
     void mainMenu(); // Displays the default main menu
 };
 

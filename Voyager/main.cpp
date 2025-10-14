@@ -15,7 +15,7 @@ int main() {
 
     game.mainMenu(); // Load initial main menu
     game.displayOutput(); // Displays the initial output
-    game.getInput(); // Provides input field
+    game.setInput(); // Provides input field
     game.clearScreen(); // Clear the screen
 	cout << "Hello, Voyager!" << endl;
 	return 0;
@@ -41,13 +41,14 @@ Game::Game() : text_output(""), art_output(""), clear_screen("\033[2J\033[1;1H")
 
 } // Default constructor for game class
 
-void Game::setTextOutput(const string& text) {
-    text_output = text; // Set text output
-} 
 
 string Game::getTextOutput() const {
 	return text_output; // Get text output
 }
+
+void Game::setTextOutput(const string& text) {
+    text_output = text; // Set text output
+} 
 
 string Game::getArtOutput() const {
 	return art_output; // Get art output
@@ -57,16 +58,25 @@ void Game::setArtOutput(const string& art) {
     art_output = art; // Set art output
 } 
 
-void Game::displayOutput() const {
-	string output = Game::getArtOutput() + "\n\n" + Game::getTextOutput(); // Combine text and art output
-	cout << output; // Display combined output
+string Game::getErrorOutput() const {
+    return error_output; // Get error output
 }
 
-void Game::clearScreen() {
+void Game::setErrorOutput(const string& error) {
+    error_output = error; // Set error output
+}
+
+
+void Game::displayOutput() const {
+    string output = getArtOutput() + "\n\n" + getTextOutput() + "\n\n" + getErrorOutput(); // Combine text and art output
+    cout << output; // Display combined output
+}
+
+void Game::clearScreen() const{
     cout << clear_screen;
 }
 
-void Game::getInput() {
+void Game::setInput() {
     tokens.clear(); // Empties command vector of previous commands
 
     cout << "> "; // Input field
@@ -79,6 +89,9 @@ void Game::getInput() {
         tokens.push_back(token); // Appends the token to the end of the list tokens, tokens[0] contains the command and tokens[1] contains the argument. If the is a predicate, token[2] will contain the argument
     }
 }
+
+vector<string>* Game::getInput() { return &tokens; } // Returns a pointer to the vector of tokens, which will be used to select individual tokens
+
 
 void Game::mainMenu(){
     art_output = R"(
@@ -99,4 +112,15 @@ ____ _  _ ____ ____ _   _ ____ ____ ____ ____ _ ____ _ ____ ____ _  _ ____ ___ _
                   "4. Credits\n"
                   "5. Exit\n\n"
                   "Please enter your choice\n\n"; // Main menu text
+}
+
+void Game::mainMenuLoop() {
+    while (true) {
+        mainMenu(); // Display main menu
+        displayOutput(); // Display output
+        setInput();      // Set input
+        if (getInput() -> empty()) {
+            setErrorOutput("Invalid input. Please enter a number between 1 and 5.\n\n");
+        }
+    }
 }
