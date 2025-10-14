@@ -182,6 +182,10 @@ void Game::mainMenuLoop() {
             string err = ""; // Clear error output
             setErrorOutput(err);
         }
+        else if ((*getInput())[0] == "exit") {
+            clearScreen();
+            exit(0); // Exit the game
+        }
         else if ((*getInput())[0] == "back") {
             mainMenu(); // Go back to main menu
         }
