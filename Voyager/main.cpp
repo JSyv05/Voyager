@@ -1,4 +1,5 @@
 // Standard C++ libraries
+#include <cstdlib>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -13,10 +14,8 @@ using namespace std;
 int main() {
     Game game; // Create game object
 
-    game.mainMenu(); // Load initial main menu
-    game.displayOutput(); // Displays the initial output
-    game.setInput(); // Provides input field
-    game.clearScreen(); // Clear the screen
+    game.mainMenuLoop();
+    game.clearScreen();
 	cout << "Hello, Voyager!" << endl;
 	return 0;
 }
@@ -24,7 +23,8 @@ int main() {
 
 // Function implementation for Game class
 
-Game::Game() : text_output(""), art_output(""), clear_screen("\033[2J\033[1;1H") {
+Game::Game()
+    : text_output(""), error_output(""), art_output(""), clear_screen("\033[2J\033[1;1H"), start_game(false) {
 
 
     /*
@@ -68,7 +68,7 @@ void Game::setErrorOutput(const string& error) {
 
 
 void Game::displayOutput() const {
-    string output = getArtOutput() + "\n\n" + getTextOutput() + "\n\n" + getErrorOutput(); // Combine text and art output
+    string output = getArtOutput() + "\n\n" + getTextOutput() + "\n\n" + getErrorOutput() + "\n\n"; // Combine text and art output
     cout << output; // Display combined output
 }
 
@@ -86,7 +86,7 @@ void Game::setInput() {
     string token; // Temp variable that will store the individual tokens of the input
 
     while (untokenizedInput >> token) { // While loop that pushes each token to the end of the list
-        tokens.push_back(token); // Appends the token to the end of the list tokens, tokens[0] contains the command and tokens[1] contains the argument. If the is a predicate, token[2] will contain the argument
+        tokens.push_back(token); // Appends the token to the end of the list tokens for the command parser to read.
     }
 }
 
@@ -94,7 +94,7 @@ vector<string>* Game::getInput() { return &tokens; } // Returns a pointer to the
 
 
 void Game::mainMenu(){
-    art_output = R"(
+    string art = R"(
                 :::     ::: :::::::: :::   :::  :::     :::::::: :::::::::::::::::::             
                :+:     :+::+:    :+::+:   :+::+: :+:  :+:    :+::+:       :+:    :+:              
               +:+     +:++:+    +:+ +:+ +:++:+   +:+ +:+       +:+       +:+    +:+               
@@ -106,21 +106,89 @@ ____ _  _ ____ ____ _   _ ____ ____ ____ ____ _ ____ _ ____ ____ _  _ ____ ___ _
 |___ |  | |___ |__/  \_/  [__  |__| |    |__/ | |___ | |    |___ |\/| |__|  |   |  |___ |__/ [__  
 |___  \/  |___ |  \   |   ___] |  | |___ |  \ | |    | |___ |___ |  | |  |  |   |  |___ |  \ ___] )";  //ASCII art title screen ooooooo
 
-    text_output = "1. Start Game\n"
+    string err = ""; // Clear error output
+
+    string text = "1. Start Game\n"
                   "2. Load Game\n"
                   "3. Instructions\n"
                   "4. Credits\n"
                   "5. Exit\n\n"
-                  "Please enter your choice\n\n"; // Main menu text
+                  "Please enter your choice."; // Main menu text
+
+    setArtOutput(art); // Sets art to title screen
+    setErrorOutput(err); // Clears error output
+    setTextOutput(text); // Sets text to menu options
 }
 
 void Game::mainMenuLoop() {
-    while (true) {
-        mainMenu(); // Display main menu
+
+    /*
+    This is the command parser For the main menu. 
+    It will take the tokenized command and then check each of the indices for keywords to run commands.
+    There should be a command parser for each setting in the game, such as on planets, on the ship, in space, etc. 
+    The command parser will be a while loop
+    that will continue until the user exits the given area. 
+    The command parser will also be able to handle invalid commands and return an error message.
+    Each if statement will check each index of the tokenized command for
+    keywords. Most of the time, the first index will be the command, and any following indices will be arguments.
+    */
+
+    mainMenu(); // Display main menu
+    while (!start_game) {
+        clearScreen();
         displayOutput(); // Display output
         setInput();      // Set input
-        if (getInput() -> empty()) {
-            setErrorOutput("Invalid input. Please enter a number between 1 and 5.\n\n");
+        if (getInput() -> empty()) { // If no input is given
+            string err = "ERR) Invalid input. Please enter a valid command."; // returns an error message
+            setErrorOutput(err);
+        }
+        else if ((*getInput())[0] == "start" && (*getInput())[1] == "game") {
+            start_game = true;
+            string text =
+                "This will begin a game. Type back to go back to the main "
+                "menu."; // will begin the game. To be implemented later
+            setTextOutput(text);
+
+            string err = ""; // Clear error output
+            setErrorOutput(err);
+        }
+        else if ((*getInput())[0] == "load" && (*getInput())[1] == "game") {
+            start_game = true;
+            string text =
+                "This will begin a save game. Type back to go back to the main "
+                "menu."; // will load a save game. To be implemented later
+            setTextOutput(text);
+
+            string err = ""; // Clear error output
+            setErrorOutput(err);
+        }
+        else if ((*getInput())[0] == "instructions") {
+            string text =
+                "This will show instructions. To be added later. Type back to "
+                "go back to the main menu."; // will show instructions. To be
+                                             // implemented later
+            setTextOutput(text);
+
+            string err = ""; // Clear error output
+            setErrorOutput(err);
+        }
+        else if ((*getInput())[0] == "credits") {
+            string text =
+                "This will show credits. To be added later. Type back to go "
+                "back to the main menu."; // will show credits. To be
+                                          // implemented later
+            setTextOutput(text);
+
+            string err = ""; // Clear error output
+            setErrorOutput(err);
+        }
+        else if ((*getInput())[0] == "back") {
+            mainMenu(); // Go back to main menu
+        }
+        else {
+            string err =
+                "ERR) Invalid input. Please enter a valid command."; // returns an error message
+            setErrorOutput(err);
         }
     }
 }

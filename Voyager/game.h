@@ -21,6 +21,7 @@ private:
     vector<string> tokens; // Tokenized version of our command input
     regex regexv; // Regex to search for verbs
     regex regexn; // Regex to search for nouns
+    bool start_game;
 
 public:
     Game();
