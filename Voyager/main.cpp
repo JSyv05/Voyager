@@ -1,4 +1,6 @@
 // Standard C++ libraries
+#include <algorithm>
+#include <cctype>
 #include <cstdlib>
 #include <iostream>
 #include <sstream>
@@ -86,7 +88,9 @@ void Game::setInput() {
     string token; // Temp variable that will store the individual tokens of the input
 
     while (untokenizedInput >> token) { // While loop that pushes each token to the end of the list
-        tokens.push_back(token); // Appends the token to the end of the list tokens for the command parser to read.
+
+        transform(token.begin(), token.end(), token.begin(), [](unsigned char c) { return tolower(c); });      // Transforms the token to lowercase
+        tokens.push_back(token); // Appends a the lowercased token to the end of the list tokens for the command parser to read.
     }
 }
 
