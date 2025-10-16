@@ -26,21 +26,7 @@ int main() {
 // Function implementation for Game class
 
 Game::Game()
-    : text_output(""), error_output(""), art_output(""), clear_screen("\033[2J\033[1;1H"), start_game(false) {
-
-
-    /*
-    - clear_screen uses an ANSI escape code, a highly extensible feature that can allow you to format text
-    format for ansi escape characters: <escape-character>[<parameter><command>
-    - \033 represents the escape character. \x1b and \e are also viable options for their own reasons
-    - in this case there are two ANSI escape codes being used
-    - \033 initializes the escape character, [ is the Control Sequence Intoducer and allows us to pass certain parameters
-    - J is the command to erase in display, 2 is the parameter that erases the entire screen. 1 would erase everything behind the cursor
-    - The same logic applies to the second ANSI escape character \033[1;1H
-    - H is the command for the cursor
-    - 1;1 is the position the cursor will return to, in this case, the beginning of the file
-    */
-
+    : text_output(""), error_output(""), art_output(""), start_game(false) {
 } // Default constructor for game class
 
 
@@ -75,7 +61,13 @@ void Game::displayOutput() const {
 }
 
 void Game::clearScreen() const{
-    cout << clear_screen;
+#ifdef _WIN32
+    // Windows system clear screen command
+    std::system("cls");
+#else
+    // Unix-based system clear screen command
+    std::system("clear");
+#endif
 }
 
 void Game::setInput() {
@@ -137,6 +129,9 @@ void Game::mainMenuLoop() {
     keywords. Most of the time, the first index will be the command, and any following indices will be arguments.
     */
 
+    start_game =
+        false; // Reset start_game to false whenever we enter the main menu loop
+
     mainMenu(); // Display main menu
     while (!start_game) {
         clearScreen();
@@ -168,9 +163,18 @@ void Game::mainMenuLoop() {
         }
         else if ((*getInput())[0] == "instructions") {
             string text =
-                "This will show instructions. To be added later. Type back to "
-                "go back to the main menu."; // will show instructions. To be
-                                             // implemented later
+                "the goal of Voyageer is to collect as many samples as possible,\n"
+                "explore as many planets as possible, and then return to Earth safely.\n"
+                "You will be able to use commands to navigate around the solar system \n"
+                "simply by typing in a 2-4 word command.\n"
+                "(\"Examine Granite\", \"Trade meat with merchat\", etc.)\n\n"
+                "The challenge is resource management. You will have to spend samples\n"
+                "to maintain the health of your ship and yourself. You will also\n"
+                "lose resources from random events that will occur.You will have to make\n"
+                "strategic decisions on what to spend resources on as well as what items\n"
+                "you need to survive.\n\n"
+                "When it comes to space exploration, there is only one saying: \"Every Sacrifice Matters\"\n\n"
+                "Type back to return to main menu"; // Instructions and game overview
             setTextOutput(text);
 
             string err = ""; // Clear error output
@@ -178,8 +182,10 @@ void Game::mainMenuLoop() {
         }
         else if ((*getInput())[0] == "credits") {
             string text =
-                "This will show credits. To be added later. Type back to go "
-                "back to the main menu."; // will show credits. To be
+                "Team Members:\nAlina Betances\nAnthony Pinto\nElias Reeves\nMatthew Silva\nJohn Syvertsen\n\n"
+                "Scrum Master:\nJohn Syvertsen\n\n"
+                "Programmers:\nAlina Betances\nAnthony Pinto\nElias Reeves\nMatthew Silve\nJohn Syvertsen\n\n"
+                "Type back to return to the main menu."; // will show credits. To be
                                           // implemented later
             setTextOutput(text);
 

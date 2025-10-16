@@ -17,7 +17,6 @@ private:
     string error_output; // Error output
     string art_output; // Art output
     string input; // Command input
-    string clear_screen; // Clear screen string using ANSI escape characters
     vector<string> tokens; // Tokenized version of our command input
     regex regexv; // Regex to search for verbs
     regex regexn; // Regex to search for nouns
