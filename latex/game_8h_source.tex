@@ -1,0 +1,38 @@
+\doxysection{game.\+h}
+\hypertarget{game_8h_source}{}\label{game_8h_source}\index{Voyager/game.h@{Voyager/game.h}}
+\mbox{\hyperlink{game_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00001}00001\ \textcolor{preprocessor}{\#ifndef\ GAME\_H}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00002}00002\ \textcolor{preprocessor}{\#define\ GAME\_H}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00004}00004\ \textcolor{preprocessor}{\#include"{}\mbox{\hyperlink{command_8h}{command.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00005}00005\ }
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00006}00006\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00007}00007\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00008}00008\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00010}00010\ \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00011}00011\ \textcolor{comment}{-\/\ Game\ class\ to\ manage\ game\ state\ and\ interactions}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00012}00012\ \textcolor{comment}{-\/\ Game\ class\ will\ take\ in\ input\ for\ the\ command\ as\ a\ stringstream\ to\ parse\ the\ 2-\/3\ words\ in\ the\ command}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00013}00013\ \textcolor{comment}{-\/\ Game\ class\ should\ be\ able\ to\ handle\ regex,\ and\ passing\ commands\ onto\ certain\ outputs}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00014}00014\ \textcolor{comment}{*/}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00015}\mbox{\hyperlink{class_game}{00015}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_game_ad59df6562a58a614fda24622d3715b65}{Game}}\ \{}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00016}00016\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00017}00017\ \ \ \ \ std::string\ text\_output;\ \textcolor{comment}{//\ Text\ output}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00018}00018\ \ \ \ \ std::string\ error\_output;\ \textcolor{comment}{//\ Error\ output}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00019}00019\ \ \ \ \ std::string\ art\_output;\ \textcolor{comment}{//\ Art\ output}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00020}00020\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00021}00021\ \ \ \ \ \mbox{\hyperlink{class_game_ad59df6562a58a614fda24622d3715b65}{Game}}();\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Default\ constructor}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00022}00022\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_a0a691558b17c2b649f2518b0ccafb4ad}{displayOutput}}()\ \textcolor{keyword}{const};\ \textcolor{comment}{//\ Displays\ text,\ art,\ and\ input\ field}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00023}00023\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_a530e9e2362117fc73ab8cf7dc95ebac8}{setTextOutput}}(\textcolor{keyword}{const}\ std::string\&);\ \textcolor{comment}{//\ Output\ text\ setter}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00024}00024\ \ \ \ \ std::string\ \mbox{\hyperlink{class_game_ae4d65b001820fb4228f92a02efc0e495}{getTextOutput}}()\ \textcolor{keyword}{const};\ \ \ \ \ \ \textcolor{comment}{//\ Output\ text\ getter}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00025}00025\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_a93919e3196e7d2284870b9facdf71c15}{setArtOutput}}(\textcolor{keyword}{const}\ std::string\&);\ \ \textcolor{comment}{//\ Art\ text\ setter}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00026}00026\ \ \ \ \ std::string\ \mbox{\hyperlink{class_game_a3fa5929baa0faddc57bd2e32e6ab6276}{getArtOutput}}()\ \textcolor{keyword}{const};\ \ \ \ \ \ \ \textcolor{comment}{//\ Art\ text\ getter}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00027}00027\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_a82e62b77419f947924400b2294906815}{setErrorOutput}}(\textcolor{keyword}{const}\ std::string\&);\ \textcolor{comment}{//\ Error\ text\ setter}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00028}00028\ \ \ \ \ std::string\ \mbox{\hyperlink{class_game_aac44cd3cd677afcf57d2b96c142ed997}{getErrorOutput}}()\ \textcolor{keyword}{const};\ \ \ \ \ \ \textcolor{comment}{//\ Error\ text\ getter}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00029}00029\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_a87f611d77629e4b9e134d1a2b609bfa0}{clearScreen}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00030}00030\ \};}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00032}00032\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ GAME\_H}}
+
+\end{DoxyCode}
