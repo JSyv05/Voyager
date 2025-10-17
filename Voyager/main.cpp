@@ -12,6 +12,7 @@
 #include "command.h"
 #include "game.h"
 #include "menu.h"
+#include "planet.h"
 
 using namespace std;
 

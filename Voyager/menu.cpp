@@ -3,6 +3,7 @@
 #include"command.h"
 #include"game.h"
 #include"menu.h"
+#include"planet.h"
 
 using namespace std;
 
@@ -66,13 +67,7 @@ void Menu::MainMenu(Command c, Game g) const {
         }
         else if ((*c.getInput())[0] == "start" && (*c.getInput())[1] == "game") {
             start_game = true;
-            string text =
-                "This will begin a game. Type back to go back to the main "
-                "menu."; // will begin the game. To be implemented later
-            g.setTextOutput(text);
-
-            string err = ""; // Clear error output
-            g.setErrorOutput(err);
+            showIntro(g);
         }
         else if ((*c.getInput())[0] == "load" && (*c.getInput())[1] == "game") {
             start_game = true;
@@ -143,4 +138,42 @@ void Menu::MainMenu(Command c, Game g) const {
         }
     }
     // Implementation for displaying the main menu
+}
+
+//Intro Story
+void Menu::showIntro(Game& g) const
+{
+    g.clearScreen();
+    string introText = "Captain's Log, Stardate 2247.03...\n\n"
+        "After decades of preparation, the Voyager Initiative has finally launched.\n"
+        "Our mission: explore the outer systems, gather samples from uncharted worlds,\n"
+        "and return home before the fuel cells run dry.\n\n"
+        "Each planet brings its own challenges - extreme heat, toxic winds, frozen storms.\n"
+        "But every discovery pushes humanity one step closer to survival.\n\n"
+        "You are the last hope of the Voyager fleet.\n"
+        "Remember: every sacrifice matters.\n\n"
+        "Type 'next' and press Enter to continue...";
+
+    g.setArtOutput("");
+    g.setErrorOutput("");
+    g.setTextOutput(introText);
+    g.displayOutput();
+
+    waitForNextKey();
+
+    g.clearScreen();
+    PlanetSystem planetSystem;
+    planetSystem.run(g);
+}
+
+//Wait for 'next'
+void Menu::waitForNextKey() const
+{
+    Command c;
+    while (true)
+    {
+        c.setInput();
+        if (!c.getInput()->empty() && (*c.getInput())[0] == "next")
+        {  break; }
+    }
 }
