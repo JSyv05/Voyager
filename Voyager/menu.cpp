@@ -15,7 +15,7 @@ void Menu::setMainMenu(Game& g) const {
                :+:     :+::+:    :+::+:   :+::+: :+:  :+:    :+::+:       :+:    :+:              
               +:+     +:++:+    +:+ +:+ +:++:+   +:+ +:+       +:+       +:+    +:+               
              +#+     +:++#+    +:+  +#++:+#++:++#++::#:       +#++:++#  +#++:++#:                 
-             +#+   +#+ +#+    +#+   +#+ +#+     +#++#+   +#+#+#        +#+  +#+                 
+             +#+   +#+ +#+    +#+   +#+ +#+     +#++#+    +#+#+#       +#+  +#+                 
              #+#+#+#  #+#    #+#   #+# #+#     #+##+#    #+##+#       #+#    #+                  
               ###     ########    ### ###     ### ######## #############    ###                   
 ____ _  _ ____ ____ _   _ ____ ____ ____ ____ _ ____ _ ____ ____ _  _ ____ ___ ___ ____ ____ ____ 
@@ -24,11 +24,11 @@ ____ _  _ ____ ____ _   _ ____ ____ ____ ____ _ ____ _ ____ ____ _  _ ____ ___ _
 
     string err = ""; // Clear error output
 
-    string text = "1. Start Game\n"
-                       "2. Load Game\n"
-                       "3. Instructions\n"
-                       "4. Credits\n"
-                       "5. Exit\n\n"
+    string text = "> Start Game\n"
+                       "> Load Game\n"
+                       "> Instructions\n"
+                       "> Credits\n"
+                       "> Exit\n\n"
                        "Please enter your choice."; // Main menu text
 
     g.setArtOutput(art);   // Sets art to title screen
@@ -58,28 +58,29 @@ void Menu::MainMenu(Command c, Game g) const {
         g.clearScreen();
         g.displayOutput();             // Display output
         c.setInput();                  // Set input
-        if (c.getInput()->empty()) { // If no input is given
+        auto& command = *c.getInput(); // Alias for easier access to command vector
+        if (command.empty()) {   // If no input is given
             string err =
                 "ERR) Invalid input. Please enter a valid command."; // returns
                                                                      // an error
                                                                      // message
             g.setErrorOutput(err);
         }
-        else if ((*c.getInput())[0] == "start" && (*c.getInput())[1] == "game") {
+        else if ((command.size() >= 1 && command[0] == "start") ||
+                 (command.size() >= 2 && command[0] == "start" &&
+                  command[1] == "game")) {
             start_game = true;
             showIntro(g);
         }
-        else if ((*c.getInput())[0] == "load" && (*c.getInput())[1] == "game") {
+        else if ((command.size() >= 1 && command[0] == "load") ||
+                 (command.size() >= 2 && command[0] == "load" &&
+                  command[1] == "game")) {
             start_game = true;
-            string text =
-                "This will begin a save game. Type back to go back to the main "
-                "menu."; // will load a save game. To be implemented later
-            g.setTextOutput(text);
 
-            string err = ""; // Clear error output
+                       string err = ""; // Clear error output
             g.setErrorOutput(err);
         }
-        else if ((*c.getInput())[0] == "instructions") {
+        else if (command[0] == "instructions") {
             string text =
                 "the goal of Voyageer is to collect as many samples as "
                 "possible,\n"
@@ -88,7 +89,7 @@ void Menu::MainMenu(Command c, Game g) const {
                 "You will be able to use commands to navigate around the solar "
                 "system \n"
                 "simply by typing in a 2-4 word command.\n"
-                "(\"Examine Granite\", \"Trade meat with merchat\", etc.)\n\n"
+                "(\"Examine Granite\", \"Trade meat with merchant\", etc.)\n\n"
                 "The challenge is resource management. You will have to spend "
                 "samples\n"
                 "to maintain the health of your ship and yourself. You will "
@@ -107,7 +108,7 @@ void Menu::MainMenu(Command c, Game g) const {
             string err = ""; // Clear error output
             g.setErrorOutput(err);
         }
-        else if ((*c.getInput())[0] == "credits") {
+        else if (command[0] == "credits") {
             string text =
                 "Team Members:\nAlina Betances\nAnthony Pinto\nElias "
                 "Reeves\nMatthew Silva\nJohn Syvertsen\n\n"
@@ -122,11 +123,11 @@ void Menu::MainMenu(Command c, Game g) const {
             string err = ""; // Clear error output
             g.setErrorOutput(err);
         }
-        else if ((*c.getInput())[0] == "exit") {
+        else if (command[0] == "exit") {
             g.clearScreen();
             exit(0); // Exit the game
         }
-        else if ((*c.getInput())[0] == "back") {
+        else if (command[0] == "back") {
             setMainMenu(g); // Go back to main menu
         }
         else {
