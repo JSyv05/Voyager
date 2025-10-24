@@ -64,6 +64,8 @@ void Game::clearScreen() const {
 
 void Game::gameLoop(Game& game) const {
     Menu menu;              // Create menu object
+    Command command;
     menu.setMenu(game); // Set main menu
     displayOutput(); // Display initial output
+    command.setInput(); // set input
 }
