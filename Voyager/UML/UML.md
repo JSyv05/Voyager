@@ -6,10 +6,10 @@ title: Voyager UML
 classDiagram
 	Rock --o Planet : Constructs
 	Voyager --> Game
-	MainMenuCommand--o Game : uses
-	Command --> Planet : Game.isPlanet
-	Command --> Ship : Game.isShip
-	Command --> Menu : Game.isMenu
+	MainMenuCommand --o Game : uses
+	Command --> Planet : Game.onPlanet
+	Command --> Ship : Game.onShip
+	Command --> Menu : Game.onMenu
 	Planet --> Game
 	Ship --> Game
 	Menu --> Game
