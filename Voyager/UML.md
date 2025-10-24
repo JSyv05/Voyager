@@ -35,7 +35,7 @@ classDiagram
 	    + setErrorOutput(in: const string&) const
 	    + getErrorOutput() string const
 	    + clearScreen() const
-	    + gameLoop(in: menu, ship, planet)
+	    + gameLoop(in: Menu&, Ship&, Planet&) const
 	}
 	
 	class Command{

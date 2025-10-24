@@ -1,5 +1,7 @@
 // User created libraries
 #include "command.h"
+#include "menu.h"
+#include "planet.h"
 #include "game.h"
 
 // Standard C++ libraries
@@ -58,4 +60,8 @@ void Game::clearScreen() const {
     // Unix-based system clear screen command
     system("clear");
 #endif
+}
+
+void Game::gameLoop(Command& command, Planet& planet, Menu& menu) const {
+    // Main game loop implementation will go here
 }

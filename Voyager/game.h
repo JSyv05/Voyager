@@ -2,21 +2,27 @@
 #define GAME_H
 
 #include"command.h"
+#include"planet.h"
+#include"menu.h"
 
 #include <sstream>
 #include <string>
 #include <vector>
 
 /*
-- Game class to manage game state and interactions
-- Game class will take in input for the command as a stringstream to parse the 2-3 words in the command
-- Game class should be able to handle regex, and passing commands onto certain outputs
+The function of the Game class is to manage the overall state and flow of the game.
+It handles all text and art output, manages the game loop, and keeps track
+of the game state that we are in (on menu, on ship, on planet, etc.).
 */
 class Game {
 private:
     std::string text_output; // Text output
     std::string error_output; // Error output
     std::string art_output; // Art output
+    int onMenu; // Flag to check if in menu screen
+    int onShip; // Flag to check if on the ship
+    int onPlanet; // Flag to check if we are on a planet
+
 public:
     Game();                     // Default constructor
     void displayOutput() const; // Displays text, art, and input field
@@ -26,7 +32,8 @@ public:
     std::string getArtOutput() const;       // Art text getter
     void setErrorOutput(const std::string&); // Error text setter
     std::string getErrorOutput() const;      // Error text getter
-    void clearScreen() const;
+    void clearScreen() const;                // Clears the console screen
+    void gameLoop(Command&, Planet&, Menu&) const; // Main game loop
 };
 
 #endif // GAME_H
