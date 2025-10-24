@@ -19,28 +19,42 @@ private:
     std::string art_output;   // Art output
     std::string body_output;  // Text output
     std::string error_output; // Error output
-    int onMenu; // Flag to check if in menu screen
-    int onShip; // Flag to check if on the ship
-    int onPlanet; // Flag to check if we are on a planet
-
+    bool onMenu; // Flag to check if in menu screen
+    bool onShip; // Flag to check if on the ship
+    bool onPlanet; // Flag to check if we are on a planet
+    bool gameOver; // Flag to check if game is over
 public:
+    enum class MainMenuCommand {
+        Start,
+        Load,
+        Instructions,
+        Credits,
+        Exit,
+        Error,
+        Back
+    }; // Enum to give simpler names to menu commands
+
     Game();                     // Default constructor
     void setBodyOutput(const std::string&);  // Output text setter
     void setArtOutput(const std::string&);   // Art text setter
     void setErrorOutput(const std::string&); // Error text setter
-    void setMenuFlag(const int&);
-    void setShipFlag(const int&);
-    void setPlanetFlag(const int&);
+    void setMenuFlag(const bool&);
+    void setShipFlag(const bool&);
+    void setPlanetFlag(const bool&);
+    void setGameOverFlag(const bool&);
+
     std::string getBodyOutput() const;      // Output text getter
     std::string getArtOutput() const;       // Art text getter
     std::string getErrorOutput() const;      // Error text getter
-    int getMenuFlag() const;
-    int getShipFlag() const;
-    int getPlanetFlag() const;
+    bool getMenuFlag() const;
+    bool getShipFlag() const;
+    bool getPlanetFlag() const;
+    bool getGameOverFlag() const;
 
     void clearScreen() const;   // Clears the console screen
     void displayOutput() const; // Displays text, art, and input field
     void gameLoop(Game&) const; // Main game loop
+    MainMenuCommand checkMenuCommand(Command&) const;
 };
 
 #endif // GAME_H

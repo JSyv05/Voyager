@@ -34,3 +34,60 @@ ____ _  _ ____ ____ _   _ ____ ____ ____ ____ _ ____ _ ____ ____ _  _ ____ ___ _
     g.setBodyOutput(text); // Sets text to menu options
 	// Implementation for setting up the main menu
 }
+void Menu::setInstructions(Game& g) const {
+    string art = R"(
+                :::     ::: :::::::: :::   :::  :::     :::::::: :::::::::::::::::::             
+               :+:     :+::+:    :+::+:   :+::+: :+:  :+:    :+::+:       :+:    :+:              
+              +:+     +:++:+    +:+ +:+ +:++:+   +:+ +:+       +:+       +:+    +:+               
+             +#+     +:++#+    +:+  +#++:+#++:++#++::#:       +#++:++#  +#++:++#:                 
+             +#+   +#+ +#+    +#+   +#+ +#+     +#++#+    +#+#+#       +#+  +#+                 
+             #+#+#+#  #+#    #+#   #+# #+#     #+##+#    #+##+#       #+#    #+                  
+              ###     ########    ### ###     ### ######## #############    ###)";
+
+    string text = "the goal of Voyager is to collect as many samples as\n"
+                "possible, explore as many planets as possible, and then\n" 
+                "return to Earth safely.\n"
+                "You will be able to use commands to navigate around the solar "
+                "system simply by typing in a 2-4 word command.\n"
+                "(\"Examine Granite\", \"Trade meat with merchant\", etc.)\n\n"
+
+                "The challenge is resource management. You will have to spend\n"
+                "samples to maintain the health of your ship and yourself. You will\n"
+                "also lose resources from random events that will occur. You will\n"
+                "have to make strategic decisions on what to spend resources on as\n"
+                "well as what items you need to survive.\n\n"
+
+                "When it comes to space exploration, there is only one saying: "
+                "\"Every Sacrifice Matters\"\n\n"
+
+                "Type back to return to main menu";
+
+    g.setArtOutput(art); // Sets art to instructions screen
+    g.setBodyOutput(text); // Sets text to instructions
+}
+
+void Menu::setCredits(Game& g) const{
+    string art = R"(
+                :::     ::: :::::::: :::   :::  :::     :::::::: :::::::::::::::::::             
+               :+:     :+::+:    :+::+:   :+::+: :+:  :+:    :+::+:       :+:    :+:              
+              +:+     +:++:+    +:+ +:+ +:++:+   +:+ +:+       +:+       +:+    +:+               
+             +#+     +:++#+    +:+  +#++:+#++:++#++::#:       +#++:++#  +#++:++#:                 
+             +#+   +#+ +#+    +#+   +#+ +#+     +#++#+    +#+#+#       +#+  +#+                 
+             #+#+#+#  #+#    #+#   #+# #+#     #+##+#    #+##+#       #+#    #+                  
+              ###     ########    ### ###     ### ######## #############    ###)";
+
+    string text = "Team Members:\nAlina Betances\nAnthony Pinto\nElias "
+                  "Reeves\nMatthew Silva\nJohn Syvertsen\n\n"
+                  "Scrum Master:\nJohn Syvertsen\n\n"
+                  "Programmers:\nAlina Betances\nAnthony Pinto\nElias "
+                  "Reeves\nMatthew Silve\nJohn Syvertsen\n\n"
+                  "Type back to return to the main menu.";
+
+    g.setArtOutput(art);
+    g.setBodyOutput(text);
+}
+
+void Menu::setError(Game& g) const {
+    string error = "ERR: Please input a valid command";
+    g.setErrorOutput(error);
+}

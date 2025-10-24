@@ -17,6 +17,7 @@ public:
 	void setMenu(Game& g) const;
     void setInstructions(Game& g) const;
     void setCredits(Game& g) const;
+    void setError(Game& g) const;
 };
 
 #endif
