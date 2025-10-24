@@ -5,52 +5,28 @@
 #include "game.h"
 
 // Standard C++ libraries
-#include <algorithm>
-#include <cctype>
-#include <cstdlib>
 #include <iostream>
-#include <regex>
-#include <sstream>
-#include <string>
-#include <vector>
 
 using namespace std;
             
 // Function implementation for Game class
 
 Game::Game()
-    : text_output(""), error_output(""), art_output("") {
+    : art_output(""), body_output(""), error_output(""), onMenu(0), onShip(0), onPlanet(0) {
 } // Default constructor for game class
 
-string Game::getTextOutput() const {
-    return text_output; // Get text output
-}
-
-void Game::setTextOutput(const string& text) {
-    text_output = text; // Set text output
-}
-
-string Game::getArtOutput() const {
-    return art_output; // Get art output
-}
-
-void Game::setArtOutput(const string& art) {
-    art_output = art; // Set art output
-}
-
-string Game::getErrorOutput() const {
-    return error_output; // Get error output
-}
-
-void Game::setErrorOutput(const string& error) {
-    error_output = error; // Set error output
-}
-
-void Game::displayOutput() const {
-    string output = getArtOutput() + "\n\n" + getTextOutput() + "\n\n" +
-                    getErrorOutput() + "\n\n"; // Combine text and art output
-    cout << output;                            // Display combined output
-}
+void Game::setBodyOutput(const string& text) { body_output = text; }
+void Game::setArtOutput(const string& art) { art_output = art; }
+void Game::setErrorOutput(const string& error) { error_output = error; }
+void Game::setMenuFlag(const int& i) { onMenu = i; }
+void Game::setShipFlag(const int& i) { onMenu = i; }
+void Game::setPlanetFlag(const int& i) { onMenu = i; }
+string Game::getBodyOutput() const { return body_output; }
+string Game::getArtOutput() const { return art_output; }
+string Game::getErrorOutput() const { return error_output; }
+int Game::getMenuFlag() const { return onMenu; }
+int Game::getShipFlag() const { return onMenu; }
+int Game::getPlanetFlag() const { return onMenu; }
 
 void Game::clearScreen() const {
 #ifdef _WIN32
@@ -62,10 +38,29 @@ void Game::clearScreen() const {
 #endif
 }
 
+void Game::displayOutput() const {
+    string output = getArtOutput() + "\n\n" + getBodyOutput() + "\n\n" +
+                    getErrorOutput() + "\n\n"; // Combine text and art output
+    cout << output;                            // Display combined output
+}
+
 void Game::gameLoop(Game& game) const {
-    Menu menu;              // Create menu object
-    Command command;
+    int run = 1; // Flag to control game loop
+    Menu menu; // Create menu object
+    Command command; // Create command object
+    int menuFlag = 1; // Initial menu flag to start with menu commands
+    game.setMenuFlag(menuFlag); // sets menu flag to menuFlag
+
     menu.setMenu(game); // Set main menu
-    displayOutput(); // Display initial output
-    command.setInput(); // set input
+
+    while (run) {
+        game.displayOutput(); // Display output
+        command.setInput(); // set input
+
+        if (game.getMenuFlag()) {
+            cout << "In menu\n";
+        }
+        game.clearScreen(); // Clear screen before start of next loop iteration
+    }
+
 }

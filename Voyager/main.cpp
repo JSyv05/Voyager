@@ -1,22 +1,7 @@
-// Standard C++ libraries
-#include <algorithm>
-#include <cctype>
-#include <cstdlib>
-#include <iostream>
-#include <sstream>
-#include <string>
-#include <regex>
-#include <vector>
-
-// User created libraries
-#include "game.h"
-using namespace std;
+#include "game.h" // Include game header file
 
 int main() {
-    Game game;
-
-	game.gameLoop(game);
-
+    Game game; // initialize game object
+    game.gameLoop(game); // start game loop
 	return 0;
 }
-

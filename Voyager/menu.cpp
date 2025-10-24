@@ -7,7 +7,7 @@
 
 using namespace std;
 
-void Menu::setMenu(Game& g) {
+void Menu::setMenu(Game& g) const {
     string art = R"(
                 :::     ::: :::::::: :::   :::  :::     :::::::: :::::::::::::::::::             
                :+:     :+::+:    :+::+:   :+::+: :+:  :+:    :+::+:       :+:    :+:              
@@ -31,6 +31,6 @@ ____ _  _ ____ ____ _   _ ____ ____ ____ ____ _ ____ _ ____ ____ _  _ ____ ___ _
 
     g.setArtOutput(art);   // Sets art to title screen
     g.setErrorOutput(err); // Clears error output
-    g.setTextOutput(text); // Sets text to menu options
+    g.setBodyOutput(text); // Sets text to menu options
 	// Implementation for setting up the main menu
 }

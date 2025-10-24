@@ -77,7 +77,7 @@ void PlanetSystem::run(Game& g)
 
     planetDisplay << "\n(Type 1, 2, or 3 to travel to a planet, or 'menu' to return to main menu.)";
 
-    g.setTextOutput(planetDisplay.str());
+    g.setBodyOutput(planetDisplay.str());
     g.setErrorOutput("");
     g.displayOutput();
 
@@ -102,7 +102,7 @@ void PlanetSystem::run(Game& g)
                     << planets[index].describe()
                     << "\n(Type 'menu' to return to main menu or 'back' to view nearby planets.)";
 
-                g.setTextOutput(travelMsg.str());
+                g.setBodyOutput(travelMsg.str());
                 g.setErrorOutput("");
                 g.displayOutput();
 
@@ -123,7 +123,7 @@ void PlanetSystem::run(Game& g)
                     else if (sub == "back")
                     {
                         g.clearScreen();
-                        g.setTextOutput(planetDisplay.str());
+                        g.setBodyOutput(planetDisplay.str());
                         g.setErrorOutput("");
                         g.displayOutput();
                         break;
