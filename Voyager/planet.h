@@ -16,6 +16,9 @@
 
 using namespace std;
 
+// game forward declaration
+class Game;
+
 // Biomes
 enum class Biome
 {

@@ -118,7 +118,6 @@ void PlanetSystem::run(Game& g)
                         g.clearScreen();
                         Menu m;
                         Command cmd;
-                        m.MainMenu(cmd, g);
                         return;
                     }
                     else if (sub == "back")
@@ -142,7 +141,6 @@ void PlanetSystem::run(Game& g)
             g.clearScreen();
             Menu m;
             Command cmd;
-            m.MainMenu(cmd, g);
             return;
         }
         else

@@ -33,7 +33,7 @@ public:
     void setErrorOutput(const std::string&); // Error text setter
     std::string getErrorOutput() const;      // Error text getter
     void clearScreen() const;                // Clears the console screen
-    void gameLoop(Command&, Planet&, Menu&) const; // Main game loop
+    void gameLoop(Game&) const; // Main game loop
 };
 
 #endif // GAME_H

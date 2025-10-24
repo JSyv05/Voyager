@@ -62,6 +62,8 @@ void Game::clearScreen() const {
 #endif
 }
 
-void Game::gameLoop(Command& command, Planet& planet, Menu& menu) const {
-    // Main game loop implementation will go here
+void Game::gameLoop(Game& game) const {
+    Menu menu;              // Create menu object
+    menu.setMenu(game); // Set main menu
+    displayOutput(); // Display initial output
 }

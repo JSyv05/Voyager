@@ -4,13 +4,11 @@
 #include "command.h"
 #include "game.h"
 
+class Game; // Forward declaration of Game class
+
 class Menu {
 public:
-    Menu();
-    void setMainMenu(Game&) const;
-    void MainMenu(Command, Game) const;
-    void showIntro(Game&) const;
-    void waitForNextKey() const;
+	void setMenu(Game& g);
 };
 
 #endif
