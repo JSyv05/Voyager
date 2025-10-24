@@ -1,7 +1,6 @@
 #ifndef MENU_H
 #define MENU_H
 
-#include "command.h"
 #include "game.h"
 
 class Game; // Forward declaration of Game class

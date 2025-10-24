@@ -6,6 +6,7 @@ title: Voyager UML
 classDiagram
 	Rock --o Planet : Constructs
 	Voyager --> Game
+	MainMenuCommand--o Game : uses
 	Command --> Planet : Game.isPlanet
 	Command --> Ship : Game.isShip
 	Command --> Menu : Game.isMenu
@@ -23,19 +24,30 @@ classDiagram
 	    - art_output: string
 	    - body_output: string
 	    - error_output: string
-	    - isMenu: int
-	    - isShip: int
-	    - isPlanet: int
+	    - onMenu: bool
+	    - onShip: bool
+	    - onPlanet: bool
+		- gameover: bool
 	    + Game()
-	    + displayOutput() const
-	    + setBodyOutput(in: const string&)
+
+	    + setBodyOutput(in: const string&) const
+		+ setArtOutput(in: const string&) const
+		+ setErrorOutput(in: const string&) const
+		+ setMenuFlag(in: const bool&) const
+		+ setShipFlag(in: const bool&) const
+		+ setPlanetFlag(in: const bool&) const
+		+ setGameOverFlag(in: const bool&) const
 	    + getBodyOutput() string const
-	    + setArtOutput(in: const string&) const
 	    + getArtOutput() string const
-	    + setErrorOutput(in: const string&) const
 	    + getErrorOutput() string const
+		+ getMenuFlag() bool
+		+ getShipFlag() bool
+		+ getPlanetFlag() bool
+		+ getGameOverFlag() bool
 	    + clearScreen() const
-	    + gameLoop(in: Menu&, Ship&, Planet&) const
+		+ checkMenuCommand(in: Command&): MainMenuCommand
+		+ displayOutput() const
+	    + gameLoop(in: Game&) const
 	}
 	
 	class Command{
@@ -47,6 +59,8 @@ classDiagram
     
 	class Menu{
 		+ setMainMenu() const
+		+ setInstructions() const
+		+ setCredits() const
 		+ showIntro() const
 	}
 	
@@ -64,5 +78,15 @@ classDiagram
 	class Rock {
 		- rarity: int
 		- type: string
+	}
+	class MainMenuCommand{
+		<<Enumeration>>
+		Start
+		Load
+		Credits
+		Instructions
+		Back
+		Exit
+		Error
 	}
 ```

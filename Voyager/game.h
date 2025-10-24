@@ -23,7 +23,6 @@ private:
     bool onShip; // Flag to check if on the ship
     bool onPlanet; // Flag to check if we are on a planet
     bool gameOver; // Flag to check if game is over
-public:
     enum class MainMenuCommand {
         Start,
         Load,
@@ -33,7 +32,7 @@ public:
         Error,
         Back
     }; // Enum to give simpler names to menu commands
-
+public:
     Game();                     // Default constructor
     void setBodyOutput(const std::string&);  // Output text setter
     void setArtOutput(const std::string&);   // Art text setter

@@ -46,9 +46,9 @@ void Menu::setInstructions(Game& g) const {
 
     string text = "the goal of Voyager is to collect as many samples as\n"
                 "possible, explore as many planets as possible, and then\n" 
-                "return to Earth safely.\n"
-                "You will be able to use commands to navigate around the solar "
-                "system simply by typing in a 2-4 word command.\n"
+                "return to Earth safely. You will be able to use commands\n"
+                "to navigate around the solar system simply by typing in a\n"
+                "simple word command.\n"
                 "(\"Examine Granite\", \"Trade meat with merchant\", etc.)\n\n"
 
                 "The challenge is resource management. You will have to spend\n"
@@ -57,7 +57,7 @@ void Menu::setInstructions(Game& g) const {
                 "have to make strategic decisions on what to spend resources on as\n"
                 "well as what items you need to survive.\n\n"
 
-                "When it comes to space exploration, there is only one saying: "
+                "When it comes to space exploration, there is only one saying:\n\n"
                 "\"Every Sacrifice Matters\"\n\n"
 
                 "Type back to return to main menu";
@@ -80,7 +80,7 @@ void Menu::setCredits(Game& g) const{
                   "Reeves\nMatthew Silva\nJohn Syvertsen\n\n"
                   "Scrum Master:\nJohn Syvertsen\n\n"
                   "Programmers:\nAlina Betances\nAnthony Pinto\nElias "
-                  "Reeves\nMatthew Silve\nJohn Syvertsen\n\n"
+                  "Reeves\nMatthew Silva\nJohn Syvertsen\n\n"
                   "Type back to return to the main menu.";
 
     g.setArtOutput(art);
