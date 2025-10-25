@@ -4,28 +4,24 @@ title: Voyager UML
 ---	
 
 classDiagram
-
-	Voyager --> Game : calls gameLoop()
+	Command -- Game
 	MainMenuCommand --o Game : uses
-	PlanetCommand --o Game :uses
-	ShipCommand --o Game :uses
-	Rock --o Planet : Constructs
+	PlanetCommand --o Game : uses
+	ShipCommand --o Game : uses
+	Game -- Menu : Game.onMenu
+	Game -- Ship : Game.onShip
+
+
+
+
+	Ship ..> Planet : (X,Y,Z) coords
+	Game -- Planet : Game.onPlanet
+	Rock --o Planet : constructs
 	Biome --o Planet : uses
 	Size --o Planet : uses
 	PlanetGenerator --o Planet : utilizes
 	PlanetSystem --o Planet : utilizes
-	Command --> Planet : Game.onPlanet
-	Command --> Ship : Game.onShip
-	Command --> Menu : Game.onMenu
-	Planet --> Game
-	Ship --> Game
-	Menu --> Game
-	Command <-- Game
-	Ship ..> Planet : (X,Y,Z) coords
-	
-	class Voyager {
-		main() int
-	}
+
 	
 	class Game{
 	    - art_output: string
