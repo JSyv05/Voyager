@@ -4,16 +4,12 @@ title: Voyager UML
 ---	
 
 classDiagram
-	Command -- Game
 	MainMenuCommand --o Game : uses
 	PlanetCommand --o Game : uses
 	ShipCommand --o Game : uses
+	Command -- Game
 	Game -- Menu : Game.onMenu
 	Game -- Ship : Game.onShip
-
-
-
-
 	Ship ..> Planet : (X,Y,Z) coords
 	Game -- Planet : Game.onPlanet
 	Rock --o Planet : constructs
@@ -144,7 +140,7 @@ classDiagram
 		<<Utility>>
 		- rng: mt19937
 		- generateName() string
-		+ generatePlanet(in: int) PLanet
+		+ generatePlanet(in: int) Planet
 	}
 	class PlanetSystem{
 		<<Utility>>

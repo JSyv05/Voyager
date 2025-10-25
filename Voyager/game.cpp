@@ -1,7 +1,7 @@
 // User created libraries
 #include "command.h"
 #include "menu.h"
-#include "planet.h"
+//#include "planet.h"
 #include "game.h"
 
 // Standard C++ libraries
@@ -72,7 +72,9 @@ Game::MainMenuCommand Game::checkMenuCommand(Command& command) const{
 
 Game::PlanetCommand Game::checkPlanetCommand(Command& command) const {
     const auto& input = *command.getInput();
-
+    if (input.empty()) {
+        return PlanetCommand::Error;
+    }
 }
 
 void Game::clearScreen() const {
@@ -87,7 +89,7 @@ void Game::clearScreen() const {
 
 void Game::displayOutput() const {
     string output = getArtOutput() + "\n\n" + getBodyOutput() + "\n\n" +
-                    getErrorOutput() + "\n\n"; // Combine text and art output
+                    getErrorOutput(); // Combine text and art output
     cout << output;                            // Display combined output
 }
 
@@ -122,7 +124,7 @@ void Game::gameLoop(Game& game) const {
             else if (passedCommand == MainMenuCommand::Start) {
                 game.setMenuFlag(false);
                 game.setShipFlag(true);
-                cout << "On ship" << endl;
+                menu.setIntro(game);
             }
             else if (passedCommand == MainMenuCommand::Load) {
                 game.setMenuFlag(false);

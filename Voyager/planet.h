@@ -1,5 +1,5 @@
 #ifndef PLANET_H
-#define PLANETH
+#define PLANET_H
 // Standard C++ libraries
 #include <iostream>
 #include <sstream>
@@ -13,7 +13,9 @@
 
 // User created libraries
 #include "game.h"
-//#include "npc.h"
+
+// Forward declaration of Game
+class Game;
 
 using namespace std;
 
@@ -37,7 +39,6 @@ private:
     Biome biome;
     int lootLevel;
     vector<float> position;
-    //vector<uniqueptr<NPC>> npcs;  // Each planet's NPCs
 
 public:
     Planet(string id, string name, double distanceAU, Biome biome, int loot);
