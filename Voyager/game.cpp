@@ -70,6 +70,11 @@ Game::MainMenuCommand Game::checkMenuCommand(Command& command) const{
     }
 }
 
+Game::PlanetCommand Game::checkPlanetCommand(Command& command) const {
+    const auto& input = *command.getInput();
+
+}
+
 void Game::clearScreen() const {
 #ifdef _WIN32
     // Windows system clear screen command
@@ -136,6 +141,14 @@ void Game::gameLoop(Game& game) const {
                 game.clearScreen();
                 exit(0);
             }
+        }
+
+        if (game.getPlanetFlag()) {
+
+        }
+
+        if (game.getShipFlag()) {
+
         }
 
         game.clearScreen(); // Clear screen before start of next loop iteration

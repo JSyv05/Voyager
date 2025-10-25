@@ -14,6 +14,7 @@ The function of the Game class is to manage the overall state and flow of the ga
 It handles all text and art output, manages the game loop, and keeps track
 of the game state that we are in (on menu, on ship, on planet, etc.).
 */
+
 class Game {
 private:
     std::string art_output;   // Art output
@@ -28,10 +29,25 @@ private:
         Load,
         Instructions,
         Credits,
+        Back,
         Exit,
-        Error,
-        Back
+        Error
     }; // Enum to give simpler names to menu commands
+
+    enum class PlanetCommand {
+        Scan,
+        Collect,
+        Drop,
+        ReturnToShip,
+        Error
+    };
+
+    enum class ShipCommand {
+        Travel,
+        Exit,
+        Save,
+        Error
+    };
 public:
     Game();                     // Default constructor
     void setBodyOutput(const std::string&);  // Output text setter
@@ -44,16 +60,18 @@ public:
 
     std::string getBodyOutput() const;      // Output text getter
     std::string getArtOutput() const;       // Art text getter
-    std::string getErrorOutput() const;      // Error text getter
+    std::string getErrorOutput() const;     // Error text getter
     bool getMenuFlag() const;
     bool getShipFlag() const;
     bool getPlanetFlag() const;
     bool getGameOverFlag() const;
 
+    MainMenuCommand checkMenuCommand(Command&) const;
+    PlanetCommand checkPlanetCommand(Command&) const;
+
     void clearScreen() const;   // Clears the console screen
     void displayOutput() const; // Displays text, art, and input field
     void gameLoop(Game&) const; // Main game loop
-    MainMenuCommand checkMenuCommand(Command&) const;
 };
 
-#endif // GAME_H
+#endif

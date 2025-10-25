@@ -2,6 +2,7 @@
 #include "menu.h"
 #include "command.h"
 #include "game.h"
+// #include "npc.h"
 
 #include <iostream>
 #include <iomanip>
@@ -13,42 +14,91 @@ using namespace std;
 
 // Planet Class Implementation
 Planet::Planet(string id, string name, double distanceAU, Biome biome, int loot)
-    : id_(move(id)), name_(move(name)), distanceAU_(distanceAU), biome_(biome), lootLevel_(loot) {
+    : id(move(id)), name(move(name)), distanceAU(distanceAU), biome(biome), lootLevel(loot) {
+}
+
+
+double Planet::travelFuelCost(double fuelPerAU) const
+{
+    return distanceAU * fuelPerAU;
 }
 
 string Planet::quickRow(double fuelPerAU) const
 {
     ostringstream ss;
-    ss << "[" << id_ << "]" << name_
-        << " | " << biomeToString(biome_)
-        << " | " << fixed << setprecision(2) << distanceAU_ << " AU"
+    ss << "[" << id << "]" << name
+        << " | " << biomeToString(biome)
+        << " | " << fixed << setprecision(2) << distanceAU << " AU"
         << " | Fuel Cost: " << travelFuelCost(fuelPerAU);
     return ss.str();
-}
-
-double Planet::travelFuelCost(double fuelPerAU) const
-{
-    return distanceAU_ * fuelPerAU;
 }
 
 string Planet::describe() const
 {
     ostringstream ss;
-    ss << "\n--- " << name_ << " ---\n";
-    ss << "Biome: " << biomeToString(biome_) << "\n";
-    ss << "Distance: " << fixed << setprecision(2) << distanceAU_ << " AU\n";
-    ss << "Loot Level: " << lootLevel_ << "\n";
+    ss << "\n--- " << name << " ---\n";
+    ss << "Biome: " << biomeToString(biome) << "\n";
+    ss << "Distance: " << fixed << setprecision(2) << distanceAU << " AU\n";
+    ss << "Loot Level: " << lootLevel << "\n";
     ss << "Surface Conditions: "
-        << (biome_ == Biome::Volcanic ? "Molten terrain and unstable geysers."
-            : biome_ == Biome::Ocean ? "Vast seas with strong currents."
-            : biome_ == Biome::Forest ? "Dense vegetation and humid climate."
-            : biome_ == Biome::Urban ? "Ruins of an advanced civilization."
-            : biome_ == Biome::Ice ? "Frozen wastelands under dim sunlight."
-            : biome_ == Biome::GasGiant ? "Massive storms and crushing pressure."
-            : biome_ == Biome::Desert ? "Endless dunes and scorching heat."
+        << (biome == Biome::Volcanic ? "Molten terrain and unstable geysers."
+            : biome == Biome::Ocean ? "Vast seas with strong currents."
+            : biome == Biome::Forest ? "Dense vegetation and humid climate."
+            : biome == Biome::Urban ? "Ruins of an advanced civilization."
+            : biome == Biome::Ice ? "Frozen wastelands under dim sunlight."
+            : biome == Biome::Desert ? "Endless dunes and scorching heat."
             : "Barren and lifeless terrain.")
         << "\n";
     return ss.str();
+}
+
+string Planet::biomeToString(Biome b)
+{
+    switch (b)
+    {
+    case Biome::Desert: return "Desert";
+    case Biome::Ice: return "Ice";
+    case Biome::Ocean: return "Ocean";
+    case Biome::Forest: return "Forest";
+    case Biome::Volcanic: return "Volcanic";
+    case Biome::GasGiant: return "GasGiant";
+    case Biome::Urban: return "Urban";
+    case Biome::Barren: return "Barren";
+    }
+    return "UNKNOWN";
+}
+PlanetGenerator::PlanetGenerator() : rng(random_device{}()) {}
+
+string PlanetGenerator::generateName()
+{
+    vector<string> prefixes = { "RX", "M52", "NX", "LX", "KZ", "ULS", "AD" };
+    vector<string> suffixes = { "-1b", "-3c", "-Prime", "-Alpha", "-Vega", "-9", "-Tau" };
+    uniform_int_distribution<int> num(10, 999);
+
+    string pre = prefixes[rng() % prefixes.size()];
+    string suf = suffixes[rng() % suffixes.size()];
+
+    ostringstream name;
+    name << pre << "-" << num(rng) << suf;
+    return name.str();
+}
+
+Planet PlanetGenerator::generatePlanet(int index) {
+    uniform_real_distribution<double> distAU(0.5, 10.0);
+    double distance = distAU(rng);
+
+    uniform_int_distribution<int> distBiome(0, 7);
+    Biome biome = static_cast<Biome>(distBiome(rng));
+
+    uniform_int_distribution<int> distLoot(1, 10);
+    int lootLevel = distLoot(rng);
+
+    string name = generateName();
+    ostringstream id;
+    id << "P" << setw(3) << setfill('0') << index;
+
+    Planet planet(id.str(), name, distance, biome, lootLevel);
+    return planet;
 }
 
 // PlanetSystem - Random generation and exploration
@@ -83,6 +133,7 @@ void PlanetSystem::run(Game& g)
 
     // --- Handle input loop ---
     Command c;
+    /*
     while (true)
     {
         c.setInput();
@@ -118,6 +169,7 @@ void PlanetSystem::run(Game& g)
                         g.clearScreen();
                         Menu m;
                         Command cmd;
+                        m.MainMenu(cmd, g);
                         return;
                     }
                     else if (sub == "back")
@@ -141,6 +193,7 @@ void PlanetSystem::run(Game& g)
             g.clearScreen();
             Menu m;
             Command cmd;
+            m.MainMenu(cmd, g);
             return;
         }
         else
@@ -148,5 +201,5 @@ void PlanetSystem::run(Game& g)
             g.setErrorOutput("ERR) Invalid input. Type 1, 2, 3, or 'menu'.");
             g.displayOutput();
         }
-    }
+    }*/
 }

@@ -137,9 +137,6 @@
     <ClInclude Include="planet.h" />
     <ClInclude Include="rock.h" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="UML\UML.md" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

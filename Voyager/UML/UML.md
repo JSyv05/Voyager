@@ -4,9 +4,16 @@ title: Voyager UML
 ---	
 
 classDiagram
-	Rock --o Planet : Constructs
-	Voyager --> Game
+
+	Voyager --> Game : calls gameLoop()
 	MainMenuCommand --o Game : uses
+	PlanetCommand --o Game :uses
+	ShipCommand --o Game :uses
+	Rock --o Planet : Constructs
+	Biome --o Planet : uses
+	Size --o Planet : uses
+	PlanetGenerator --o Planet : utilizes
+	PlanetSystem --o Planet : utilizes
 	Command --> Planet : Game.onPlanet
 	Command --> Ship : Game.onShip
 	Command --> Menu : Game.onMenu
@@ -44,8 +51,9 @@ classDiagram
 		+ getShipFlag() bool
 		+ getPlanetFlag() bool
 		+ getGameOverFlag() bool
-	    + clearScreen() const
-		+ checkMenuCommand(in: Command&): MainMenuCommand
+		+ checkMenuCommand(in: Command&) MainMenuCommand
+		+ checkPlanetCommand(in: Command&) PLanetCommand
+		+ clearScreen() const
 		+ displayOutput() const
 	    + gameLoop(in: Game&) const
 	}
@@ -70,14 +78,29 @@ classDiagram
 	}
 	
 	class Planet {
+		- id: string
+		- name: string
+		- distanceAU: double
+		- biome: Biome
 		- position: vector float
-		- level: int
+		- lootLevel: int
 		- biome: string
+		+ getId() const string&
+		+ getName() const string&
+		+ getDistanceAU() double
+		+ getBiome() Biome
+		+ quickRow(in: double) const double
+		+ describe() : const string
+		+ biomeToString(in: Biome) static string
 	}
 	
 	class Rock {
-		- rarity: int
-		- type: string
+		- id: int
+		- researchValue: int
+		- name: string
+		- description: string
+		- rarity: string
+		+ displayInfo() const
 	}
 	class MainMenuCommand{
 		<<Enumeration>>
@@ -88,5 +111,47 @@ classDiagram
 		Back
 		Exit
 		Error
+	}
+	class PlanetCommand{
+		<<Enumeration>>
+		Scan
+		Collect
+		Drop
+		ReturnToShip
+		Error
+	}
+	class ShipCommand{
+		<<Enumeration>>
+		Travel
+		Exit
+		Save
+		Error
+	}
+	class Biome{
+		<<Enumeration>>
+		Desert
+		Ice
+		Ocean
+		Forest
+		Volcanic
+		GasGiant
+		Urban
+		Barren
+	}
+	class Size{
+		<<Enumeration>>
+		Small
+		Medium
+		Large
+	}
+	class PlanetGenerator {
+		<<Utility>>
+		- rng: mt19937
+		- generateName() string
+		+ generatePlanet(in: int) PLanet
+	}
+	class PlanetSystem{
+		<<Utility>>
+		+ run(in: Game&)
 	}
 ```

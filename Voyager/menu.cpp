@@ -7,7 +7,7 @@
 
 using namespace std;
 
-void Menu::setMenu(Game& g) const {
+void Menu::setMenu(Game& game) const {
     string art = R"(
                 :::     ::: :::::::: :::   :::  :::     :::::::: :::::::::::::::::::             
                :+:     :+::+:    :+::+:   :+::+: :+:  :+:    :+::+:       :+:    :+:              
@@ -29,12 +29,12 @@ ____ _  _ ____ ____ _   _ ____ ____ ____ ____ _ ____ _ ____ ____ _  _ ____ ___ _
                        "> Exit\n\n"
                        "Please enter your choice."; // Main menu text
 
-    g.setArtOutput(art);   // Sets art to title screen
-    g.setErrorOutput(err); // Clears error output
-    g.setBodyOutput(text); // Sets text to menu options
+    game.setArtOutput(art);   // Sets art to title screen
+    game.setErrorOutput(err); // Clears error output
+    game.setBodyOutput(text); // Sets text to menu options
 	// Implementation for setting up the main menu
 }
-void Menu::setInstructions(Game& g) const {
+void Menu::setInstructions(Game& game) const {
     string art = R"(
                 :::     ::: :::::::: :::   :::  :::     :::::::: :::::::::::::::::::             
                :+:     :+::+:    :+::+:   :+::+: :+:  :+:    :+::+:       :+:    :+:              
@@ -62,11 +62,11 @@ void Menu::setInstructions(Game& g) const {
 
                 "Type back to return to main menu";
 
-    g.setArtOutput(art); // Sets art to instructions screen
-    g.setBodyOutput(text); // Sets text to instructions
+    game.setArtOutput(art); // Sets art to instructions screen
+    game.setBodyOutput(text); // Sets text to instructions
 }
 
-void Menu::setCredits(Game& g) const{
+void Menu::setCredits(Game& game) const{
     string art = R"(
                 :::     ::: :::::::: :::   :::  :::     :::::::: :::::::::::::::::::             
                :+:     :+::+:    :+::+:   :+::+: :+:  :+:    :+::+:       :+:    :+:              
@@ -83,11 +83,17 @@ void Menu::setCredits(Game& g) const{
                   "Reeves\nMatthew Silva\nJohn Syvertsen\n\n"
                   "Type back to return to the main menu.";
 
-    g.setArtOutput(art);
-    g.setBodyOutput(text);
+    game.setArtOutput(art);
+    game.setBodyOutput(text);
 }
 
-void Menu::setError(Game& g) const {
+void Menu::setIntro(Game& game) const{
+    string text = "I forgot to save the intro message will add in";
+
+    game.setBodyOutput(text);
+}
+
+void Menu::setError(Game& game) const {
     string error = "ERR: Please input a valid command";
-    g.setErrorOutput(error);
+    game.setErrorOutput(error);
 }
