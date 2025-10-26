@@ -44,12 +44,8 @@ bool Game::getGameOverFlag() const { return gameOver; }
 bool Game::getNextFlag() const { return next; }
 
 /*
-The basic structure of each of the checks is easy.
-Based on on the commands that we want to happen, we can
-alias them to an enum and from there pass that onto the 
-command runner in the switch cases below. This will allow
-easier implementation of commands in case we want to increase
-the options that we have for a certain game state
+Each if and else if statement ub the check functions is checking for the command, 
+and returns an enum that matches that command.
 */
 
 Game::MainMenuCommand Game::checkMenuCommand(Command& command) const{
@@ -99,6 +95,11 @@ Game::NextCommand Game::checkNextCommand(Command& command) const {
     }
 }
 
+/*
+This function checks to see what operating system the game is running on, either Windows, or some Unix-based
+OS like Linux or MacOS
+*/
+
 void Game::clearScreen() const {
 #ifdef _WIN32
     // Windows system clear screen command
@@ -109,11 +110,20 @@ void Game::clearScreen() const {
 #endif
 }
 
+/*
+This function combines the values for art, body, and error and displays all of that as one thing.
+*/
+
 void Game::displayOutput() const {
     string output = getArtOutput() + "\n\n" + getBodyOutput() + "\n\n" +
-                    getErrorOutput(); // Combine text and art output
-    cout << output;                            // Display combined output
+                    getErrorOutput(); 
+    cout << output;                            
 }
+
+/*
+The game loop is the heart of the game. It will handle all game logic, like checking game states,
+checking the commands passed, and running the logic behind each command.
+*/
 
 void Game::gameLoop(Game& game) const {
     Menu menu; // Create menu object
@@ -122,19 +132,24 @@ void Game::gameLoop(Game& game) const {
 
     menu.setMenu(game); // Set main menu
 
-    while (!game.getGameOverFlag()) { // Checks to see if game is not over
+    while (!game.getGameOverFlag()) {
 
-        game.displayOutput(); // Display output
-        command.setInput(); // set input
+        /*
+        Display the main menu initially and then take input. The display will update before the end of each iteration
+        */
+
+        game.displayOutput(); 
+        command.setInput();
+        /*
+        Each if and else if statement is checking for game state. If we are on the menu, 
+        then it will only check for menu commands, and so on.
+        */
 
         if (game.getMenuFlag()) {
 
             /*
-            This if statement will work only when we are on the menu.
-            Commands that are only supposed to run on the main menu go into here.
-            There is a variable passedCommand that will store the result of our checkMenuCommand.
-            Each state defined in the enum will be compared against the result of the command.
-            If statements control what is going to happen based on that.
+            This switch case will check each case of the defined enum, MainMenuCommand 
+            in this case, and then run the logic of the command based on that case.
             */
 
             MainMenuCommand passedCommand = game.checkMenuCommand(command); // enum state based on input
