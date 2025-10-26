@@ -27,4 +27,4 @@ void Command::setInput() {
         }
 }
 
-vector<string>* Command::getInput() { return &command; }
+vector<string> Command::getInput() { return command; }

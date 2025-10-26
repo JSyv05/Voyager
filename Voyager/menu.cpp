@@ -92,16 +92,16 @@ void Menu::setCredits(Game& game) const{
 
 void Menu::setIntro(Game& game) const{
     string art = R"(
-    <<Grand Legion of Earth>>
+   <<Grand Legion of Humanity>>
         .---.        .---.
        /     \  __  /     \
       / /     \(  )/     \ \
      //////   ' \/ `   \\\\\\
     //// / // :WWWW: \\ \ \\\\
    // /   /  /`WWWW'\  \   \ \\
-  //          //..\\  /-/  |   \
+  //          //..\\  /=/  |  \\
         <====UU====UU====--O--
-             '//||\\` \-\  |
+             '//||\\` \=\  |
                ''``
   <<Dept. of Space Exploration>>)";
 
@@ -118,9 +118,9 @@ void Menu::setIntro(Game& game) const{
         "You are going to be the start of Humanities duty to explore the galaxy.\n\n"
         "Remember, Voyager: \"Every Sacrifice Matters\".\n\n"
 
-        "- Grand Overseer of the Legion Atreitus\n\n"
+        "- Grand Overseer of the Legion\n\n"
 
-        "Type 'next' and press Enter to continue...";
+        "Type 'next' or press Enter to continue...";
 
     game.setArtOutput(art);
     game.setBodyOutput(text);

@@ -9,7 +9,7 @@ public:
     std::string input;
     std::vector<std::string> command;
     void setInput();
-    std::vector<std::string>* getInput();
+    std::vector<std::string> getInput();
 };
 
 #endif

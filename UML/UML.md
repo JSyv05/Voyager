@@ -26,7 +26,7 @@ classDiagram
 	    - onMenu: bool
 	    - onShip: bool
 	    - onPlanet: bool
-		- gameover: bool
+		- gameOver: bool
 	    + Game()
 
 	    + setBodyOutput(in: const string&) const
