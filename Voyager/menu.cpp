@@ -92,13 +92,13 @@ void Menu::setCredits(Game& game) const{
 
 void Menu::setIntro(Game& game) const{
     string art = R"(
-       <<Legions of Earth>>
+    <<Grand Legion of Earth>>
         .---.        .---.
        /     \  __  /     \
       / /     \(  )/     \ \
      //////   ' \/ `   \\\\\\
-    //// / // :    : \\ \ \\\\
-   // /   /  /`    '\  \   \ \\
+    //// / // :WWWW: \\ \ \\\\
+   // /   /  /`WWWW'\  \   \ \\
   //          //..\\  /-/  |   \
         <====UU====UU====--O--
              '//||\\` \-\  |

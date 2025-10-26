@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['clearscreen_0',['clearScreen',['../class_game.html#a87f611d77629e4b9e134d1a2b609bfa0',1,'Game']]],
-  ['command_1',['Command',['../class_command.html',1,'']]],
-  ['command_2',['command',['../class_command.html#a643d8483856aff7ccf90ee5888824cb4',1,'Command']]],
-  ['command_2ecpp_3',['command.cpp',['../command_8cpp.html',1,'']]],
-  ['command_2eh_4',['command.h',['../command_8h.html',1,'']]]
+  ['barren_0',['Barren',['../planet_8h.html#addc943e48d3e353239a2d443df95bd5ba492e9acd19159730032da8322ed0666f',1,'planet.h']]],
+  ['biome_1',['Biome',['../planet_8h.html#addc943e48d3e353239a2d443df95bd5b',1,'planet.h']]],
+  ['biometostring_2',['biomeToString',['../class_planet.html#a8e6d2c6060596d04a363e2b42a2a4188',1,'Planet']]]
 ];

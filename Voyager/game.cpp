@@ -18,7 +18,8 @@ Game::Game():
     error_output(""), 
     onMenu(false), 
     onShip(false), 
-    onPlanet(false), 
+    onPlanet(false),
+    next(false),
     gameOver(false) {} // Default constructor for game class
 
 /*
@@ -32,6 +33,7 @@ void Game::setMenuFlag(const bool& flag) { onMenu = flag; }
 void Game::setShipFlag(const bool& flag) { onMenu = flag; }
 void Game::setPlanetFlag(const bool& flag) { onMenu = flag; }
 void Game::setGameOverFlag(const bool& flag) { gameOver = flag; }
+void Game::setNextFlag(const bool& flag) { next = flag; }
 string Game::getArtOutput() const { return art_output; }
 string Game::getBodyOutput() const { return body_output; }
 string Game::getErrorOutput() const { return error_output; }
@@ -39,6 +41,7 @@ bool Game::getMenuFlag() const { return onMenu; }
 bool Game::getShipFlag() const { return onMenu; }
 bool Game::getPlanetFlag() const { return onMenu; }
 bool Game::getGameOverFlag() const { return gameOver; }
+bool Game::getNextFlag() const { return next; }
 
 Game::MainMenuCommand Game::checkMenuCommand(Command& command) const{
     const auto& input = *command.getInput();
@@ -74,6 +77,16 @@ Game::PlanetCommand Game::checkPlanetCommand(Command& command) const {
     const auto& input = *command.getInput();
     if (input.empty()) {
         return PlanetCommand::Error;
+    }
+}
+
+Game::NextCommand Game::checkNextCommand(Command& command) const {
+    const auto& input = *command.getInput();
+    if (input.empty() || (input.size() == 1 && input[0] == "next")) {
+        return NextCommand::Next;
+    }
+    else {
+        return NextCommand::Error;
     }
 }
 
@@ -117,40 +130,57 @@ void Game::gameLoop(Game& game) const {
             */
 
             MainMenuCommand passedCommand = game.checkMenuCommand(command); // enum state based on input
-            cout << "In menu\n";
-            if (passedCommand == MainMenuCommand::Error) {
-                menu.setError(game);
-            }
-            else if (passedCommand == MainMenuCommand::Start) {
+
+            switch (passedCommand) {
+            case MainMenuCommand::Start:
                 game.setMenuFlag(false);
-                game.setShipFlag(true);
+                game.setNextFlag(true);
                 menu.setIntro(game);
-            }
-            else if (passedCommand == MainMenuCommand::Load) {
-                game.setMenuFlag(false);
-                cout << "Continuing from last save";
-            }
-            else if (passedCommand == MainMenuCommand::Instructions) {
+                break;
+            case MainMenuCommand::Load:
+                break;
+            case MainMenuCommand::Instructions:
                 menu.setInstructions(game);
-            }
-            else if (passedCommand == MainMenuCommand::Credits) {
+                break;
+            case MainMenuCommand::Credits:
                 menu.setCredits(game);
-            }
-            if (passedCommand == MainMenuCommand::Back) {
+                break;
+            case MainMenuCommand::Back:
                 menu.setMenu(game);
-            }
-            else if (passedCommand == MainMenuCommand::Exit) {
+                break;
+            case MainMenuCommand::Exit:
                 game.clearScreen();
                 exit(0);
+            case MainMenuCommand::Error:
+                menu.setError(game);
+                break;
+            default:
+                menu.setError(game);
+                break;
             }
         }
 
-        if (game.getPlanetFlag()) {
+        else if (game.getPlanetFlag()) {
 
         }
 
-        if (game.getShipFlag()) {
+        else if (game.getShipFlag()) {
 
+        }
+
+        else if (game.getNextFlag()) {
+            NextCommand passedCommand = game.checkNextCommand(command);
+            switch (passedCommand) {
+            case NextCommand::Next:
+                game.setShipFlag(true);
+                break;
+            case NextCommand::Error:
+                game.setErrorOutput("ERR: please input a valid command\n\n");
+                break;
+            default:
+                game.setErrorOutput("ERR: please input a valid command\n\n");
+                break;
+            }
         }
 
         game.clearScreen(); // Clear screen before start of next loop iteration
