@@ -32,11 +32,11 @@ namespace VoyagerAutomatedTest
 			Logger::WriteMessage(outputMessage.c_str());
 
 			for (int planetNum = 0; planetNum < NUM_PLANETS; planetNum++) {
-				outputMessage = "Planet number " + std::to_string(planetNum) + "\n";
+				outputMessage = "\n\nPlanet number " + std::to_string(planetNum) + "\n";
 				Logger::WriteMessage(outputMessage.c_str());
-				planets[planetNum] = std::move(generator.generatePlanet(planetNum));
-				// outputMessage = planets[planetNum].describe();
-				outputMessage = planets[planetNum].getName();
+				Planet p = generator.generatePlanet(planetNum);
+				planets.push_back(p);
+				outputMessage = planets[planetNum].describe();
 				Logger::WriteMessage(outputMessage.c_str());
 			}
 		}
