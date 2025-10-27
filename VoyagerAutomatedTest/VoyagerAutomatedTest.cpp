@@ -14,11 +14,14 @@ namespace VoyagerAutomatedTest
 	{
 	public:
 		
+		// first test method just demonstrates test project runs
 		TEST_METHOD(Hello_Voyager)
 		{
 			Logger::WriteMessage("Hello from Dream Team Voyager Test Project\n");
 		}
 
+		// test generates & prints a number of planets
+		//   then based on knowledge of how distances are randomly created, verifies they are created as intended (e.g. range, average values)
 		TEST_METHOD(Planet_Generation)
 		{
 			Logger::WriteMessage("Testing Planet Generation\n");
@@ -79,3 +82,21 @@ namespace VoyagerAutomatedTest
 	};
 }
 
+/* Relevant methods from Planet & PlanetGenerator classes (for reference)
+class Planet
+    Planet(string id, string name, double distanceAU, Biome biome, int loot);  // not used above, planets created by PlanetGenerator
+    const string& getId() const { return id; }
+    const string& getName() const { return name; }
+    double getDistanceAU() const { return distanceAU; }   // gets distance of planet from current location?  note - random # specified when planet created within a range
+    Biome getBiome() const { return biome; }
+    double travelFuelCost(double fuelPerAU) const;
+
+    string quickRow(double fuelPerAU) const;
+    string describe() const;           // returns a formatted string with all of the configured planet attributes (e.g. name, distance)
+
+    static string biomeToString(Biome b);
+
+class PlanetGenerator
+    PlanetGenerator();
+    Planet generatePlanet(int index);
+*/
