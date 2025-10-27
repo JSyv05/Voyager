@@ -4,6 +4,7 @@
 #include "../Voyager/game.cpp"
 #include "../Voyager/menu.cpp"
 #include "../Voyager/command.cpp"
+#include <cmath>  // required for pow()
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -28,7 +29,7 @@ namespace VoyagerAutomatedTest
 
 			std::string outputMessage;
 			std::string outputMessagePointer;
-			outputMessage = "Launching planets " + std::to_string(NUM_PLANETS) + "\n";
+			outputMessage = "Launching " + std::to_string(NUM_PLANETS) + " Planets\n";
 			Logger::WriteMessage(outputMessage.c_str());
 
 			for (int planetNum = 0; planetNum < NUM_PLANETS; planetNum++) {
@@ -39,6 +40,41 @@ namespace VoyagerAutomatedTest
 				outputMessage = planets[planetNum].describe();
 				Logger::WriteMessage(outputMessage.c_str());
 			}
+
+			// tests to verify distance within range & actual average AU distance is within a single std dev of expected 
+			// could merge this into the above code
+			// 
+			// verify distance within range 0.5 & 10
+			const double lowerAURange = 0.5;
+			const double upperAURange = 10.0;
+			const int sampleSize = 10;
+			Logger::WriteMessage("\n*** Validating AU distances are within range - note new planets being generated");
+			for (int planetNum = 0; planetNum < sampleSize; planetNum++) {
+				Planet p = generator.generatePlanet(planetNum);   // generate a planet
+				Assert::IsTrue(p.getDistanceAU() >= lowerAURange && p.getDistanceAU() <= upperAURange, L"Invalid planet distance");
+			}
+
+			// Verify uniform distribution of AU ranges (e.g. average ~ lower+upper/2)
+			Logger::WriteMessage("\n*** Validating AU distances are uniformly generated\n");
+
+			const double avgAUDistance = (lowerAURange + upperAURange) / 2;
+			const double standardDev = (upperAURange - lowerAURange) / sqrt(12);  // standard deviation for a uniform distribution
+
+			double sumOfAUDistances = 0;
+			for (int planetNum = 0; planetNum < sampleSize; planetNum++) {
+				Planet p = generator.generatePlanet(planetNum);   // generate a planet
+				sumOfAUDistances += p.getDistanceAU();
+			}
+
+			outputMessage = "Actual average AU distance = " + std::to_string(sumOfAUDistances / sampleSize) + 
+				" expected average = " + std::to_string(avgAUDistance) +
+				" expected std dev = " + std::to_string(standardDev) + "\n";
+			Logger::WriteMessage(outputMessage.c_str());
+
+			// check within two standard deviations
+			Assert::IsTrue((sumOfAUDistances/sampleSize >= avgAUDistance-(standardDev)) && 
+				(sumOfAUDistances / sampleSize <= avgAUDistance + (standardDev)),
+				L"average AU distance outside one standard deviation");
 		}
 	};
 }
