@@ -20,6 +20,7 @@ private:
     bool onShip; // Flag to check if on the ship
     bool onPlanet; // Flag to check if we are on a planet
     bool gameOver; // Flag to check if game is over
+    bool saved; // Flag to check if the game has been saved
     bool next; // Flag for any ingame events that require the next command
 
     /*
@@ -50,6 +51,7 @@ private:
 
     enum class ShipCommand {
         Travel,
+        Scan,
         Save,
         Exit,
         MainMenu,
@@ -77,6 +79,7 @@ public:
     void setPlanetFlag(const bool&);
     void setGameOverFlag(const bool&);
     void setNextFlag(const bool&);
+    void setSavedFlag(const bool&);
 
     std::string getBodyOutput() const;      
     std::string getArtOutput() const;       
@@ -86,6 +89,8 @@ public:
     bool getPlanetFlag() const;
     bool getGameOverFlag() const;
     bool getNextFlag() const;
+    bool getSavedFlag() const;
+    void saveGame();
 
     /*
     The check functions all have a corresponding enum. Each of these
@@ -97,6 +102,7 @@ public:
     MainMenuCommand checkMenuCommand(Command&) const;
     PlanetCommand checkPlanetCommand(Command&) const;
     NextCommand checkNextCommand(Command&) const;
+    ShipCommand checkShipCommand(Command&) const;
 
     /*
     These are the UI commands. They will handle clearing and updating

@@ -1,7 +1,8 @@
 // User created libraries
 #include "command.h"
 #include "menu.h"
-//#include "planet.h"
+#include "ship.h"
+#include "planet.h"
 #include "game.h"
 
 // Standard C++ libraries
@@ -19,7 +20,8 @@ Game::Game():
     onMenu(false), 
     onShip(false), 
     onPlanet(false),
-    next(false),
+    next(false), 
+    saved(false),
     gameOver(false) {} // Default constructor for game class
 
 /*
@@ -34,6 +36,7 @@ void Game::setShipFlag(const bool& flag) { onShip = flag; }
 void Game::setPlanetFlag(const bool& flag) { onPlanet = flag; }
 void Game::setGameOverFlag(const bool& flag) { gameOver = flag; }
 void Game::setNextFlag(const bool& flag) { next = flag; }
+void Game::setSavedFlag(const bool& flag) { saved = flag; }
 string Game::getArtOutput() const { return art_output; }
 string Game::getBodyOutput() const { return body_output; }
 string Game::getErrorOutput() const { return error_output; }
@@ -42,6 +45,7 @@ bool Game::getShipFlag() const { return onShip; }
 bool Game::getPlanetFlag() const { return onPlanet; }
 bool Game::getGameOverFlag() const { return gameOver; }
 bool Game::getNextFlag() const { return next; }
+bool Game::getSavedFlag() const { return saved; }
 
 /*
 Each if and else if statement ub the check functions is checking for the command, 
@@ -95,6 +99,29 @@ Game::NextCommand Game::checkNextCommand(Command& command) const {
     }
 }
 
+Game::ShipCommand Game::checkShipCommand(Command& command) const {
+    const auto& input = command.getInput();
+    if (input.empty()) {
+        return ShipCommand::Error;
+    }
+    else if (input.size() >= 1 && input[0] == "travel") {
+        return ShipCommand::Travel;
+    }
+    else if ((input.size() == 1 && input[0] == "save") ||
+             (input.size() >= 2 && input[0] == "save" && input[1] == "game")) {
+        return ShipCommand::Save;
+    }
+    else if (input.size() == 1 && input[0] == "exit") {
+        return ShipCommand::Exit;
+    }
+    else if (input.size() == 2 && input[0] == "main" && input[1] == "menu") {
+        return ShipCommand::MainMenu;
+    }
+    else {
+        return ShipCommand::Error;
+    }
+}
+
 /*
 This function checks to see what operating system the game is running on, either Windows, or some Unix-based
 OS like Linux or MacOS
@@ -125,9 +152,14 @@ The game loop is the heart of the game. It will handle all game logic, like chec
 checking the commands passed, and running the logic behind each command.
 */
 
+void Game::saveGame() {
+
+}
+
 void Game::gameLoop(Game& game) const {
     Menu menu; // Create menu object
     Command command; // Create command object
+    Ship ship; // Create ship object
     game.setMenuFlag(true); // sets menu flag to true
 
     menu.setMenu(game); // Set main menu
@@ -152,9 +184,9 @@ void Game::gameLoop(Game& game) const {
             in this case, and then run the logic of the command based on that case.
             */
 
-            MainMenuCommand passedCommand = game.checkMenuCommand(command); // enum state based on input
+            MainMenuCommand passedMenuCommand = game.checkMenuCommand(command); // enum state based on input
 
-            switch (passedCommand) {
+            switch (passedMenuCommand) {
             case MainMenuCommand::Start:
                 game.setMenuFlag(false);
                 game.setNextFlag(true);
@@ -188,14 +220,44 @@ void Game::gameLoop(Game& game) const {
 
         }
 
-        else if (game.getShipFlag()) {
+        else if (game.onShip) {
+            ShipCommand passedShipCommand = game.checkShipCommand(command);
 
+            switch (passedShipCommand) {
+            case ShipCommand::Scan:
+                ship.getNearbyPlanets();
+                break;
+            case ShipCommand::Travel:
+                ship.travelToPlanet();
+                break;
+            case ShipCommand::MainMenu:
+                if (game.getSavedFlag()) {
+                    menu.setMenu(game);
+                    game.setMenuFlag(true);
+                    game.setShipFlag(false);
+                }
+                break;
+            case ShipCommand::Exit:
+                if (game.getSavedFlag()) {
+                    game.clearScreen();
+                    exit(0);
+                }
+                break;
+            case ShipCommand::Save:
+                game.saveGame();
+                break;
+            case ShipCommand::Error:
+                game.setErrorOutput("ERR: please input a valid command\n\n");
+                break;
+            default:
+                game.setErrorOutput("ERR: please input a valid command\n\n");
+                break;
+            }
         }
-
         else if (game.getNextFlag()) {
-            NextCommand passedCommand = game.checkNextCommand(command);
+            NextCommand passedNextCommand = game.checkNextCommand(command);
 
-            switch (passedCommand) {
+            switch (passedNextCommand) {
             case NextCommand::Next:
                 game.setNextFlag(false);
                 game.setMenuFlag(false);
