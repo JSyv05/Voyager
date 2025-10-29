@@ -13,20 +13,24 @@ of the game state that we are in (on menu, on ship, on planet, etc.).
 
 class Game {
 private:
-    std::string art_output;   // Art output
-    std::string body_output;  // Text output
-    std::string error_output; // Error output
-    bool onMenu; // Flag to check if in menu screen
-    bool onShip; // Flag to check if on the ship
-    bool onPlanet; // Flag to check if we are on a planet
-    bool gameOver; // Flag to check if game is over
-    bool saved; // Flag to check if the game has been saved
-    bool next; // Flag for any ingame events that require the next command
+    // Display elements
+    std::string art_output;  
+    std::string body_output;
+    std::string error_output;
+
+    // Gamestate flags
+    bool onMenu;
+    bool onShip;
+    bool onPlanet;
+    bool gameOver;
+    bool saved;
+    bool next;
 
     /*
     Valid command will keep track of all possible commands in the game. The command parser checkCommand()
     will then check the command and the game state to return each of these enum values
     */
+
     enum class ValidCommand {
         Collect,
         Credits,
@@ -87,19 +91,16 @@ public:
     the display of the game
     */
 
-    void clearScreen() const;   // Clears the console screen
-    void displayOutput() const; // Displays text, art, and input field
+    void clearScreen() const;
+    void displayOutput() const;
 
     /*
     The game loop will handle all logic. It will initialize the main menu
-    and begin taking in inputs. The game loop will broken up by game state,
-    with if and else if statements controlling what happens depending on what
-    the current game state is. Each if statement contains both the check 
-    commands for each enum, and a switch case that will determine what happens 
-    when a certain case is met.
+    and then once in the loop it will display the output and then take in the 
+    input. From there it will handle all game logic, and then clear
     */
 
-    void gameLoop(Game&) const; // Main game loop
+    void gameLoop(Game&) const;
 };
 
 #endif

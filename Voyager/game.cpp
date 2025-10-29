@@ -7,7 +7,6 @@
 
 // Standard C++ libraries
 #include <iostream>
-#include <vector>
 
 using namespace std;
             
@@ -22,7 +21,7 @@ Game::Game():
     onPlanet(false),
     next(false), 
     saved(false),
-    gameOver(false) {} // Default constructor for game class
+    gameOver(false) {}
 
 /*
 Setters and getters for all outputs and game state flags
@@ -31,15 +30,18 @@ Setters and getters for all outputs and game state flags
 void Game::setArtOutput(const string& art) { art_output = art; }
 void Game::setBodyOutput(const string& body) { body_output = body; }
 void Game::setErrorOutput(const string& error) { error_output = error; }
+
 void Game::setMenuFlag(const bool& flag) { onMenu = flag; }
 void Game::setShipFlag(const bool& flag) { onShip = flag; }
 void Game::setPlanetFlag(const bool& flag) { onPlanet = flag; }
 void Game::setGameOverFlag(const bool& flag) { gameOver = flag; }
 void Game::setNextFlag(const bool& flag) { next = flag; }
 void Game::setSavedFlag(const bool& flag) { saved = flag; }
+
 string Game::getArtOutput() const { return art_output; }
 string Game::getBodyOutput() const { return body_output; }
 string Game::getErrorOutput() const { return error_output; }
+
 bool Game::getMenuFlag() const { return onMenu; }
 bool Game::getShipFlag() const { return onShip; }
 bool Game::getPlanetFlag() const { return onPlanet; }
@@ -48,7 +50,10 @@ bool Game::getNextFlag() const { return next; }
 bool Game::getSavedFlag() const { return saved; }
 
 /*
-Each if statement checks the command and then the game state, and will return the corresponding command
+Each if statement checks the command size, command content, and 
+then the game state, and will return the corresponding command.
+These will be used in the game loop to manage core logic behind
+commands
 */
 
 Game::ValidCommand Game::checkCommand(Command& command, Game& game) const {
@@ -101,7 +106,7 @@ Game::ValidCommand Game::checkCommand(Command& command, Game& game) const {
         return ValidCommand::ShipMainMenu;
     }
     else if (input.size() == 1 && input[0] == "scan" && game.getShipFlag()) {
-        return ValidCommand::ScanForPlanets;
+        return ValidCommand::ScanForPlanets; 
     }
     else if (((input.size() == 1 && input[0] == "start") ||
         (input.size() >= 2 && input[0] == "start" && input[1] == "game")) && game.getMenuFlag()) {
@@ -114,23 +119,23 @@ Game::ValidCommand Game::checkCommand(Command& command, Game& game) const {
         return ValidCommand::Error;
     }
 }
+
 /*
-This function checks to see what operating system the game is running on, either Windows, or some Unix-based
-OS like Linux or MacOS
+This function checks to see what operating system the game is running on, either Windows, or some 
+Unix-based OS like Linux or MacOS. It will then run the corresponding command to clear the terminal.
+A clean and easy way to implement cross compatibility into our game
 */
 
 void Game::clearScreen() const {
 #ifdef _WIN32
-    // Windows system clear screen command
     system("cls");
 #else
-    // Unix-based system clear screen command
     system("clear");
 #endif
 }
 
 /*
-This function combines the values for art, body, and error and displays all of that as one thing.
+This function combines the values for art, body, and error and displays all of that as one output.
 */
 
 void Game::displayOutput() const {
@@ -139,36 +144,38 @@ void Game::displayOutput() const {
     cout << output;                            
 }
 
-/*
-The game loop is the heart of the game. It will handle all of the displaying of outputs as well as the logic behind each command.
-*/
-
 void Game::saveGame() {
 
 }
 
+/*
+The game loop is the heart of the game. It will handle all of the displaying of outputs as well as the logic behind each command.
+*/
+
 void Game::gameLoop(Game& game) const {
-    Menu menu; // Create menu object
-    Command command; // Create command object
-    Ship ship; // Create ship object
-    game.setMenuFlag(true); // sets menu flag to true
+    // initializations for initial game objects
+    Menu menu;
+    Command command;
+    Ship ship;
 
     string error; // string to store error messages
 
-    menu.setMenu(game); // Set main menu
+    game.setMenuFlag(true);
+    menu.setMenu(game);
 
     while (!game.getGameOverFlag()) {
 
         /*
-        Display the main menu initially and then take input. The display will update before the end of each iteration
+        Display the main menu initially and then take input.
+        Contents of the display will be updated in the switch case
         */
 
         game.displayOutput(); 
         command.setInput();
 
         /*
-        This is where the logic of each enum class is handled. Each enum case will have different commands based on what we
-        get on the return from checkCommand
+        This is where all of the command logic will be stored. It will go over each
+        enum value in ValidCommand and run the corresponding logic behind each command
         */
 
         ValidCommand passedCommand = game.checkCommand(command, game);
