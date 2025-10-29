@@ -2,10 +2,6 @@
 #define GAME_H
 
 #include"command.h"
-#include"menu.h"
-#include"planet.h"
-#include"ship.h"
-
 
 #include <string>
 
@@ -28,11 +24,8 @@ private:
     bool next; // Flag for any ingame events that require the next command
 
     /*
-    Each of these enum classes will manage the types of commands that can be
-    passed through the game for each game state. Each of these enum classes,
-    plus the corresponding state flag and check command, will all be used
-    for switch cases in the game loop that will control all inputs going
-    through the game.
+    Valid command will keep track of all possible commands in the game. The command parser checkCommand()
+    will then check the command and the game state to return each of these enum values
     */
     enum class ValidCommand {
         Collect,
@@ -49,7 +42,7 @@ private:
         Scan,
         ShipExit,
         ShipMainMenu,
-        ShipScan,
+        ScanForPlanets,
         Start,
         Travel,
     };
@@ -81,13 +74,11 @@ public:
     bool getGameOverFlag() const;
     bool getNextFlag() const;
     bool getSavedFlag() const;
+
     void saveGame();
 
     /*
-    The check functions all have a corresponding enum. Each of these
-    will match to a game state in the game loop, which will then be 
-    used in switch case statements that will determine what happens 
-    when a certain case is met.
+    The check function will check .
     */ 
     ValidCommand checkCommand(Command&, Game&) const;
 

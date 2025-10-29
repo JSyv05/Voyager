@@ -10,6 +10,7 @@
 #include <memory>
 #include <iomanip>
 #include <algorithm>
+#include<array>
 
 // User created libraries
 #include "game.h"
@@ -39,6 +40,7 @@ private:
     Biome biome;
     int lootLevel;
     vector<float> position;
+    array<double, 3> coordinates;
 
 public:
     Planet(string id, string name, double distanceAU, Biome biome, int loot);

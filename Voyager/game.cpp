@@ -101,7 +101,7 @@ Game::ValidCommand Game::checkCommand(Command& command, Game& game) const {
         return ValidCommand::ShipMainMenu;
     }
     else if (input.size() == 1 && input[0] == "scan" && game.getShipFlag()) {
-        return ValidCommand::ShipScan;
+        return ValidCommand::ScanForPlanets;
     }
     else if (((input.size() == 1 && input[0] == "start") ||
         (input.size() >= 2 && input[0] == "start" && input[1] == "game")) && game.getMenuFlag()) {
@@ -140,8 +140,7 @@ void Game::displayOutput() const {
 }
 
 /*
-The game loop is the heart of the game. It will handle all game logic, like checking game states,
-checking the commands passed, and running the logic behind each command.
+The game loop is the heart of the game. It will handle all of the displaying of outputs as well as the logic behind each command.
 */
 
 void Game::saveGame() {
@@ -166,10 +165,12 @@ void Game::gameLoop(Game& game) const {
 
         game.displayOutput(); 
         command.setInput();
+
         /*
-        Each if and else if statement is checking for game state. If we are on the menu, 
-        then it will only check for menu commands, and so on.
+        This is where the logic of each enum class is handled. Each enum case will have different commands based on what we
+        get on the return from checkCommand
         */
+
         ValidCommand passedCommand = game.checkCommand(command, game);
         switch (passedCommand) {
         case ValidCommand::Collect:
@@ -180,11 +181,10 @@ void Game::gameLoop(Game& game) const {
         case ValidCommand::Drop:
             break;
         case ValidCommand::Error:
-            error = "ERR: PLease enter a valid input";
+            error = "ERR: Please enter a valid input\n\n";
             game.setErrorOutput(error);
             break;
         case ValidCommand::Exit:
-            game.clearScreen();
             game.setGameOverFlag(true);
             break;
         case ValidCommand::Instructions:
@@ -210,11 +210,15 @@ void Game::gameLoop(Game& game) const {
         case ValidCommand::Scan:
             break;
         case ValidCommand::ShipExit:
-            game.clearScreen();
             game.setGameOverFlag(true);
             break;
         case ValidCommand::ShipMainMenu:
             menu.setMenu(game);
+            game.setMenuFlag(true);
+            game.setShipFlag(false);
+            break;
+        case ValidCommand::ScanForPlanets:
+
             break;
         case ValidCommand::Start:
             game.setMenuFlag(false);
@@ -225,7 +229,7 @@ void Game::gameLoop(Game& game) const {
             game.setPlanetFlag(true);
             game.setShipFlag(false);
         default:
-            error = "ERR: PLease enter a valid input";
+            error = "ERR: PLease enter a valid input\n\n";
             game.setErrorOutput(error);
             break;
         }
