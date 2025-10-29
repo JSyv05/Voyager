@@ -2,6 +2,10 @@
 #define GAME_H
 
 #include"command.h"
+#include"menu.h"
+#include"planet.h"
+#include"ship.h"
+
 
 #include <string>
 
@@ -62,6 +66,25 @@ private:
         Next,
         Error
     };
+    enum class ValidCommand {
+        Collect,
+        Credits,
+        Drop,
+        Error,
+        Exit,
+        Instructions,
+        Load,
+        MainMenu,
+        Next,
+        ReturnToShip,
+        Save,
+        Scan,
+        ShipExit,
+        ShipMainMenu,
+        ShipScan,
+        Start,
+        Travel,
+    };
 public:
     Game(); // Default constructor
 
@@ -95,14 +118,10 @@ public:
     /*
     The check functions all have a corresponding enum. Each of these
     will match to a game state in the game loop, which will then be 
-    used in switch case statements that will help simplify the design
-    of how the game will interpret commands
-    */
-
-    MainMenuCommand checkMenuCommand(Command&) const;
-    PlanetCommand checkPlanetCommand(Command&) const;
-    NextCommand checkNextCommand(Command&) const;
-    ShipCommand checkShipCommand(Command&) const;
+    used in switch case statements that will determine what happens 
+    when a certain case is met.
+    */ 
+    ValidCommand checkCommand(Command&, Game&) const;
 
     /*
     These are the UI commands. They will handle clearing and updating

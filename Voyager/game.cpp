@@ -48,80 +48,72 @@ bool Game::getNextFlag() const { return next; }
 bool Game::getSavedFlag() const { return saved; }
 
 /*
-Each if and else if statement ub the check functions is checking for the command, 
-and returns an enum that matches that command.
+Each if statement checks the command and then the game state, and will return the corresponding command
 */
 
-Game::MainMenuCommand Game::checkMenuCommand(Command& command) const{
+Game::ValidCommand Game::checkCommand(Command& command, Game& game) const {
     const auto& input = command.getInput();
-    if (input.empty()) {
-        return MainMenuCommand::Error;
+    if (input.empty() && !game.getNextFlag()) {
+        return ValidCommand::Error;
     }
-    else if ((input.size() == 1 && input[0] == "start") ||
-             (input.size() >= 2 && input[0] == "start" && input[1] == "game")) {
-        return MainMenuCommand::Start;
+    else if (input.size() >= 1 && input[0] == "collect" && game.getPlanetFlag()) {
+        return ValidCommand::Collect;
     }
-    else if ((input.size() == 1 && input[0] == "load") ||
-             (input.size() >= 2 && input[0] == "load" && input[1] == "game")) {
-        return MainMenuCommand::Load;
+    else if (input.size() == 1 && input[0] == "credits" && game.getMenuFlag()) {
+        return ValidCommand::Credits;
     }
-    else if (input.size() == 1 && input[0] == "instructions") {
-        return MainMenuCommand::Instructions;
+    else if (input.size() >= 1 && input[0] == "drop" && game.getPlanetFlag()) {
+        return ValidCommand::Drop;
     }
-    else if (input.size() == 1 && input[0] == "credits") {
-        return MainMenuCommand::Credits;
+    else if (input.size() == 1 && input[0] == "exit" && game.getMenuFlag()) {
+        return ValidCommand::Exit;
     }
-    else if (input.size() == 1 && input[0] == "exit") {
-        return MainMenuCommand::Exit;
+    else if (input.size() == 1 && input[0] == "instructions" && game.getMenuFlag()) {
+        return ValidCommand::Instructions;
     }
-    else if (input.size() == 1 && input[0] == "back") {
-        return MainMenuCommand::Back;
+    else if (((input.size() == 1 && input[0] == "back") ||
+              (input.size() == 1 && input[0] == "menu") ||
+              (input.size() >= 2 && input[0] == "main" && input[1] == "menu")) && game.getMenuFlag()) {
+        return ValidCommand::MainMenu;
+    }
+    else if (((input.size() == 1 && input[0] == "load") ||
+             (input.size() >= 2 && input[0] == "load" && input[1] == "game")) && game.getMenuFlag()) {
+        return ValidCommand::Load;
+    }
+    else if ((input.empty() || (input.size() == 1 && input[0] == "next")) && game.getNextFlag()) {
+        return ValidCommand::Next;
+    }
+    else if ((input.size() >= 3 && input[0] == "return" && input[1] == "to" && input[3] == "ship") && game.getPlanetFlag()) {
+        return ValidCommand::ReturnToShip;
+    }
+    else if ((input.size() == 1 && input[0] == "save") || 
+             (input.size() >= 2 && input[0] == "save" && input[1] == "game") && !game.getMenuFlag()) {
+        return ValidCommand::Save;
+    }
+    else if (input.size() == 1 && input[0] == "scan" && game.getPlanetFlag()) {
+        return ValidCommand::Scan;
+    }
+    else if (input.size() == 1 && input[0] == "exit" && game.getShipFlag() && game.getSavedFlag()) {
+        return ValidCommand::ShipExit;
+    }
+    else if (((input.size() == 1 && input[0] == "menu") ||
+              (input.size() >= 2 && input[0] == "main" && input[1] == "menu")) && game.getMenuFlag() && game.getSavedFlag()) {
+        return ValidCommand::ShipMainMenu;
+    }
+    else if (input.size() == 1 && input[0] == "scan" && game.getShipFlag()) {
+        return ValidCommand::ShipScan;
+    }
+    else if (((input.size() == 1 && input[0] == "start") ||
+        (input.size() >= 2 && input[0] == "start" && input[1] == "game")) && game.getMenuFlag()) {
+        return ValidCommand::Start;
+    }
+    else if (input.size() >= 3 && input[0] == "travel" && input[1] == "to" && game.getShipFlag()) {
+        return ValidCommand::Travel;
     }
     else {
-        return MainMenuCommand::Error;
+        return ValidCommand::Error;
     }
 }
-
-Game::PlanetCommand Game::checkPlanetCommand(Command& command) const {
-    const auto& input = command.getInput();
-    if (input.empty()) {
-        return PlanetCommand::Error;
-    }
-}
-
-Game::NextCommand Game::checkNextCommand(Command& command) const {
-    const auto& input = command.getInput();
-    if (input.empty() || (input.size() == 1 && input[0] == "next")) {
-        return NextCommand::Next;
-    }
-    else {
-        return NextCommand::Error;
-    }
-}
-
-Game::ShipCommand Game::checkShipCommand(Command& command) const {
-    const auto& input = command.getInput();
-    if (input.empty()) {
-        return ShipCommand::Error;
-    }
-    else if (input.size() >= 1 && input[0] == "travel") {
-        return ShipCommand::Travel;
-    }
-    else if ((input.size() == 1 && input[0] == "save") ||
-             (input.size() >= 2 && input[0] == "save" && input[1] == "game")) {
-        return ShipCommand::Save;
-    }
-    else if (input.size() == 1 && input[0] == "exit") {
-        return ShipCommand::Exit;
-    }
-    else if (input.size() == 2 && input[0] == "main" && input[1] == "menu") {
-        return ShipCommand::MainMenu;
-    }
-    else {
-        return ShipCommand::Error;
-    }
-}
-
 /*
 This function checks to see what operating system the game is running on, either Windows, or some Unix-based
 OS like Linux or MacOS
@@ -162,6 +154,8 @@ void Game::gameLoop(Game& game) const {
     Ship ship; // Create ship object
     game.setMenuFlag(true); // sets menu flag to true
 
+    string error; // string to store error messages
+
     menu.setMenu(game); // Set main menu
 
     while (!game.getGameOverFlag()) {
@@ -176,105 +170,65 @@ void Game::gameLoop(Game& game) const {
         Each if and else if statement is checking for game state. If we are on the menu, 
         then it will only check for menu commands, and so on.
         */
-
-        if (game.getMenuFlag()) {
-
-            /*
-            This switch case will check each case of the defined enum, MainMenuCommand 
-            in this case, and then run the logic of the command based on that case.
-            */
-
-            MainMenuCommand passedMenuCommand = game.checkMenuCommand(command); // enum state based on input
-
-            switch (passedMenuCommand) {
-            case MainMenuCommand::Start:
-                game.setMenuFlag(false);
-                game.setNextFlag(true);
-                menu.setIntro(game);
-                break;
-            case MainMenuCommand::Load:
-                break;
-            case MainMenuCommand::Instructions:
-                menu.setInstructions(game);
-                break;
-            case MainMenuCommand::Credits:
-                menu.setCredits(game);
-                break;
-            case MainMenuCommand::Back:
-                menu.setMenu(game);
-                break;
-            case MainMenuCommand::Exit:
-                game.clearScreen();
-                game.setGameOverFlag(true);
-                break;
-            case MainMenuCommand::Error:
-                menu.setError(game);
-                break;
-            default:
-                menu.setError(game);
-                break;
-            }
+        ValidCommand passedCommand = game.checkCommand(command, game);
+        switch (passedCommand) {
+        case ValidCommand::Collect:
+            break;
+        case ValidCommand::Credits:
+            menu.setCredits(game);
+            break;
+        case ValidCommand::Drop:
+            break;
+        case ValidCommand::Error:
+            error = "ERR: PLease enter a valid input";
+            game.setErrorOutput(error);
+            break;
+        case ValidCommand::Exit:
+            game.clearScreen();
+            game.setGameOverFlag(true);
+            break;
+        case ValidCommand::Instructions:
+            menu.setInstructions(game);
+            break;
+        case ValidCommand::Load:
+            break;
+        case ValidCommand::MainMenu:
+            menu.setMenu(game);
+            break;
+        case ValidCommand::Next:
+            game.setNextFlag(false);
+            game.setMenuFlag(false);
+            game.setShipFlag(true);
+            game.setBodyOutput("We should now be in the game");
+            break;
+        case ValidCommand::ReturnToShip:
+            game.setPlanetFlag(false);
+            game.setShipFlag(true);
+            break;
+        case ValidCommand::Save:
+            game.saveGame();
+        case ValidCommand::Scan:
+            break;
+        case ValidCommand::ShipExit:
+            game.clearScreen();
+            game.setGameOverFlag(true);
+            break;
+        case ValidCommand::ShipMainMenu:
+            menu.setMenu(game);
+            break;
+        case ValidCommand::Start:
+            game.setMenuFlag(false);
+            game.setNextFlag(true);
+            menu.setIntro(game);
+            break;
+        case ValidCommand::Travel:
+            game.setPlanetFlag(true);
+            game.setShipFlag(false);
+        default:
+            error = "ERR: PLease enter a valid input";
+            game.setErrorOutput(error);
+            break;
         }
-
-        else if (game.getPlanetFlag()) {
-
-        }
-
-        else if (game.onShip) {
-            ShipCommand passedShipCommand = game.checkShipCommand(command);
-
-            switch (passedShipCommand) {
-            case ShipCommand::Scan:
-                ship.getNearbyPlanets();
-                break;
-            case ShipCommand::Travel:
-                ship.travelToPlanet();
-                break;
-            case ShipCommand::MainMenu:
-                if (game.getSavedFlag()) {
-                    menu.setMenu(game);
-                    game.setMenuFlag(true);
-                    game.setShipFlag(false);
-                }
-                break;
-            case ShipCommand::Exit:
-                if (game.getSavedFlag()) {
-                    game.clearScreen();
-                    exit(0);
-                }
-                break;
-            case ShipCommand::Save:
-                game.saveGame();
-                break;
-            case ShipCommand::Error:
-                game.setErrorOutput("ERR: please input a valid command\n\n");
-                break;
-            default:
-                game.setErrorOutput("ERR: please input a valid command\n\n");
-                break;
-            }
-        }
-        else if (game.getNextFlag()) {
-            NextCommand passedNextCommand = game.checkNextCommand(command);
-
-            switch (passedNextCommand) {
-            case NextCommand::Next:
-                game.setNextFlag(false);
-                game.setMenuFlag(false);
-                game.setShipFlag(true);
-                game.setArtOutput("");
-                game.setBodyOutput("We should now be on the ship");
-                game.setErrorOutput("");
-                break;
-            case NextCommand::Error:
-                game.setErrorOutput("ERR: please input a valid command\n\n");
-                break;
-            default:
-                game.setErrorOutput("ERR: please input a valid command\n\n");
-                break;
-            }
-        }
-
         game.clearScreen(); // Clear screen before start of next loop iteration
     }
 
