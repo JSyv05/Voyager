@@ -34,38 +34,6 @@ private:
     for switch cases in the game loop that will control all inputs going
     through the game.
     */
-
-    enum class MainMenuCommand {
-        Start,
-        Load,
-        Instructions,
-        Credits,
-        Back,
-        Exit,
-        Error
-    };
-
-    enum class PlanetCommand {
-        Scan,
-        Collect,
-        Drop,
-        ReturnToShip,
-        Error
-    };
-
-    enum class ShipCommand {
-        Travel,
-        Scan,
-        Save,
-        Exit,
-        MainMenu,
-        Error
-    };
-
-    enum class NextCommand {
-        Next,
-        Error
-    };
     enum class ValidCommand {
         Collect,
         Credits,
