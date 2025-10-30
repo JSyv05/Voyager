@@ -73,6 +73,9 @@ Game::ValidCommand Game::checkCommand(const Command& command,const Game& game) c
     else if (input.size() == 1 && input[0] == "exit" && game.getMenuFlag()) {
         return ValidCommand::Exit;
     }
+    else if (input.size() >= 3 && input[0] == "inspect" && input[1] == "rock") {
+        return ValidCommand::InspectRock;
+    }
     else if (input.size() == 1 && input[0] == "instructions" && game.getMenuFlag()) {
         return ValidCommand::Instructions;
     }
@@ -197,6 +200,8 @@ void Game::gameLoop(Game& game) const {
             break;
         case ValidCommand::Exit:
             game.setGameOverFlag(true);
+            break;
+        case ValidCommand::InspectRock:
             break;
         case ValidCommand::Instructions:
             menu.setInstructions(game);

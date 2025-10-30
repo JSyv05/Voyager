@@ -37,6 +37,7 @@ private:
         Drop,
         Error,
         Exit,
+        InspectRock,
         Instructions,
         Load,
         MainMenu,
