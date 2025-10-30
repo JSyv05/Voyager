@@ -209,6 +209,7 @@ void Game::gameLoop(Game& game) const {
             game.setBodyOutput("We should now be in the game");
             break;
         case ValidCommand::ReturnToShip:
+            ship.returnToShip(game);
             game.setPlanetFlag(false);
             game.setShipFlag(true);
             break;
@@ -225,7 +226,7 @@ void Game::gameLoop(Game& game) const {
             game.setShipFlag(false);
             break;
         case ValidCommand::ScanForPlanets:
-
+            ship.getNearbyPlanet(game);
             break;
         case ValidCommand::Start:
             game.setMenuFlag(false);
@@ -233,8 +234,23 @@ void Game::gameLoop(Game& game) const {
             menu.setIntro(game);
             break;
         case ValidCommand::Travel:
-            game.setPlanetFlag(true);
-            game.setShipFlag(false);
+        {
+            const auto& input = command.getInput();
+
+            if (input.size() >= 3)
+            {
+                int choice = stoi(input[2]);
+                ship.travelToPlanet(game, choice);
+                game.setPlanetFlag(true);
+                game.setShipFlag(false);
+                break;
+            }
+            else
+            {
+                game.setErrorOutput("ERR) Invalid planet number. Type 1, 2, oe 3.");
+            }
+            break;
+        }
         default:
             error = "ERR: PLease enter a valid input\n\n";
             game.setErrorOutput(error);
