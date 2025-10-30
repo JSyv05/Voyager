@@ -1,81 +1,89 @@
 #ifndef PLANET_H
 #define PLANET_H
 // Standard C++ libraries
+#include <algorithm>
+#include <iomanip>
 #include <iostream>
+#include <memory>
+#include <random>
 #include <sstream>
 #include <string>
-#include <regex>
 #include <vector>
-#include <random>
-#include <memory>
-#include <iomanip>
-#include <algorithm>
-#include<array>
 
 // User created libraries
 #include "game.h"
-
-// Forward declaration of Game
-class Game;
-
-using namespace std;
+#include "rock.h"
 
 // Biomes
-enum class Biome
-{
-    Desert, Ice, Ocean, Forest, Volcanic, GasGiant, Urban, Barren
+enum class Biome {
+    Desert,
+    Ice,
+    Ocean,
+    Forest,
+    Volcanic,
+    GasGiant,
+    Urban,
+    Barren
 };
 
-enum class Size {
-    Small, Medium, Large
-};
-
-//Planet class
-class Planet
-{
+// Planet class
+class Planet {
 private:
-    string id;
-    string name;
-    double distanceAU;
-    Biome biome;
-    int lootLevel;
-    vector<float> position;
-    array<double, 3> coordinates;
+    std::string id_;
+    std::string name_;
+    double distanceAU_;
+    Biome biome_;
+    int lootLevel_;
+    std::vector<Rock> rocksOnPlanet_;   // Rocks available on the planet
 
 public:
-    Planet(string id, string name, double distanceAU, Biome biome, int loot);
+    Planet();
+    Planet(std::string id, std::string name, double distanceAU, Biome biome, int loot);
 
-    const string& getId() const { return id; }
-    const string& getName() const { return name; }
-    double getDistanceAU() const { return distanceAU; }
-    Biome getBiome() const { return biome; }
+    const std::string& getId() const { return id_; }
+    const std::string& getName() const { return name_; }
+    double getDistanceAU() const { return distanceAU_; }
+    Biome getBiome() const { return biome_; }
 
     double travelFuelCost(double fuelPerAU) const;
 
+    std::string quickRow(double fuelPerAU) const;
+    std::string describe() const;
 
+    void travelToPlanet(Command&);
 
-    string quickRow(double fuelPerAU) const;
-    string describe() const;
+    static std::string biomeToString(Biome b);
 
-    static string biomeToString(Biome b);
+    void populateRocks(const std::vector<Rock>& allRocksInGame); // This will populate Rocks on the
+                                             // planet based on biome
+
+    std::string listRocks() const; // this is the list of rocks currently on the planet
 };
 
 // PlanetSysterm will handle displaying and navigating planets
-class PlanetSystem
-{
+class PlanetSystem {
+private:
+    std::vector<Planet> planetList;
+
 public:
     void run(Game& g);
+    std::vector<Planet> getPlanetList() const;
+    Planet getPlanetAtIndex(int) const;
+
+    void generatePlanets(int);
 };
 
-//Planet generator
-class PlanetGenerator
-{
+// Planet generator
+class PlanetGenerator {
 private:
-    mt19937 rng;
-    string generateName();
+    std::mt19937 rng;
 
 public:
     PlanetGenerator();
-    Planet generatePlanet(int index);
+
+    std::string generateName();
+
+    Planet generatePlanet(int);
+
 };
 #endif

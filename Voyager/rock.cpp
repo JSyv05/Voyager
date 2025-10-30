@@ -1,17 +1,27 @@
 #include "Rock.h"
 #include <iostream>
 
-// Default constructor implementation
-Rock::Rock() : id(0), researchValue(0) {}
+// Constructors
+Rock::Rock()
+    : name("Unnamed Rock"), description("Just a rock."), elementType("Generic"),
+      value(0), resourceYielded("Gravel"), yieldAmount(1) {}
 
-// Updated constructor implementation
-Rock::Rock(int id, std::string name, std::string desc, int value, std::string rarity)
-    : id(id), name(name), description(desc), researchValue(value), rarity(rarity) {}
-
-// displayInfo function implementation (no changes here)
-void Rock::displayInfo() const {
-    std::cout << "  - ID: " << id << std::endl;
-    std::cout << "    Name: " << name << " (" << rarity << ")" << std::endl;
-    std::cout << "    Value: " << researchValue << " Research Points" << std::endl;
-    std::cout << "    Desc: " << description << std::endl;
+Rock::Rock(const std::string& name, const std::string& description,
+           const std::string& elementType, int value,
+           const std::string& resourceYielded, int yieldAmount)
+    : name(name), description(description), elementType(elementType),
+      value(value), resourceYielded(resourceYielded), yieldAmount(yieldAmount) {
 }
+
+// Public Methods
+void Rock::inspect() const {
+    std::cout << "  - " << name << " (" << elementType << "). Yields "
+              << yieldAmount << " " << resourceYielded << "." << std::endl;
+}
+
+// Getters
+std::string Rock::getElementType() const { return elementType; }
+std::string Rock::getName() const { return name; }
+int Rock::getValue() const { return value; }
+std::string Rock::getResourceYielded() const { return resourceYielded; }
+int Rock::getYieldAmount() const { return yieldAmount; }

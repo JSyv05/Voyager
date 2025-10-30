@@ -155,6 +155,7 @@ void Game::gameLoop(Game& game) const {
     Menu menu;
     Command command;
     Ship ship;
+    PlanetSystem planetSystem;
 
     string error; // string to store error messages
 
@@ -175,6 +176,11 @@ void Game::gameLoop(Game& game) const {
         This is where all of the command logic will be stored. It will go over each
         enum value in ValidCommand and run the corresponding logic behind each command
         */
+
+        ostringstream travelMsg;
+        Planet activePlanet;
+        const auto& input = command.getInput();
+        int index;
 
         ValidCommand passedCommand = game.checkCommand(command, game);
         switch (passedCommand) {
@@ -204,9 +210,10 @@ void Game::gameLoop(Game& game) const {
             game.setNextFlag(false);
             game.setMenuFlag(false);
             game.setShipFlag(true);
-            game.setBodyOutput("We should now be in the game");
+            planetSystem.run(game);
             break;
         case ValidCommand::ReturnToShip:
+            planetSystem.run(game);
             game.setPlanetFlag(false);
             game.setShipFlag(true);
             break;
@@ -214,6 +221,7 @@ void Game::gameLoop(Game& game) const {
             game.saveGame();
             break;
         case ValidCommand::Scan:
+            game.setBodyOutput(activePlanet.listRocks());
             break;
         case ValidCommand::ShipExit:
             game.setGameOverFlag(true);
@@ -230,8 +238,19 @@ void Game::gameLoop(Game& game) const {
             game.setMenuFlag(false);
             game.setNextFlag(true);
             menu.setIntro(game);
+            planetSystem.generatePlanets(20);
             break;
         case ValidCommand::Travel:
+            index = stoi(input[2]) - 1;
+            cout << index << endl;
+            cout << planetSystem.getPlanetAtIndex(index).getName();
+            travelMsg
+                << "You are now orbiting planet "
+                      << planetSystem.getPlanetAtIndex(index).getName()
+                      << planetSystem.getPlanetAtIndex(index).describe()
+                << endl;
+            activePlanet = planetSystem.getPlanetAtIndex(index);
+            game.setBodyOutput(travelMsg.str());
             game.setPlanetFlag(true);
             game.setShipFlag(false);
             break;
