@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.14.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Voyager: Voyager/game.h Source File</title>
+<title>Voyager: game.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -25,6 +25,7 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="Voyager-removebg-preview.png"/></td>
   <td id="projectalign">
    <div id="projectname">Voyager
    </div>
@@ -95,53 +96,124 @@ $(function(){initNavTree('game_8h_source.html','',''); });
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define GAME_H</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include&quot;<a class="code" href="command_8h.html">command.h</a>&quot;</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;sstream&gt;</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment">/*</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment">- Game class to manage game state and interactions</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment">- Game class will take in input for the command as a stringstream to parse the 2-3 words in the command</span></div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment">- Game class should be able to handle regex, and passing commands onto certain outputs</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="comment">*/</span></div>
-<div class="foldopen" id="foldopen00015" data-start="{" data-end="};">
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="class_game.html">   15</a></span><span class="keyword">class </span><a class="code hl_function" href="class_game.html#ad59df6562a58a614fda24622d3715b65">Game</a> {</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    std::string text_output; <span class="comment">// Text output</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    std::string error_output; <span class="comment">// Error output</span></div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    std::string art_output; <span class="comment">// Art output</span></div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <a class="code hl_function" href="class_game.html#ad59df6562a58a614fda24622d3715b65">Game</a>();                     <span class="comment">// Default constructor</span></div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_game.html#a0a691558b17c2b649f2518b0ccafb4ad">displayOutput</a>() <span class="keyword">const</span>; <span class="comment">// Displays text, art, and input field</span></div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_game.html#a530e9e2362117fc73ab8cf7dc95ebac8">setTextOutput</a>(<span class="keyword">const</span> std::string&amp;); <span class="comment">// Output text setter</span></div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    std::string <a class="code hl_function" href="class_game.html#ae4d65b001820fb4228f92a02efc0e495">getTextOutput</a>() <span class="keyword">const</span>;      <span class="comment">// Output text getter</span></div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_game.html#a93919e3196e7d2284870b9facdf71c15">setArtOutput</a>(<span class="keyword">const</span> std::string&amp;);  <span class="comment">// Art text setter</span></div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    std::string <a class="code hl_function" href="class_game.html#a3fa5929baa0faddc57bd2e32e6ab6276">getArtOutput</a>() <span class="keyword">const</span>;       <span class="comment">// Art text getter</span></div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_game.html#a82e62b77419f947924400b2294906815">setErrorOutput</a>(<span class="keyword">const</span> std::string&amp;); <span class="comment">// Error text setter</span></div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    std::string <a class="code hl_function" href="class_game.html#aac44cd3cd677afcf57d2b96c142ed997">getErrorOutput</a>() <span class="keyword">const</span>;      <span class="comment">// Error text getter</span></div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_game.html#a87f611d77629e4b9e134d1a2b609bfa0">clearScreen</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>};</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include&quot;<a class="code" href="planet_8h.html">planet.h</a>&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include&quot;<a class="code" href="menu_8h.html">menu.h</a>&quot;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;sstream&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment">/*</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment">The function of the Game class is to manage the overall state and flow of the game.</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="comment">It handles all text and art output, manages the game loop, and keeps track</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="comment">of the game state that we are in (on menu, on ship, on planet, etc.).</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="comment">*/</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="foldopen" id="foldopen00018" data-start="{" data-end="};">
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="class_game.html">   18</a></span><span class="keyword">class </span><a class="code hl_function" href="class_game.html#ad59df6562a58a614fda24622d3715b65">Game</a> {</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    std::string art_output;   <span class="comment">// Art output</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    std::string body_output;  <span class="comment">// Text output</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    std::string error_output; <span class="comment">// Error output</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keywordtype">bool</span> onMenu; <span class="comment">// Flag to check if in menu screen</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keywordtype">bool</span> onShip; <span class="comment">// Flag to check if on the ship</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="keywordtype">bool</span> onPlanet; <span class="comment">// Flag to check if we are on a planet</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keywordtype">bool</span> gameOver; <span class="comment">// Flag to check if game is over</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <span class="keywordtype">bool</span> next; <span class="comment">// Flag for any ingame events that require the next command</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keyword">enum class</span> MainMenuCommand {</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        Start,</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        Load,</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        Instructions,</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        Credits,</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        Back,</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        Exit,</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        Error</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    }; <span class="comment">// Enum to give simpler names to menu commands</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keyword">enum class</span> PlanetCommand {</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        Scan,</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        Collect,</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        Drop,</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        ReturnToShip,</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        Error</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    };</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keyword">enum class</span> ShipCommand {</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        Travel,</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        Exit,</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        Save,</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        Error</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    };</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="keyword">enum class</span> NextCommand {</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        Next,</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        Error</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    };</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <a class="code hl_function" href="class_game.html#ad59df6562a58a614fda24622d3715b65">Game</a>();                     <span class="comment">// Default constructor</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_game.html#a21add3176bb8fb80826d5797a23be594">setBodyOutput</a>(<span class="keyword">const</span> std::string&amp;);  <span class="comment">// Output text setter</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_game.html#a93919e3196e7d2284870b9facdf71c15">setArtOutput</a>(<span class="keyword">const</span> std::string&amp;);   <span class="comment">// Art text setter</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_game.html#a82e62b77419f947924400b2294906815">setErrorOutput</a>(<span class="keyword">const</span> std::string&amp;); <span class="comment">// Error text setter</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_game.html#afd273a5b8d7de2b0c49c7a512ee02501">setMenuFlag</a>(<span class="keyword">const</span> <span class="keywordtype">bool</span>&amp;);</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_game.html#a621c1cc431af36f39294695ed2e56b3f">setShipFlag</a>(<span class="keyword">const</span> <span class="keywordtype">bool</span>&amp;);</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_game.html#a5e81bc58ba62b16b4d03d28233ae1cf9">setPlanetFlag</a>(<span class="keyword">const</span> <span class="keywordtype">bool</span>&amp;);</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_game.html#a68d0951e440593ca936cb35fbbcd4c6b">setGameOverFlag</a>(<span class="keyword">const</span> <span class="keywordtype">bool</span>&amp;);</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_game.html#a0e8d527b4d3f16adba2660785c52c205">setNextFlag</a>(<span class="keyword">const</span> <span class="keywordtype">bool</span>&amp;);</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    std::string <a class="code hl_function" href="class_game.html#aca5a1dc61690dc3a0b20b5b5890420ec">getBodyOutput</a>() <span class="keyword">const</span>;      <span class="comment">// Output text getter</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    std::string <a class="code hl_function" href="class_game.html#a440561687a5e74d9e58fcbcbd210a420">getArtOutput</a>() <span class="keyword">const</span>;       <span class="comment">// Art text getter</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    std::string <a class="code hl_function" href="class_game.html#aeb7a5b90b5d60b66f90f24718fc653cf">getErrorOutput</a>() <span class="keyword">const</span>;     <span class="comment">// Error text getter</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="class_game.html#a1b092e5be94d3feffe72aeec5ae3858f">getMenuFlag</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="class_game.html#afe44ba3fa159cdf3fbf20901c782e5cb">getShipFlag</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="class_game.html#ab30f0f8467eeb6e63662a49c10face1a">getPlanetFlag</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="class_game.html#abfd46ffe22582a6674537c3b6f5b39c1">getGameOverFlag</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="class_game.html#a1fe03632a75d625d952d88e9498b57c2">getNextFlag</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    MainMenuCommand <a class="code hl_function" href="class_game.html#a0a391f0b32c06c75437bf88642119ad2">checkMenuCommand</a>(<a class="code hl_class" href="class_command.html">Command</a>&amp;) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    PlanetCommand <a class="code hl_function" href="class_game.html#a96c14a7f8a1a349cb777e79f0afa7d38">checkPlanetCommand</a>(<a class="code hl_class" href="class_command.html">Command</a>&amp;) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    NextCommand <a class="code hl_function" href="class_game.html#a9c072e57dac47b2bb9568ebc78b3e3e7">checkNextCommand</a>(<a class="code hl_class" href="class_command.html">Command</a>&amp;) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_game.html#a87f611d77629e4b9e134d1a2b609bfa0">clearScreen</a>() <span class="keyword">const</span>;   <span class="comment">// Clears the console screen</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_game.html#a0a691558b17c2b649f2518b0ccafb4ad">displayOutput</a>() <span class="keyword">const</span>; <span class="comment">// Displays text, art, and input field</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_game.html#ac6835dbedff0e39926955c555b2cabe0">gameLoop</a>(<a class="code hl_function" href="class_game.html#ad59df6562a58a614fda24622d3715b65">Game</a>&amp;) <span class="keyword">const</span>; <span class="comment">// Main game loop</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>};</div>
 </div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="preprocessor">#endif </span><span class="comment">// GAME_H</span></div>
-<div class="ttc" id="aclass_game_html_a0a691558b17c2b649f2518b0ccafb4ad"><div class="ttname"><a href="class_game.html#a0a691558b17c2b649f2518b0ccafb4ad">Game::displayOutput</a></div><div class="ttdeci">void displayOutput() const</div><div class="ttdef"><b>Definition</b> <a href="game_8cpp_source.html#l00046">game.cpp:46</a></div></div>
-<div class="ttc" id="aclass_game_html_a3fa5929baa0faddc57bd2e32e6ab6276"><div class="ttname"><a href="class_game.html#a3fa5929baa0faddc57bd2e32e6ab6276">Game::getArtOutput</a></div><div class="ttdeci">std::string getArtOutput() const</div><div class="ttdef"><b>Definition</b> <a href="game_8cpp_source.html#l00030">game.cpp:30</a></div></div>
-<div class="ttc" id="aclass_game_html_a530e9e2362117fc73ab8cf7dc95ebac8"><div class="ttname"><a href="class_game.html#a530e9e2362117fc73ab8cf7dc95ebac8">Game::setTextOutput</a></div><div class="ttdeci">void setTextOutput(const std::string &amp;)</div><div class="ttdef"><b>Definition</b> <a href="game_8cpp_source.html#l00026">game.cpp:26</a></div></div>
-<div class="ttc" id="aclass_game_html_a82e62b77419f947924400b2294906815"><div class="ttname"><a href="class_game.html#a82e62b77419f947924400b2294906815">Game::setErrorOutput</a></div><div class="ttdeci">void setErrorOutput(const std::string &amp;)</div><div class="ttdef"><b>Definition</b> <a href="game_8cpp_source.html#l00042">game.cpp:42</a></div></div>
-<div class="ttc" id="aclass_game_html_a87f611d77629e4b9e134d1a2b609bfa0"><div class="ttname"><a href="class_game.html#a87f611d77629e4b9e134d1a2b609bfa0">Game::clearScreen</a></div><div class="ttdeci">void clearScreen() const</div><div class="ttdef"><b>Definition</b> <a href="game_8cpp_source.html#l00052">game.cpp:52</a></div></div>
-<div class="ttc" id="aclass_game_html_a93919e3196e7d2284870b9facdf71c15"><div class="ttname"><a href="class_game.html#a93919e3196e7d2284870b9facdf71c15">Game::setArtOutput</a></div><div class="ttdeci">void setArtOutput(const std::string &amp;)</div><div class="ttdef"><b>Definition</b> <a href="game_8cpp_source.html#l00034">game.cpp:34</a></div></div>
-<div class="ttc" id="aclass_game_html_aac44cd3cd677afcf57d2b96c142ed997"><div class="ttname"><a href="class_game.html#aac44cd3cd677afcf57d2b96c142ed997">Game::getErrorOutput</a></div><div class="ttdeci">std::string getErrorOutput() const</div><div class="ttdef"><b>Definition</b> <a href="game_8cpp_source.html#l00038">game.cpp:38</a></div></div>
-<div class="ttc" id="aclass_game_html_ad59df6562a58a614fda24622d3715b65"><div class="ttname"><a href="class_game.html#ad59df6562a58a614fda24622d3715b65">Game::Game</a></div><div class="ttdeci">Game()</div><div class="ttdef"><b>Definition</b> <a href="game_8cpp_source.html#l00018">game.cpp:18</a></div></div>
-<div class="ttc" id="aclass_game_html_ae4d65b001820fb4228f92a02efc0e495"><div class="ttname"><a href="class_game.html#ae4d65b001820fb4228f92a02efc0e495">Game::getTextOutput</a></div><div class="ttdeci">std::string getTextOutput() const</div><div class="ttdef"><b>Definition</b> <a href="game_8cpp_source.html#l00022">game.cpp:22</a></div></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="aclass_command_html"><div class="ttname"><a href="class_command.html">Command</a></div><div class="ttdef"><b>Definition</b> <a href="command_8h_source.html#l00007">command.h:7</a></div></div>
+<div class="ttc" id="aclass_game_html_a0a391f0b32c06c75437bf88642119ad2"><div class="ttname"><a href="class_game.html#a0a391f0b32c06c75437bf88642119ad2">Game::checkMenuCommand</a></div><div class="ttdeci">MainMenuCommand checkMenuCommand(Command &amp;) const</div><div class="ttdef"><b>Definition</b> <a href="game_8cpp_source.html#l00046">game.cpp:46</a></div></div>
+<div class="ttc" id="aclass_game_html_a0a691558b17c2b649f2518b0ccafb4ad"><div class="ttname"><a href="class_game.html#a0a691558b17c2b649f2518b0ccafb4ad">Game::displayOutput</a></div><div class="ttdeci">void displayOutput() const</div><div class="ttdef"><b>Definition</b> <a href="game_8cpp_source.html#l00103">game.cpp:103</a></div></div>
+<div class="ttc" id="aclass_game_html_a0e8d527b4d3f16adba2660785c52c205"><div class="ttname"><a href="class_game.html#a0e8d527b4d3f16adba2660785c52c205">Game::setNextFlag</a></div><div class="ttdeci">void setNextFlag(const bool &amp;)</div><div class="ttdef"><b>Definition</b> <a href="game_8cpp_source.html#l00036">game.cpp:36</a></div></div>
+<div class="ttc" id="aclass_game_html_a1b092e5be94d3feffe72aeec5ae3858f"><div class="ttname"><a href="class_game.html#a1b092e5be94d3feffe72aeec5ae3858f">Game::getMenuFlag</a></div><div class="ttdeci">bool getMenuFlag() const</div><div class="ttdef"><b>Definition</b> <a href="game_8cpp_source.html#l00040">game.cpp:40</a></div></div>
+<div class="ttc" id="aclass_game_html_a1fe03632a75d625d952d88e9498b57c2"><div class="ttname"><a href="class_game.html#a1fe03632a75d625d952d88e9498b57c2">Game::getNextFlag</a></div><div class="ttdeci">bool getNextFlag() const</div><div class="ttdef"><b>Definition</b> <a href="game_8cpp_source.html#l00044">game.cpp:44</a></div></div>
+<div class="ttc" id="aclass_game_html_a21add3176bb8fb80826d5797a23be594"><div class="ttname"><a href="class_game.html#a21add3176bb8fb80826d5797a23be594">Game::setBodyOutput</a></div><div class="ttdeci">void setBodyOutput(const std::string &amp;)</div><div class="ttdef"><b>Definition</b> <a href="game_8cpp_source.html#l00030">game.cpp:30</a></div></div>
+<div class="ttc" id="aclass_game_html_a440561687a5e74d9e58fcbcbd210a420"><div class="ttname"><a href="class_game.html#a440561687a5e74d9e58fcbcbd210a420">Game::getArtOutput</a></div><div class="ttdeci">std::string getArtOutput() const</div><div class="ttdef"><b>Definition</b> <a href="game_8cpp_source.html#l00037">game.cpp:37</a></div></div>
+<div class="ttc" id="aclass_game_html_a5e81bc58ba62b16b4d03d28233ae1cf9"><div class="ttname"><a href="class_game.html#a5e81bc58ba62b16b4d03d28233ae1cf9">Game::setPlanetFlag</a></div><div class="ttdeci">void setPlanetFlag(const bool &amp;)</div><div class="ttdef"><b>Definition</b> <a href="game_8cpp_source.html#l00034">game.cpp:34</a></div></div>
+<div class="ttc" id="aclass_game_html_a621c1cc431af36f39294695ed2e56b3f"><div class="ttname"><a href="class_game.html#a621c1cc431af36f39294695ed2e56b3f">Game::setShipFlag</a></div><div class="ttdeci">void setShipFlag(const bool &amp;)</div><div class="ttdef"><b>Definition</b> <a href="game_8cpp_source.html#l00033">game.cpp:33</a></div></div>
+<div class="ttc" id="aclass_game_html_a68d0951e440593ca936cb35fbbcd4c6b"><div class="ttname"><a href="class_game.html#a68d0951e440593ca936cb35fbbcd4c6b">Game::setGameOverFlag</a></div><div class="ttdeci">void setGameOverFlag(const bool &amp;)</div><div class="ttdef"><b>Definition</b> <a href="game_8cpp_source.html#l00035">game.cpp:35</a></div></div>
+<div class="ttc" id="aclass_game_html_a82e62b77419f947924400b2294906815"><div class="ttname"><a href="class_game.html#a82e62b77419f947924400b2294906815">Game::setErrorOutput</a></div><div class="ttdeci">void setErrorOutput(const std::string &amp;)</div><div class="ttdef"><b>Definition</b> <a href="game_8cpp_source.html#l00031">game.cpp:31</a></div></div>
+<div class="ttc" id="aclass_game_html_a87f611d77629e4b9e134d1a2b609bfa0"><div class="ttname"><a href="class_game.html#a87f611d77629e4b9e134d1a2b609bfa0">Game::clearScreen</a></div><div class="ttdeci">void clearScreen() const</div><div class="ttdef"><b>Definition</b> <a href="game_8cpp_source.html#l00093">game.cpp:93</a></div></div>
+<div class="ttc" id="aclass_game_html_a93919e3196e7d2284870b9facdf71c15"><div class="ttname"><a href="class_game.html#a93919e3196e7d2284870b9facdf71c15">Game::setArtOutput</a></div><div class="ttdeci">void setArtOutput(const std::string &amp;)</div><div class="ttdef"><b>Definition</b> <a href="game_8cpp_source.html#l00029">game.cpp:29</a></div></div>
+<div class="ttc" id="aclass_game_html_a96c14a7f8a1a349cb777e79f0afa7d38"><div class="ttname"><a href="class_game.html#a96c14a7f8a1a349cb777e79f0afa7d38">Game::checkPlanetCommand</a></div><div class="ttdeci">PlanetCommand checkPlanetCommand(Command &amp;) const</div><div class="ttdef"><b>Definition</b> <a href="game_8cpp_source.html#l00076">game.cpp:76</a></div></div>
+<div class="ttc" id="aclass_game_html_a9c072e57dac47b2bb9568ebc78b3e3e7"><div class="ttname"><a href="class_game.html#a9c072e57dac47b2bb9568ebc78b3e3e7">Game::checkNextCommand</a></div><div class="ttdeci">NextCommand checkNextCommand(Command &amp;) const</div><div class="ttdef"><b>Definition</b> <a href="game_8cpp_source.html#l00083">game.cpp:83</a></div></div>
+<div class="ttc" id="aclass_game_html_ab30f0f8467eeb6e63662a49c10face1a"><div class="ttname"><a href="class_game.html#ab30f0f8467eeb6e63662a49c10face1a">Game::getPlanetFlag</a></div><div class="ttdeci">bool getPlanetFlag() const</div><div class="ttdef"><b>Definition</b> <a href="game_8cpp_source.html#l00042">game.cpp:42</a></div></div>
+<div class="ttc" id="aclass_game_html_abfd46ffe22582a6674537c3b6f5b39c1"><div class="ttname"><a href="class_game.html#abfd46ffe22582a6674537c3b6f5b39c1">Game::getGameOverFlag</a></div><div class="ttdeci">bool getGameOverFlag() const</div><div class="ttdef"><b>Definition</b> <a href="game_8cpp_source.html#l00043">game.cpp:43</a></div></div>
+<div class="ttc" id="aclass_game_html_ac6835dbedff0e39926955c555b2cabe0"><div class="ttname"><a href="class_game.html#ac6835dbedff0e39926955c555b2cabe0">Game::gameLoop</a></div><div class="ttdeci">void gameLoop(Game &amp;) const</div><div class="ttdef"><b>Definition</b> <a href="game_8cpp_source.html#l00109">game.cpp:109</a></div></div>
+<div class="ttc" id="aclass_game_html_aca5a1dc61690dc3a0b20b5b5890420ec"><div class="ttname"><a href="class_game.html#aca5a1dc61690dc3a0b20b5b5890420ec">Game::getBodyOutput</a></div><div class="ttdeci">std::string getBodyOutput() const</div><div class="ttdef"><b>Definition</b> <a href="game_8cpp_source.html#l00038">game.cpp:38</a></div></div>
+<div class="ttc" id="aclass_game_html_ad59df6562a58a614fda24622d3715b65"><div class="ttname"><a href="class_game.html#ad59df6562a58a614fda24622d3715b65">Game::Game</a></div><div class="ttdeci">Game()</div><div class="ttdef"><b>Definition</b> <a href="game_8cpp_source.html#l00015">game.cpp:15</a></div></div>
+<div class="ttc" id="aclass_game_html_aeb7a5b90b5d60b66f90f24718fc653cf"><div class="ttname"><a href="class_game.html#aeb7a5b90b5d60b66f90f24718fc653cf">Game::getErrorOutput</a></div><div class="ttdeci">std::string getErrorOutput() const</div><div class="ttdef"><b>Definition</b> <a href="game_8cpp_source.html#l00039">game.cpp:39</a></div></div>
+<div class="ttc" id="aclass_game_html_afd273a5b8d7de2b0c49c7a512ee02501"><div class="ttname"><a href="class_game.html#afd273a5b8d7de2b0c49c7a512ee02501">Game::setMenuFlag</a></div><div class="ttdeci">void setMenuFlag(const bool &amp;)</div><div class="ttdef"><b>Definition</b> <a href="game_8cpp_source.html#l00032">game.cpp:32</a></div></div>
+<div class="ttc" id="aclass_game_html_afe44ba3fa159cdf3fbf20901c782e5cb"><div class="ttname"><a href="class_game.html#afe44ba3fa159cdf3fbf20901c782e5cb">Game::getShipFlag</a></div><div class="ttdeci">bool getShipFlag() const</div><div class="ttdef"><b>Definition</b> <a href="game_8cpp_source.html#l00041">game.cpp:41</a></div></div>
 <div class="ttc" id="acommand_8h_html"><div class="ttname"><a href="command_8h.html">command.h</a></div></div>
+<div class="ttc" id="amenu_8h_html"><div class="ttname"><a href="menu_8h.html">menu.h</a></div></div>
+<div class="ttc" id="aplanet_8h_html"><div class="ttname"><a href="planet_8h.html">planet.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a href="dir_1f04229e368396c986b33904f81f02c4.html">Voyager</a></li><li class="navelem"><a href="game_8h.html">game.h</a></li>
+    <li class="navelem"><a href="game_8h.html">game.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
   </ul>
 </div>

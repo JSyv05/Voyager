@@ -129,6 +129,7 @@
     <ClCompile Include="menu.cpp" />
     <ClCompile Include="planet.cpp" />
     <ClCompile Include="rock.cpp" />
+    <ClCompile Include="ship.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="command.h" />
@@ -136,6 +137,7 @@
     <ClInclude Include="menu.h" />
     <ClInclude Include="planet.h" />
     <ClInclude Include="rock.h" />
+    <ClInclude Include="ship.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

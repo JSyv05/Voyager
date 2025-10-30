@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['clearscreen_0',['clearScreen',['../class_game.html#a87f611d77629e4b9e134d1a2b609bfa0',1,'Game']]]
+  ['biometostring_0',['biomeToString',['../class_planet.html#a8e6d2c6060596d04a363e2b42a2a4188',1,'Planet']]]
 ];

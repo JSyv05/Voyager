@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <string>
 #include <iostream>
 
@@ -8,8 +9,8 @@ public:
     // Constructors
     Rock();
     Rock(const std::string& name, const std::string& description,
-        const std::string& elementType, int value,
-        const std::string& resourceYielded, int yieldAmount);
+         const std::string& elementType, int value,
+         const std::string& resourceYielded, int yieldAmount);
 
     // Public methods
     void inspect() const;

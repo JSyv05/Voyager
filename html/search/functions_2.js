@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['game_0',['Game',['../class_game.html#ad59df6562a58a614fda24622d3715b65',1,'Game']]],
-  ['getartoutput_1',['getArtOutput',['../class_game.html#a3fa5929baa0faddc57bd2e32e6ab6276',1,'Game']]],
-  ['geterroroutput_2',['getErrorOutput',['../class_game.html#aac44cd3cd677afcf57d2b96c142ed997',1,'Game']]],
-  ['getinput_3',['getInput',['../class_command.html#afe12a2e4fa1f1d7d55153169c7a29b58',1,'Command']]],
-  ['gettextoutput_4',['getTextOutput',['../class_game.html#ae4d65b001820fb4228f92a02efc0e495',1,'Game']]]
+  ['describe_0',['describe',['../class_planet.html#a9414bc5be483b8b92977333da3f1ac0c',1,'Planet']]],
+  ['displayinfo_1',['displayInfo',['../class_rock.html#a1abeb98b1acf56ba95b7305cf7abc018',1,'Rock']]],
+  ['displayoutput_2',['displayOutput',['../class_game.html#a0a691558b17c2b649f2518b0ccafb4ad',1,'Game']]]
 ];
