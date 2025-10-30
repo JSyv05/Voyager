@@ -171,11 +171,11 @@ string PlanetGenerator::generateName()
 string Planet::listRocks() const {
     ostringstream ss;
     ss << "\n--- Harvestable Rocks ---\n";
-    if (rocksOnPlanet_.empty()) {
+    if (this->rocksOnPlanet_.empty()) {
         ss << "No harvestable rocks found.\n";
     }
     else {
-        for (const Rock& rock : rocksOnPlanet_) {
+        for (const Rock& rock : this->rocksOnPlanet_) {
             // We can't use rock.inspect() because it prints to cout.
             // We'll build the string manually.
             ss << "  - " << rock.getName() << " (" << rock.getElementType()
