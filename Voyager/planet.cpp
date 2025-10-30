@@ -13,42 +13,6 @@
 
 using namespace std;
 
-// Rock Implementation
-std::vector<Rock> createMasterRockList() {
-    std::cout << "Creating master rock list from code..." << std::endl;
-
-    std::vector<Rock> allRocks;
-
-    // Rock(name, description, elementType, value, resourceYielded, yieldAmount)
-
-    allRocks.push_back(Rock("Basalt Shard",
-                            "A dark, fine-grained volcanic rock.", "Volcanic",
-                            10, "Iron", 5));
-
-    allRocks.push_back(Rock("Pumice Stone",
-                            "A very light and porous volcanic rock.",
-                            "Volcanic", 5, "Sulfur", 10));
-
-    allRocks.push_back(Rock("Iron Ore", "A rusty-red rock, heavy with metal.",
-                            "Metallic", 25, "Iron", 20));
-
-    allRocks.push_back(Rock("Ice Chunk", "A chunk of frozen, murky water.",
-                            "Ice", 1, "Water", 10));
-
-    allRocks.push_back(Rock("Sandstone", "A common sedimentary rock.", "Desert",
-                            2, "Silicon", 3));
-
-    allRocks.push_back(Rock("Petrified Wood", "Ancient wood turned to stone.",
-                            "Forest", 15, "Carbon", 10));
-
-    allRocks.push_back(Rock("Barren Stone", "A simple, useless rock.", "Barren",
-                            0, "Gravel", 1));
-
-    std::cout << "Successfully created " << allRocks.size() << " rocks."
-              << std::endl;
-    return allRocks;
-}
-
 Planet::Planet() = default;
 
 // Planet Class Implementation
@@ -206,14 +170,13 @@ void PlanetSystem::run(Game& g) {
     g.displayOutput();
 }
 
-void PlanetSystem::generatePlanets(int number) {
+void PlanetSystem::generatePlanets(int number, const std::vector<Rock>& allRocks) {
     PlanetGenerator generator;
-    vector<Rock> allGameRocks = createMasterRockList();
 
     for (int i = 0; i < number; ++i) {
         Planet p = generator.generatePlanet(i + 1);
 
-        p.populateRocks(allGameRocks);
+        p.populateRocks(allRocks);
 
         planetList.push_back(std::move(p));
     }

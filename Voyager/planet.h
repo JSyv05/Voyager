@@ -70,7 +70,7 @@ public:
     std::vector<Planet> getPlanetList() const;
     Planet getPlanetAtIndex(int) const;
 
-    void generatePlanets(int);
+    void generatePlanets(int number, const std::vector<Rock>& allRocks);
 };
 
 // Planet generator

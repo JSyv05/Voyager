@@ -4,12 +4,33 @@
 #include "ship.h"
 #include "planet.h"
 #include "game.h"
+#include "Rock.h"  
+
 
 // Standard C++ libraries
 #include <iostream>
+#include <vector> 
 
 using namespace std;
             
+// Function implementation for Rock class
+std::vector<Rock> createMasterRockList() {
+    std::cout << "Creating master rock list from code..." << std::endl;
+    std::vector<Rock> allRocks;
+
+    // Rock(name, description, elementType, value, resourceYielded, yieldAmount)
+    allRocks.push_back(Rock("Basalt Shard", "A dark, fine-grained volcanic rock.", "Volcanic", 10, "Iron", 5));
+    allRocks.push_back(Rock("Pumice Stone", "A very light and porous volcanic rock.", "Volcanic", 5, "Sulfur", 10));
+    allRocks.push_back(Rock("Iron Ore", "A rusty-red rock, heavy with metal.", "Metallic", 25, "Iron", 20));
+    allRocks.push_back(Rock("Ice Chunk", "A chunk of frozen, murky water.", "Ice", 1, "Water", 10));
+    allRocks.push_back(Rock("Sandstone", "A common sedimentary rock.", "Desert", 2, "Silicon", 3));
+    allRocks.push_back(Rock("Petrified Wood", "Ancient wood turned to stone.", "Forest", 15, "Carbon", 10));
+    allRocks.push_back(Rock("Barren Stone", "A simple, useless rock.", "Barren", 0, "Gravel", 1));
+
+    std::cout << "Successfully created " << allRocks.size() << " rocks." << std::endl;
+    return allRocks;
+}
+
 // Function implementation for Game class
 
 Game::Game(): 
@@ -159,6 +180,8 @@ void Game::gameLoop(Game& game) const {
     Command command;
     Ship ship;
     PlanetSystem planetSystem;
+    vector<Rock> allGameRocks = createMasterRockList();
+    Planet activePlanet;
 
     string error; // string to store error messages
 
@@ -181,7 +204,6 @@ void Game::gameLoop(Game& game) const {
         */
 
         ostringstream travelMsg;
-        Planet activePlanet;
         const auto& input = command.getInput();
         int index;
 
@@ -226,7 +248,8 @@ void Game::gameLoop(Game& game) const {
             game.saveGame();
             break;
         case ValidCommand::Scan:
-            game.setBodyOutput(activePlanet.listRocks());
+            game.setBodyOutput(activePlanet.describe() + activePlanet.listRocks());
+            game.setErrorOutput("Scan complete. Resources listed.");
             break;
         case ValidCommand::ShipExit:
             game.setGameOverFlag(true);
@@ -243,7 +266,7 @@ void Game::gameLoop(Game& game) const {
             game.setMenuFlag(false);
             game.setNextFlag(true);
             menu.setIntro(game);
-            planetSystem.generatePlanets(20);
+            planetSystem.generatePlanets(20, allGameRocks);
             break;
         case ValidCommand::Travel:
             index = stoi(input[2]) - 1;
