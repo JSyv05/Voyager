@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string>
+#include <iostream>
 
 class Rock {
 public:
