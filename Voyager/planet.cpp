@@ -2,6 +2,8 @@
 #include "menu.h"
 #include "command.h"
 #include "game.h"
+#include "Rock.h"  
+#include <vector>
 
 #include <iostream>
 #include <iomanip>
@@ -9,7 +11,55 @@
 #include <ctime>
 #include <sstream>
 
+
 using namespace std;
+
+// Rock Implementation
+std::vector<Rock> createMasterRockList() {
+    std::cout << "Creating master rock list from code..." << std::endl;
+
+    std::vector<Rock> allRocks;
+
+    // Rock(name, description, elementType, value, resourceYielded, yieldAmount)
+
+    allRocks.push_back(Rock(
+        "Basalt Shard", "A dark, fine-grained volcanic rock.", "Volcanic",
+        10, "Iron", 5
+    ));
+
+    allRocks.push_back(Rock(
+        "Pumice Stone", "A very light and porous volcanic rock.", "Volcanic",
+        5, "Sulfur", 10
+    ));
+
+    allRocks.push_back(Rock(
+        "Iron Ore", "A rusty-red rock, heavy with metal.", "Metallic",
+        25, "Iron", 20
+    ));
+
+    allRocks.push_back(Rock(
+        "Ice Chunk", "A chunk of frozen, murky water.", "Ice",
+        1, "Water", 10
+    ));
+
+    allRocks.push_back(Rock(
+        "Sandstone", "A common sedimentary rock.", "Desert",
+        2, "Silicon", 3
+    ));
+
+    allRocks.push_back(Rock(
+        "Petrified Wood", "Ancient wood turned to stone.", "Forest",
+        15, "Carbon", 10
+    ));
+
+    allRocks.push_back(Rock(
+        "Barren Stone", "A simple, useless rock.", "Barren",
+        0, "Gravel", 1
+    ));
+
+    std::cout << "Successfully created " << allRocks.size() << " rocks." << std::endl;
+    return allRocks;
+}
 
 // Planet Class Implementation
 Planet::Planet(string id, string name, double distanceAU, Biome biome, int loot)
@@ -51,10 +101,47 @@ string Planet::describe() const
     return ss.str();
 }
 
+void Planet::populateRocks(const vector<Rock>& allRocksInGame) {
+    // Get the planet's biome as a string
+    string biomeName = Planet::biomeToString(this->biome_);
+
+    // Clear any old rocks
+    this->rocksOnPlanet_.clear();
+
+    // Loop through the master list of all rocks
+    for (const Rock& rock : allRocksInGame) {
+
+        // If the rock's type matches the planet's biome, add it
+        if (rock.getElementType() == biomeName) {
+            this->rocksOnPlanet_.push_back(rock);
+        }
+    }
+}
+
+string Planet::listRocks() const {
+    ostringstream ss;
+    ss << "\n--- Harvestable Rocks ---\n";
+    if (rocksOnPlanet_.empty()) {
+        ss << "No harvestable rocks found.\n";
+    }
+    else {
+        for (const Rock& rock : rocksOnPlanet_) {
+            // We can't use rock.inspect() because it prints to cout.
+            // We'll build the string manually.
+            ss << "  - " << rock.getName() << " (" << rock.getElementType() << ")\n";
+        }
+    }
+    return ss.str();
+}
+
+
 // PlanetSystem - Random generation and exploration
 void PlanetSystem::run(Game& g)
 {
     srand((unsigned)time(nullptr));
+
+    // LOAD ROCKS
+    vector<Rock> allGameRocks = createMasterRockList();
 
     // --- Generate random planets using PlanetGenerator ---
     PlanetGenerator generator;
@@ -66,6 +153,9 @@ void PlanetSystem::run(Game& g)
     for (int i = 0; i < NUM_PLANETS; ++i)
     {
         Planet p = generator.generatePlanet(i + 1);
+
+        p.populateRocks(allGameRocks);
+
         planets.push_back(std::move(p));
     }
 
@@ -100,7 +190,10 @@ void PlanetSystem::run(Game& g)
                     // << "Fuel Used: " << cost << "\n"
                     // << "Remaining fuel: " << playerFuel << "\n"
                     << planets[index].describe()
+                    << planets[index].listRocks()
                     << "\n(Type 'menu' to return to main menu or 'back' to view nearby planets.)";
+
+
 
                 g.setTextOutput(travelMsg.str());
                 g.setErrorOutput("");

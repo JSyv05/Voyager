@@ -13,6 +13,7 @@
 
 // User created libraries
 #include "game.h"
+#include "rock.h"
 
 using namespace std;
 
@@ -88,6 +89,7 @@ private:
 	Biome biome_;
 	int lootLevel_;
 	vector<unique_ptr<NPC>> npcs_;  // Each planet's NPCs
+	vector<Rock> rocksOnPlanet_; // Rocks available on the planet
 
 public:
 	Planet(string id, string name, double distanceAU, Biome biome, int loot);
@@ -151,6 +153,10 @@ public:
 			npc->interact();
 		}
 	}
+
+	void populateRocks(const vector<Rock>& allRocksInGame); //This will populate Rocks on the planet based on biome
+
+	string listRocks() const; //this is the list of rocks currently on the planet
 };
 
 // PlanetSysterm will handle displaying and navigating planets
