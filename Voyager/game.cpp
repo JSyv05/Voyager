@@ -19,9 +19,9 @@ Game::Game():
     onMenu(false), 
     onShip(false), 
     onPlanet(false),
-    next(false), 
+    gameOver(false), 
     saved(false),
-    gameOver(false) {}
+    next(false) {}
 
 /*
 Setters and getters for all outputs and game state flags
@@ -56,7 +56,7 @@ These will be used in the game loop to manage core logic behind
 commands
 */
 
-Game::ValidCommand Game::checkCommand(Command& command, Game& game) const {
+Game::ValidCommand Game::checkCommand(const Command& command,const Game& game) const {
     const auto& input = command.getInput();
     if (input.empty() && !game.getNextFlag()) {
         return ValidCommand::Error;
@@ -144,9 +144,7 @@ void Game::displayOutput() const {
     cout << output;                            
 }
 
-void Game::saveGame() {
-
-}
+void Game::saveGame() {}
 
 /*
 The game loop is the heart of the game. It will handle all of the displaying of outputs as well as the logic behind each command.
@@ -214,6 +212,7 @@ void Game::gameLoop(Game& game) const {
             break;
         case ValidCommand::Save:
             game.saveGame();
+            break;
         case ValidCommand::Scan:
             break;
         case ValidCommand::ShipExit:
@@ -235,6 +234,7 @@ void Game::gameLoop(Game& game) const {
         case ValidCommand::Travel:
             game.setPlanetFlag(true);
             game.setShipFlag(false);
+            break;
         default:
             error = "ERR: PLease enter a valid input\n\n";
             game.setErrorOutput(error);

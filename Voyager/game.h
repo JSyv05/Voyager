@@ -84,7 +84,7 @@ public:
     /*
     The check function will check .
     */ 
-    ValidCommand checkCommand(Command&, Game&) const;
+    ValidCommand checkCommand(const Command&,const Game&) const;
 
     /*
     These are the UI commands. They will handle clearing and updating

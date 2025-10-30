@@ -43,4 +43,4 @@ void Command::setInput() {
 Returns the tokenized command for the command interpreter
 */
 
-vector<string> Command::getInput() { return command; }
+vector<string> Command::getInput() const{ return command; }
