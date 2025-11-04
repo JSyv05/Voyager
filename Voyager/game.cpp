@@ -88,8 +88,9 @@ Game::ValidCommand Game::checkCommand(Command& command, Game& game) const {
     else if ((input.empty() || (input.size() == 1 && input[0] == "next")) && game.getNextFlag()) {
         return ValidCommand::Next;
     }
-    else if ((input.size() >= 3 && input[0] == "return" && input[1] == "to" && input[3] == "ship") && game.getPlanetFlag()) {
-        return ValidCommand::ReturnToShip;
+    else if ((input.size() == 1 && input[0] == "return") ||
+            (input.size() >= 3 && input[0] == "return" && input[1] == "to" && input[3] == "ship") && game.getShipFlag()) {
+            return ValidCommand::ReturnToShip;
     }
     else if ((input.size() == 1 && input[0] == "save") || 
              (input.size() >= 2 && input[0] == "save" && input[1] == "game") && !game.getMenuFlag()) {
@@ -98,7 +99,8 @@ Game::ValidCommand Game::checkCommand(Command& command, Game& game) const {
     else if (input.size() == 1 && input[0] == "scan" && game.getPlanetFlag()) {
         return ValidCommand::Scan;
     }
-    else if (input.size() == 1 && input[0] == "exit" && game.getShipFlag() && game.getSavedFlag()) {
+    else if ((input.size() == 1 && input[0] == "exit") ||
+            (input.size() >= 2 && input[0] == "exit" && input[1] == "ship") && !game.getShipFlag()) {
         return ValidCommand::ShipExit;
     }
     else if (((input.size() == 1 && input[0] == "menu") ||
@@ -218,7 +220,9 @@ void Game::gameLoop(Game& game) const {
         case ValidCommand::Scan:
             break;
         case ValidCommand::ShipExit:
-            game.setGameOverFlag(true);
+            ship.shipExit(game); 
+            game.setPlanetFlag(true);
+            game.setShipFlag(false);
             break;
         case ValidCommand::ShipMainMenu:
             menu.setMenu(game);

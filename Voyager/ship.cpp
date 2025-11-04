@@ -94,7 +94,7 @@ void Ship::travelToPlanet(Game& game, int choice)
     ostringstream msg;
     msg << "Docking at " << currentPlanet.getName() << ".\n\n";
     msg << currentPlanet.describe();
-    msg << "\n(Type return to ship' to return to the ship and back into space";
+    msg << "\nType 'exit ship' to exit to the ship and back into explore the planet";
 
     game.clearScreen();
     game.setBodyOutput(msg.str());
@@ -114,22 +114,37 @@ void Ship::returnToShip(Game& game)
     }
 
     // Lift slightly above current planet
-    auto p = currentPlanet.getCoordinates();
-    array<double, 3> hoverCoords = { p[0], p[1] + 10.0, p[2] };
-
-    setCoordinates(hoverCoords);
-    docked = false;
-    hovering = true;
+    //auto p = currentPlanet.getCoordinates();
+    //array<double, 3> hoverCoords = { p[0], p[1] + 10.0, p[2] };
+    //setCoordinates(hoverCoords);
+    //docked = false;
+    //hovering = true;
 
     ostringstream msg;
-    msg << "Undocking from " << currentPlanet.getName() << ".\n\n";
-    msg << "The ship is now hovering above the planet.\n";
-    msg << "Your coordinates:"
-        << fixed << setprecision(2)
-        << hoverCoords[0] << ","
-        << hoverCoords[1] << ","
-        << hoverCoords[2];
+    msg << "You return to your ship and begin pre-flight checks";
+    msg << "The ship is now ready for takeoff.\n\n";
     msg << "\n(Type scan' to return to scan for nearby planets";
+
+    game.clearScreen();
+    game.setBodyOutput(msg.str());
+    game.setErrorOutput("");
+    game.displayOutput();
+}
+
+void Ship::shipExit(Game& game)
+{
+    // checks if the ship is docked to use them command
+    if (!docked)
+    {
+        game.setErrorOutput("ERR) You are not docked to any planet.");
+        game.displayOutput();
+        return;
+    }
+
+    ostringstream msg;
+    msg << "You step out onto the surface of " << currentPlanet.getName() << ".\n";
+    msg << "The environment is as vast as it is mysterious.\n\n";
+    msg << "\n(Type 'return to ship' to enter your ship";
 
 
     game.clearScreen();
