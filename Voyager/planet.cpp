@@ -2,13 +2,13 @@
 #include "rock.h"
 #include "command.h"
 #include "game.h"
-#include <vector>
 
 #include <cstdlib>
 #include <ctime>
 #include <iomanip>
 #include <iostream>
 #include <sstream>
+#include <cmath>
 
 
 using namespace std;
@@ -16,25 +16,29 @@ using namespace std;
 Planet::Planet() = default;
 
 // Planet Class Implementation
-Planet::Planet(string id, string name, double distanceAU, Biome biome, int loot)
-    : id_(move(id)), name_(move(name)), distanceAU_(distanceAU), biome_(biome),
-      lootLevel_(loot) {}
+// Default constructor 
+Planet::Planet() : id("NULL"), name("Unkown"), distanceAU(0.0), biome(Biome::Barren), lootLevel(0), coordinates({ 0.0,0.0,0.0 }) {}
 
-string Planet::quickRow(double fuelPerAU) const {
-    ostringstream ss;
-    ss << "[" << id_ << "]" << name_ << " | " << biomeToString(biome_) << " | "
-       << fixed << setprecision(2) << distanceAU_ << " AU"
-       << " | Fuel Cost: " << travelFuelCost(fuelPerAU);
-    return ss.str();
+// Constructor initializes all planet properties
+Planet::Planet(string id, string name, double distanceAU, Biome biome, int loot, array<double, 3> coords)
+    : id(move(id)), name(move(name)), distanceAU(distanceAU), biome(biome), lootLevel(loot), coordinates(coords) {}
+
+// Getter Implementations
+const string& Planet::getId() const { return id; }
+const string& Planet::getName() const { return name; }
+double Planet::getDistanceAU() const { return distanceAU; }
+Biome Planet::getBiome() const { return biome; }
+array<double, 3> Planet::getCoordinates() const { return coordinates; }
+
+// Calculates the fuel cost to travel
+double Planet::travelFuelCost(double fuelPerAU) const
+{
+    return distanceAU * fuelPerAU;
 }
 
-PlanetGenerator::PlanetGenerator() : rng(std::random_device{}()) {}
-
-double Planet::travelFuelCost(double fuelPerAU) const {
-    return distanceAU_ * fuelPerAU;
-}
-
-string Planet::describe() const {
+// Returns a sumary line for the planet list
+string Planet::quickRow(double fuelPerAU) const
+{
     ostringstream ss;
     ss << "\n--- " << name_ << " ---\n";
     ss << "Biome: " << biomeToString(biome_) << "\n";
@@ -53,6 +57,7 @@ string Planet::describe() const {
     return ss.str();
 }
 
+
 void Planet::populateRocks(const vector<Rock>& allRocksInGame) {
     // Get the planet's biome as a string
     string biomeName = Planet::biomeToString(this->biome_);
@@ -69,36 +74,62 @@ void Planet::populateRocks(const vector<Rock>& allRocksInGame) {
         }
     }
 }
+// Returns a describe of the planet
+string Planet::describe() const
+{
+    ostringstream ss;
+    ss << "\n--- " << name << " ---\n";
+    ss << "Biome: " << biomeToString(biome) << "\n";
+    ss << "Distance: " << fixed << setprecision(2) << distanceAU << " AU\n";
+    ss << "Loot Level: " << lootLevel << "\n";
+    ss << "Surface Conditions: "
+        << (biome == Biome::Volcanic ? "Molten terrain and unstable geysers."
+            : biome == Biome::Ocean ? "Vast seas with strong currents."
+            : biome == Biome::Forest ? "Dense vegetation and humid climate."
+            : biome == Biome::Urban ? "Ruins of an advanced civilization."
+            : biome == Biome::Ice ? "Frozen wastelands under dim sunlight."
+            : biome == Biome::Desert ? "Endless dunes and scorching heat."
+            : "Barren and lifeless terrain.")
+        << "\n";
+    return ss.str();
+}
 
-string Planet::biomeToString(Biome b) {
-    switch (b) {
-    case Biome::Desert:
-        return "Desert";
-    case Biome::Ice:
-        return "Ice";
-    case Biome::Ocean:
-        return "Ocean";
-    case Biome::Forest:
-        return "Forest";
-    case Biome::Volcanic:
-        return "Volcanic";
-    case Biome::GasGiant:
-        return "GasGiant";
-    case Biome::Urban:
-        return "Urban";
-    case Biome::Barren:
-        return "Barren";
+// Converts enum Biome to string for display
+string Planet::biomeToString(Biome b)
+{
+    switch (b)
+    {
+    case Biome::Desert: return "Desert";
+    case Biome::Ice: return "Ice";
+    case Biome::Ocean: return "Ocean";
+    case Biome::Forest: return "Forest";
+    case Biome::Volcanic: return "Volcanic";
+    case Biome::GasGiant: return "GasGiant";
+    case Biome::Urban: return "Urban";
+    case Biome::Barren: return "Barren";
     }
     return "UNKNOWN";
 }
+
+// PlanetGenerator Implementation 
+PlanetGenerator::PlanetGenerator() : rng(random_device{}()) {}
+
+// Randomly creates a planet name
+string PlanetGenerator::generateName()
+{
+    vector<string> prefixes = { "RX", "M52", "NX", "LX", "KZ", "ULS", "AD" };
+    vector<string> suffixes = { "-1b", "-3c", "-Prime", "-Alpha", "-Vega", "-9", "-Tau" };
+    uniform_int_distribution<int> num(10, 999);
 
 void Planet::travelToPlanet(Command& command) {
     const auto& input = command.getInput();
     
 }
 
-Planet PlanetGenerator::generatePlanet(int index) {
-    std::uniform_real_distribution<double> distAU(0.5, 10.0);
+// Create a planet with random attributes and unqiue coordinates
+Planet PlanetGenerator::generatePlanet(int index, const vector<array<double, 3>>& existingCoords) 
+{
+    uniform_real_distribution<double> distAU(0.5, 10.0);
     double distance = distAU(rng);
 
     std::uniform_int_distribution<int> distBiome(0, 7);
@@ -107,36 +138,56 @@ Planet PlanetGenerator::generatePlanet(int index) {
     std::uniform_int_distribution<int> distLoot(1, 10);
     int lootLevel = distLoot(rng);
 
-    std::string name = generateName();
-    std::ostringstream id;
-    id << "P" << std::setw(3) << std::setfill('0') << index;
+    uniform_real_distribution<double> distCoord(-50.0, 50.0);
 
-    Planet planet(id.str(), name, distance, biome, lootLevel);
+    // Ensure coordinate are unique
+    array<double, 3> coords;
+    bool unique = false;
+    while (!unique)
+    {
+        coords = { distCoord(rng), distCoord(rng), distCoord(rng) };
+        unique = true;
 
-    return planet;
+        for (const auto& c : existingCoords)
+        {
+            double dx = coords[0] - c[0];
+            double dy = coords[1] - c[1];
+            double dz = coords[2] - c[2];
+            double dist = sqrt(dx * dx + dy * dy + dz * dz);
+            if (dist < 5.0)
+            {
+                unique = false;
+                break;
+            }
+        }
+
+    }
+    // Create a name and ID
+    string name = generateName();
+    ostringstream id;
+    id << "P" << setw(3) << setfill('0') << index;
+
+    return { id.str(), name, distance, biome, lootLevel, coords };
 }
 
-string PlanetGenerator::generateName()
-{ 
-            std::vector<std::string> prefixes = {"RX", "M52", "NX", "LX",
-                                         "KZ", "ULS", "AD"};
-    std::vector<std::string> suffixes = {"-1b",   "-3c", "-Prime", "-Alpha",
-                                         "-Vega", "-9",  "-Tau"};
-    std::uniform_int_distribution<int> num(10, 999);
+// PlanetSystem - Random generation and exploration
+vector<Planet> PlanetSystem::run()
+{
+    srand((unsigned)time(nullptr));
 
-    std::string pre = prefixes[rng() % prefixes.size()];
-    std::string suf = suffixes[rng() % suffixes.size()];
+    //  Generate random planets using PlanetGenerator 
+    PlanetGenerator generator;
+    vector<Planet> planets;
+    vector<array<double, 3>> usedCoords; //store coordinates to make sure they are unique
 
-    std::ostringstream name;
-    name << pre << "-" << num(rng) << suf;
-    return name.str();
-}
+    const int NUM_PLANETS = 20;
 
-string Planet::listRocks() const {
-    ostringstream ss;
-    ss << "\n--- Harvestable Rocks ---\n";
-    if (this->rocksOnPlanet_.empty()) {
-        ss << "No harvestable rocks found.\n";
+    // Generate 20 unique planets
+    for (int i = 0; i < NUM_PLANETS; ++i)
+    {
+        Planet p = generator.generatePlanet(i + 1, usedCoords);
+        usedCoords.push_back(p.getCoordinates());
+        planets.push_back(move(p));
     }
     else {
         for (const Rock& rock : this->rocksOnPlanet_) {

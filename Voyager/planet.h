@@ -9,81 +9,66 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <array>
 
 // User created libraries
 #include "game.h"
 #include "rock.h"
 
 // Biomes
-enum class Biome {
-    Desert,
-    Ice,
-    Ocean,
-    Forest,
-    Volcanic,
-    GasGiant,
-    Urban,
-    Barren
-};
+enum class Biome { Desert, Ice, Ocean, Forest, Volcanic, GasGiant, Urban, Barren };
 
-// Planet class
-class Planet {
+// Planet size
+enum class Size { Small, Medium, Large };
+
+//Planet class
+class Planet
+{
 private:
-    std::string id_;
-    std::string name_;
-    double distanceAU_;
-    Biome biome_;
-    int lootLevel_;
-    std::vector<Rock> rocksOnPlanet_;   // Rocks available on the planet
+    string id;
+    string name;
+    double distanceAU;
+    Biome biome;
+    int lootLevel;
+    array<double, 3> coordinates;
 
 public:
+    // Constructor
     Planet();
-    Planet(std::string id, std::string name, double distanceAU, Biome biome, int loot);
+    Planet(string id, string name, double distanceAU, Biome biome, int loot, array<double, 3> coords);
 
-    const std::string& getId() const { return id_; }
-    const std::string& getName() const { return name_; }
-    double getDistanceAU() const { return distanceAU_; }
-    Biome getBiome() const { return biome_; }
+    // Getters
+    const string& getId() const; 
+    const string& getName() const;
+    double getDistanceAU() const;
+    Biome getBiome() const;
+    array<double, 3> getCoordinates() const;
 
+    // Core methods
     double travelFuelCost(double fuelPerAU) const;
-
-    std::string quickRow(double fuelPerAU) const;
-    std::string describe() const;
-
-    void travelToPlanet(Command&);
-
-    static std::string biomeToString(Biome b);
-
-    void populateRocks(const std::vector<Rock>& allRocksInGame); // This will populate Rocks on the
-                                             // planet based on biome
+    string quickRow(double fuelPerAU) const;
+    string describe() const;
 
     std::string listRocks() const; // this is the list of rocks currently on the planet
 };
 
-// PlanetSysterm will handle displaying and navigating planets
-class PlanetSystem {
+//Planet generator
+class PlanetGenerator
+{
 private:
-    std::vector<Planet> planetList;
-
-public:
-    void run(Game& g);
-    std::vector<Planet> getPlanetList() const;
-    Planet getPlanetAtIndex(int) const;
-
-    void generatePlanets(int number, const std::vector<Rock>& allRocks);
-};
-
-// Planet generator
-class PlanetGenerator {
-private:
-    std::mt19937 rng;
+    mt19937 rng; // Random number generator
+    string generateName();
 
 public:
     PlanetGenerator();
-
-    std::string generateName();
-
-    Planet generatePlanet(int);
-
+    Planet generatePlanet(int index, const vector<array<double, 3>>& existingCoords);
 };
+
+// PlanetSysterm will handle displaying and navigating planets
+class PlanetSystem
+{
+public:
+    vector<Planet> run();
+};
+
 #endif

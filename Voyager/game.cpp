@@ -112,8 +112,9 @@ Game::ValidCommand Game::checkCommand(const Command& command,const Game& game) c
     else if ((input.empty() || (input.size() == 1 && input[0] == "next")) && game.getNextFlag()) {
         return ValidCommand::Next;
     }
-    else if ((input.size() >= 3 && input[0] == "return" && input[1] == "to" && input[3] == "ship") && game.getPlanetFlag()) {
-        return ValidCommand::ReturnToShip;
+    else if ((input.size() == 1 && input[0] == "return") ||
+            (input.size() >= 3 && input[0] == "return" && input[1] == "to" && input[3] == "ship") && game.getShipFlag()) {
+            return ValidCommand::ReturnToShip;
     }
     else if ((input.size() == 1 && input[0] == "save") || 
              (input.size() >= 2 && input[0] == "save" && input[1] == "game") && !game.getMenuFlag()) {
@@ -122,7 +123,8 @@ Game::ValidCommand Game::checkCommand(const Command& command,const Game& game) c
     else if (input.size() == 1 && input[0] == "scan" && game.getPlanetFlag()) {
         return ValidCommand::Scan;
     }
-    else if (input.size() == 1 && input[0] == "exit" && game.getShipFlag() && game.getSavedFlag()) {
+    else if ((input.size() == 1 && input[0] == "exit") ||
+            (input.size() >= 2 && input[0] == "exit" && input[1] == "ship") && !game.getShipFlag()) {
         return ValidCommand::ShipExit;
     }
     else if (((input.size() == 1 && input[0] == "menu") ||
@@ -240,7 +242,7 @@ void Game::gameLoop(Game& game) const {
             planetSystem.run(game);
             break;
         case ValidCommand::ReturnToShip:
-            planetSystem.run(game);
+            ship.returnToShip(game);
             game.setPlanetFlag(false);
             game.setShipFlag(true);
             break;
@@ -252,7 +254,9 @@ void Game::gameLoop(Game& game) const {
             game.setErrorOutput("Scan complete. Resources listed.");
             break;
         case ValidCommand::ShipExit:
-            game.setGameOverFlag(true);
+            ship.shipExit(game); 
+            game.setPlanetFlag(true);
+            game.setShipFlag(false);
             break;
         case ValidCommand::ShipMainMenu:
             menu.setMenu(game);
@@ -260,7 +264,7 @@ void Game::gameLoop(Game& game) const {
             game.setShipFlag(false);
             break;
         case ValidCommand::ScanForPlanets:
-
+            ship.getNearbyPlanet(game);
             break;
         case ValidCommand::Start:
             game.setMenuFlag(false);
@@ -269,19 +273,23 @@ void Game::gameLoop(Game& game) const {
             planetSystem.generatePlanets(20, allGameRocks);
             break;
         case ValidCommand::Travel:
-            index = stoi(input[2]) - 1;
-            cout << index << endl;
-            cout << planetSystem.getPlanetAtIndex(index).getName();
-            travelMsg
-                << "You are now orbiting planet "
-                      << planetSystem.getPlanetAtIndex(index).getName()
-                      << planetSystem.getPlanetAtIndex(index).describe()
-                << endl;
-            activePlanet = planetSystem.getPlanetAtIndex(index);
-            game.setBodyOutput(travelMsg.str());
-            game.setPlanetFlag(true);
-            game.setShipFlag(false);
+        {
+            const auto& input = command.getInput();
+
+            if (input.size() >= 3)
+            {
+                int choice = stoi(input[2]);
+                ship.travelToPlanet(game, choice);
+                game.setPlanetFlag(true);
+                game.setShipFlag(false);
+                break;
+            }
+            else
+            {
+                game.setErrorOutput("ERR) Invalid planet number. Type 1, 2, oe 3.");
+            }
             break;
+        }
         default:
             error = "ERR: PLease enter a valid input\n\n";
             game.setErrorOutput(error);
