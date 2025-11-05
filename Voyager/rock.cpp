@@ -1,4 +1,4 @@
-#include "Rock.h"
+#include "rock.h"
 #include <iostream>
 
 // Constructors

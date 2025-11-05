@@ -1,48 +1,51 @@
 // User created libraries
+#include "game.h"
+#include "Rock.h"
 #include "command.h"
 #include "menu.h"
-#include "ship.h"
 #include "planet.h"
-#include "game.h"
-#include "Rock.h"  
-
+#include "ship.h"
 
 // Standard C++ libraries
 #include <iostream>
-#include <vector> 
+#include <vector>
 
 using namespace std;
-            
+
 // Function implementation for Rock class
 std::vector<Rock> createMasterRockList() {
     std::cout << "Creating master rock list from code..." << std::endl;
     std::vector<Rock> allRocks;
 
     // Rock(name, description, elementType, value, resourceYielded, yieldAmount)
-    allRocks.push_back(Rock("Basalt Shard", "A dark, fine-grained volcanic rock.", "Volcanic", 10, "Iron", 5));
-    allRocks.push_back(Rock("Pumice Stone", "A very light and porous volcanic rock.", "Volcanic", 5, "Sulfur", 10));
-    allRocks.push_back(Rock("Iron Ore", "A rusty-red rock, heavy with metal.", "Metallic", 25, "Iron", 20));
-    allRocks.push_back(Rock("Ice Chunk", "A chunk of frozen, murky water.", "Ice", 1, "Water", 10));
-    allRocks.push_back(Rock("Sandstone", "A common sedimentary rock.", "Desert", 2, "Silicon", 3));
-    allRocks.push_back(Rock("Petrified Wood", "Ancient wood turned to stone.", "Forest", 15, "Carbon", 10));
-    allRocks.push_back(Rock("Barren Stone", "A simple, useless rock.", "Barren", 0, "Gravel", 1));
+    allRocks.push_back(Rock("Basalt Shard",
+                            "A dark, fine-grained volcanic rock.", "Volcanic",
+                            10, "Iron", 5));
+    allRocks.push_back(Rock("Pumice Stone",
+                            "A very light and porous volcanic rock.",
+                            "Volcanic", 5, "Sulfur", 10));
+    allRocks.push_back(Rock("Iron Ore", "A rusty-red rock, heavy with metal.",
+                            "Metallic", 25, "Iron", 20));
+    allRocks.push_back(Rock("Ice Chunk", "A chunk of frozen, murky water.",
+                            "Ice", 1, "Water", 10));
+    allRocks.push_back(Rock("Sandstone", "A common sedimentary rock.", "Desert",
+                            2, "Silicon", 3));
+    allRocks.push_back(Rock("Petrified Wood", "Ancient wood turned to stone.",
+                            "Forest", 15, "Carbon", 10));
+    allRocks.push_back(Rock("Barren Stone", "A simple, useless rock.", "Barren",
+                            0, "Gravel", 1));
 
-    std::cout << "Successfully created " << allRocks.size() << " rocks." << std::endl;
+    std::cout << "Successfully created " << allRocks.size() << " rocks."
+              << std::endl;
     return allRocks;
 }
 
 // Function implementation for Game class
 
-Game::Game(): 
-    art_output(""), 
-    body_output(""), 
-    error_output(""), 
-    onMenu(false), 
-    onShip(false), 
-    onPlanet(false),
-    gameOver(false), 
-    saved(false),
-    next(false) {}
+Game::Game()
+    : art_output(""), body_output(""), error_output(""), onMenu(false),
+      onShip(false), onPlanet(false), gameOver(false), saved(false),
+      next(false) {}
 
 /*
 Setters and getters for all outputs and game state flags
@@ -71,18 +74,20 @@ bool Game::getNextFlag() const { return next; }
 bool Game::getSavedFlag() const { return saved; }
 
 /*
-Each if statement checks the command size, command content, and 
+Each if statement checks the command size, command content, and
 then the game state, and will return the corresponding command.
 These will be used in the game loop to manage core logic behind
 commands
 */
 
-Game::ValidCommand Game::checkCommand(const Command& command,const Game& game) const {
+Game::ValidCommand Game::checkCommand(const Command& command,
+                                      const Game& game) const {
     const auto& input = command.getInput();
     if (input.empty() && !game.getNextFlag()) {
         return ValidCommand::Error;
     }
-    else if (input.size() >= 1 && input[0] == "collect" && game.getPlanetFlag()) {
+    else if (input.size() >= 1 && input[0] == "collect" &&
+             game.getPlanetFlag()) {
         return ValidCommand::Collect;
     }
     else if (input.size() == 1 && input[0] == "credits" && game.getMenuFlag()) {
@@ -97,48 +102,61 @@ Game::ValidCommand Game::checkCommand(const Command& command,const Game& game) c
     else if (input.size() >= 3 && input[0] == "inspect" && input[1] == "rock") {
         return ValidCommand::InspectRock;
     }
-    else if (input.size() == 1 && input[0] == "instructions" && game.getMenuFlag()) {
+    else if (input.size() == 1 && input[0] == "instructions" &&
+             game.getMenuFlag()) {
         return ValidCommand::Instructions;
     }
     else if (((input.size() == 1 && input[0] == "back") ||
               (input.size() == 1 && input[0] == "menu") ||
-              (input.size() >= 2 && input[0] == "main" && input[1] == "menu")) && game.getMenuFlag()) {
+              (input.size() >= 2 && input[0] == "main" &&
+               input[1] == "menu")) &&
+             game.getMenuFlag()) {
         return ValidCommand::MainMenu;
     }
     else if (((input.size() == 1 && input[0] == "load") ||
-             (input.size() >= 2 && input[0] == "load" && input[1] == "game")) && game.getMenuFlag()) {
+              (input.size() >= 2 && input[0] == "load" &&
+               input[1] == "game")) &&
+             game.getMenuFlag()) {
         return ValidCommand::Load;
     }
-    else if ((input.empty() || (input.size() == 1 && input[0] == "next")) && game.getNextFlag()) {
+    else if ((input.empty() || (input.size() == 1 && input[0] == "next")) &&
+             game.getNextFlag()) {
         return ValidCommand::Next;
     }
-    else if ((input.size() == 1 && input[0] == "return") ||
-            (input.size() >= 3 && input[0] == "return" && input[1] == "to" && input[3] == "ship") && game.getShipFlag()) {
-            return ValidCommand::ReturnToShip;
+    else if ((input.size() >= 3 && input[0] == "return" && input[1] == "to" &&
+              input[3] == "ship") &&
+             game.getPlanetFlag()) {
+        return ValidCommand::ReturnToShip;
     }
-    else if ((input.size() == 1 && input[0] == "save") || 
-             (input.size() >= 2 && input[0] == "save" && input[1] == "game") && !game.getMenuFlag()) {
+    else if ((input.size() == 1 && input[0] == "save") ||
+             (input.size() >= 2 && input[0] == "save" && input[1] == "game") &&
+                 !game.getMenuFlag()) {
         return ValidCommand::Save;
     }
     else if (input.size() == 1 && input[0] == "scan" && game.getPlanetFlag()) {
         return ValidCommand::Scan;
     }
-    else if ((input.size() == 1 && input[0] == "exit") ||
-            (input.size() >= 2 && input[0] == "exit" && input[1] == "ship") && !game.getShipFlag()) {
+    else if (input.size() == 1 && input[0] == "exit" && game.getShipFlag() &&
+             game.getSavedFlag()) {
         return ValidCommand::ShipExit;
     }
     else if (((input.size() == 1 && input[0] == "menu") ||
-              (input.size() >= 2 && input[0] == "main" && input[1] == "menu")) && game.getMenuFlag() && game.getSavedFlag()) {
+              (input.size() >= 2 && input[0] == "main" &&
+               input[1] == "menu")) &&
+             game.getMenuFlag() && game.getSavedFlag()) {
         return ValidCommand::ShipMainMenu;
     }
     else if (input.size() == 1 && input[0] == "scan" && game.getShipFlag()) {
-        return ValidCommand::ScanForPlanets; 
+        return ValidCommand::ScanForPlanets;
     }
     else if (((input.size() == 1 && input[0] == "start") ||
-        (input.size() >= 2 && input[0] == "start" && input[1] == "game")) && game.getMenuFlag()) {
+              (input.size() >= 2 && input[0] == "start" &&
+               input[1] == "game")) &&
+             game.getMenuFlag()) {
         return ValidCommand::Start;
     }
-    else if (input.size() >= 3 && input[0] == "travel" && input[1] == "to" && game.getShipFlag()) {
+    else if (input.size() >= 3 && input[0] == "travel" && input[1] == "to" &&
+             game.getShipFlag()) {
         return ValidCommand::Travel;
     }
     else {
@@ -147,9 +165,10 @@ Game::ValidCommand Game::checkCommand(const Command& command,const Game& game) c
 }
 
 /*
-This function checks to see what operating system the game is running on, either Windows, or some 
-Unix-based OS like Linux or MacOS. It will then run the corresponding command to clear the terminal.
-A clean and easy way to implement cross compatibility into our game
+This function checks to see what operating system the game is running on, either
+Windows, or some Unix-based OS like Linux or MacOS. It will then run the
+corresponding command to clear the terminal. A clean and easy way to implement
+cross compatibility into our game
 */
 
 void Game::clearScreen() const {
@@ -161,19 +180,21 @@ void Game::clearScreen() const {
 }
 
 /*
-This function combines the values for art, body, and error and displays all of that as one output.
+This function combines the values for art, body, and error and displays all of
+that as one output.
 */
 
 void Game::displayOutput() const {
-    string output = getArtOutput() + "\n\n" + getBodyOutput() + "\n\n" +
-                    getErrorOutput(); 
-    cout << output;                            
+    string output =
+        getArtOutput() + "\n\n" + getBodyOutput() + "\n\n" + getErrorOutput();
+    cout << output;
 }
 
 void Game::saveGame() {}
 
 /*
-The game loop is the heart of the game. It will handle all of the displaying of outputs as well as the logic behind each command.
+The game loop is the heart of the game. It will handle all of the displaying of
+outputs as well as the logic behind each command.
 */
 
 void Game::gameLoop(Game& game) const {
@@ -197,12 +218,13 @@ void Game::gameLoop(Game& game) const {
         Contents of the display will be updated in the switch case
         */
 
-        game.displayOutput(); 
+        game.displayOutput();
         command.setInput();
 
         /*
-        This is where all of the command logic will be stored. It will go over each
-        enum value in ValidCommand and run the corresponding logic behind each command
+        This is where all of the command logic will be stored. It will go over
+        each enum value in ValidCommand and run the corresponding logic behind
+        each command
         */
 
         ostringstream travelMsg;
@@ -239,10 +261,8 @@ void Game::gameLoop(Game& game) const {
             game.setNextFlag(false);
             game.setMenuFlag(false);
             game.setShipFlag(true);
-            planetSystem.run(game);
             break;
         case ValidCommand::ReturnToShip:
-            ship.returnToShip(game);
             game.setPlanetFlag(false);
             game.setShipFlag(true);
             break;
@@ -250,13 +270,12 @@ void Game::gameLoop(Game& game) const {
             game.saveGame();
             break;
         case ValidCommand::Scan:
-            game.setBodyOutput(activePlanet.describe() + activePlanet.listRocks());
+            game.setBodyOutput(activePlanet.describe() +
+                               activePlanet.listRocks());
             game.setErrorOutput("Scan complete. Resources listed.");
             break;
         case ValidCommand::ShipExit:
-            ship.shipExit(game); 
-            game.setPlanetFlag(true);
-            game.setShipFlag(false);
+            game.setGameOverFlag(true);
             break;
         case ValidCommand::ShipMainMenu:
             menu.setMenu(game);
@@ -273,23 +292,18 @@ void Game::gameLoop(Game& game) const {
             planetSystem.generatePlanets(20, allGameRocks);
             break;
         case ValidCommand::Travel:
-        {
-            const auto& input = command.getInput();
-
-            if (input.size() >= 3)
-            {
-                int choice = stoi(input[2]);
-                ship.travelToPlanet(game, choice);
-                game.setPlanetFlag(true);
-                game.setShipFlag(false);
-                break;
-            }
-            else
-            {
-                game.setErrorOutput("ERR) Invalid planet number. Type 1, 2, oe 3.");
-            }
+            index = stoi(input[2]) - 1;
+            cout << index << endl;
+            cout << planetSystem.getPlanetAtIndex(index).getName();
+            travelMsg << "You are now orbiting planet "
+                      << planetSystem.getPlanetAtIndex(index).getName()
+                      << planetSystem.getPlanetAtIndex(index).describe()
+                      << endl;
+            activePlanet = planetSystem.getPlanetAtIndex(index);
+            game.setBodyOutput(travelMsg.str());
+            game.setPlanetFlag(true);
+            game.setShipFlag(false);
             break;
-        }
         default:
             error = "ERR: PLease enter a valid input\n\n";
             game.setErrorOutput(error);
@@ -297,5 +311,4 @@ void Game::gameLoop(Game& game) const {
         }
         game.clearScreen(); // Clear screen before start of next loop iteration
     }
-
 }
