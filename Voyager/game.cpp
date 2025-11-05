@@ -4,12 +4,33 @@
 #include "ship.h"
 #include "planet.h"
 #include "game.h"
+#include "Rock.h"  
+
 
 // Standard C++ libraries
 #include <iostream>
+#include <vector> 
 
 using namespace std;
             
+// Function implementation for Rock class
+std::vector<Rock> createMasterRockList() {
+    std::cout << "Creating master rock list from code..." << std::endl;
+    std::vector<Rock> allRocks;
+
+    // Rock(name, description, elementType, value, resourceYielded, yieldAmount)
+    allRocks.push_back(Rock("Basalt Shard", "A dark, fine-grained volcanic rock.", "Volcanic", 10, "Iron", 5));
+    allRocks.push_back(Rock("Pumice Stone", "A very light and porous volcanic rock.", "Volcanic", 5, "Sulfur", 10));
+    allRocks.push_back(Rock("Iron Ore", "A rusty-red rock, heavy with metal.", "Metallic", 25, "Iron", 20));
+    allRocks.push_back(Rock("Ice Chunk", "A chunk of frozen, murky water.", "Ice", 1, "Water", 10));
+    allRocks.push_back(Rock("Sandstone", "A common sedimentary rock.", "Desert", 2, "Silicon", 3));
+    allRocks.push_back(Rock("Petrified Wood", "Ancient wood turned to stone.", "Forest", 15, "Carbon", 10));
+    allRocks.push_back(Rock("Barren Stone", "A simple, useless rock.", "Barren", 0, "Gravel", 1));
+
+    std::cout << "Successfully created " << allRocks.size() << " rocks." << std::endl;
+    return allRocks;
+}
+
 // Function implementation for Game class
 
 Game::Game(): 
@@ -19,9 +40,9 @@ Game::Game():
     onMenu(false), 
     onShip(false), 
     onPlanet(false),
-    next(false), 
+    gameOver(false), 
     saved(false),
-    gameOver(false) {}
+    next(false) {}
 
 /*
 Setters and getters for all outputs and game state flags
@@ -56,7 +77,7 @@ These will be used in the game loop to manage core logic behind
 commands
 */
 
-Game::ValidCommand Game::checkCommand(Command& command, Game& game) const {
+Game::ValidCommand Game::checkCommand(const Command& command,const Game& game) const {
     const auto& input = command.getInput();
     if (input.empty() && !game.getNextFlag()) {
         return ValidCommand::Error;
@@ -72,6 +93,9 @@ Game::ValidCommand Game::checkCommand(Command& command, Game& game) const {
     }
     else if (input.size() == 1 && input[0] == "exit" && game.getMenuFlag()) {
         return ValidCommand::Exit;
+    }
+    else if (input.size() >= 3 && input[0] == "inspect" && input[1] == "rock") {
+        return ValidCommand::InspectRock;
     }
     else if (input.size() == 1 && input[0] == "instructions" && game.getMenuFlag()) {
         return ValidCommand::Instructions;
@@ -146,9 +170,7 @@ void Game::displayOutput() const {
     cout << output;                            
 }
 
-void Game::saveGame() {
-
-}
+void Game::saveGame() {}
 
 /*
 The game loop is the heart of the game. It will handle all of the displaying of outputs as well as the logic behind each command.
@@ -159,6 +181,9 @@ void Game::gameLoop(Game& game) const {
     Menu menu;
     Command command;
     Ship ship;
+    PlanetSystem planetSystem;
+    vector<Rock> allGameRocks = createMasterRockList();
+    Planet activePlanet;
 
     string error; // string to store error messages
 
@@ -180,6 +205,10 @@ void Game::gameLoop(Game& game) const {
         enum value in ValidCommand and run the corresponding logic behind each command
         */
 
+        ostringstream travelMsg;
+        const auto& input = command.getInput();
+        int index;
+
         ValidCommand passedCommand = game.checkCommand(command, game);
         switch (passedCommand) {
         case ValidCommand::Collect:
@@ -196,6 +225,8 @@ void Game::gameLoop(Game& game) const {
         case ValidCommand::Exit:
             game.setGameOverFlag(true);
             break;
+        case ValidCommand::InspectRock:
+            break;
         case ValidCommand::Instructions:
             menu.setInstructions(game);
             break;
@@ -208,7 +239,7 @@ void Game::gameLoop(Game& game) const {
             game.setNextFlag(false);
             game.setMenuFlag(false);
             game.setShipFlag(true);
-            game.setBodyOutput("We should now be in the game");
+            planetSystem.run(game);
             break;
         case ValidCommand::ReturnToShip:
             ship.returnToShip(game);
@@ -217,7 +248,10 @@ void Game::gameLoop(Game& game) const {
             break;
         case ValidCommand::Save:
             game.saveGame();
+            break;
         case ValidCommand::Scan:
+            game.setBodyOutput(activePlanet.describe() + activePlanet.listRocks());
+            game.setErrorOutput("Scan complete. Resources listed.");
             break;
         case ValidCommand::ShipExit:
             ship.shipExit(game); 
@@ -236,6 +270,7 @@ void Game::gameLoop(Game& game) const {
             game.setMenuFlag(false);
             game.setNextFlag(true);
             menu.setIntro(game);
+            planetSystem.generatePlanets(20, allGameRocks);
             break;
         case ValidCommand::Travel:
         {

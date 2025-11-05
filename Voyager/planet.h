@@ -1,24 +1,19 @@
 #ifndef PLANET_H
 #define PLANET_H
 // Standard C++ libraries
+#include <algorithm>
+#include <iomanip>
 #include <iostream>
+#include <memory>
+#include <random>
 #include <sstream>
 #include <string>
-#include <regex>
 #include <vector>
-#include <random>
-#include <memory>
-#include <iomanip>
-#include <algorithm>
 #include <array>
 
 // User created libraries
 #include "game.h"
-
-// Forward declaration of Game
-class Game;
-
-using namespace std;
+#include "rock.h"
 
 // Biomes
 enum class Biome { Desert, Ice, Ocean, Forest, Volcanic, GasGiant, Urban, Barren };
@@ -54,7 +49,7 @@ public:
     string quickRow(double fuelPerAU) const;
     string describe() const;
 
-    static string biomeToString(Biome b);
+    std::string listRocks() const; // this is the list of rocks currently on the planet
 };
 
 //Planet generator

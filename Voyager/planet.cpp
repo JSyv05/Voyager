@@ -1,16 +1,19 @@
 #include "planet.h"
-#include "menu.h"
+#include "rock.h"
 #include "command.h"
 #include "game.h"
 
-#include <iostream>
-#include <iomanip>
 #include <cstdlib>
 #include <ctime>
+#include <iomanip>
+#include <iostream>
 #include <sstream>
 #include <cmath>
 
+
 using namespace std;
+
+Planet::Planet() = default;
 
 // Planet Class Implementation
 // Default constructor 
@@ -37,13 +40,40 @@ double Planet::travelFuelCost(double fuelPerAU) const
 string Planet::quickRow(double fuelPerAU) const
 {
     ostringstream ss;
-    ss << "[" << id << "]" << name
-        << " | " << biomeToString(biome)
-        << " | " << fixed << setprecision(2) << distanceAU << " AU"
-        << " | Fuel Cost: " << travelFuelCost(fuelPerAU);
+    ss << "\n--- " << name_ << " ---\n";
+    ss << "Biome: " << biomeToString(biome_) << "\n";
+    ss << "Distance: " << fixed << setprecision(2) << distanceAU_ << " AU\n";
+    ss << "Loot Level: " << lootLevel_ << "\n";
+    ss << "Surface Conditions: "
+       << (biome_ == Biome::Volcanic   ? "Molten terrain and unstable geysers."
+           : biome_ == Biome::Ocean    ? "Vast seas with strong currents."
+           : biome_ == Biome::Forest   ? "Dense vegetation and humid climate."
+           : biome_ == Biome::Urban    ? "Ruins of an advanced civilization."
+           : biome_ == Biome::Ice      ? "Frozen wastelands under dim sunlight."
+           : biome_ == Biome::GasGiant ? "Massive storms and crushing pressure."
+           : biome_ == Biome::Desert   ? "Endless dunes and scorching heat."
+                                       : "Barren and lifeless terrain.")
+       << "\n";
     return ss.str();
 }
 
+
+void Planet::populateRocks(const vector<Rock>& allRocksInGame) {
+    // Get the planet's biome as a string
+    string biomeName = Planet::biomeToString(this->biome_);
+
+    // Clear any old rocks
+    this->rocksOnPlanet_.clear();
+
+    // Loop through the master list of all rocks
+    for (const Rock& rock : allRocksInGame) {
+
+        // If the rock's type matches the planet's biome, add it
+        if (rock.getElementType() == biomeName) {
+            this->rocksOnPlanet_.push_back(rock);
+        }
+    }
+}
 // Returns a describe of the planet
 string Planet::describe() const
 {
@@ -91,12 +121,9 @@ string PlanetGenerator::generateName()
     vector<string> suffixes = { "-1b", "-3c", "-Prime", "-Alpha", "-Vega", "-9", "-Tau" };
     uniform_int_distribution<int> num(10, 999);
 
-    string pre = prefixes[rng() % prefixes.size()];
-    string suf = suffixes[rng() % suffixes.size()];
-
-    ostringstream name;
-    name << pre << "-" << num(rng) << suf;
-    return name.str();
+void Planet::travelToPlanet(Command& command) {
+    const auto& input = command.getInput();
+    
 }
 
 // Create a planet with random attributes and unqiue coordinates
@@ -105,10 +132,10 @@ Planet PlanetGenerator::generatePlanet(int index, const vector<array<double, 3>>
     uniform_real_distribution<double> distAU(0.5, 10.0);
     double distance = distAU(rng);
 
-    uniform_int_distribution<int> distBiome(0, 7);
-    Biome biome = static_cast<Biome>(distBiome(rng));
+    std::uniform_int_distribution<int> distBiome(0, 7);
+    auto biome = static_cast<Biome>(distBiome(rng));
 
-    uniform_int_distribution<int> distLoot(1, 10);
+    std::uniform_int_distribution<int> distLoot(1, 10);
     int lootLevel = distLoot(rng);
 
     uniform_real_distribution<double> distCoord(-50.0, 50.0);
@@ -162,6 +189,46 @@ vector<Planet> PlanetSystem::run()
         usedCoords.push_back(p.getCoordinates());
         planets.push_back(move(p));
     }
+    else {
+        for (const Rock& rock : this->rocksOnPlanet_) {
+            // We can't use rock.inspect() because it prints to cout.
+            // We'll build the string manually.
+            ss << "  - " << rock.getName() << " (" << rock.getElementType()
+               << ")\n";
+        }
+    }
+    return ss.str();
+}
 
-    return planets;
+vector<Planet> PlanetSystem::getPlanetList() const { return planetList; }
+Planet PlanetSystem::getPlanetAtIndex(int index) const{ return planetList[index]; }
+
+// PlanetSystem - Random generation and exploration
+void PlanetSystem::run(Game& g) {
+
+    double fuelPerAU = 2.5;
+
+    // --- Display generated planets ---
+    ostringstream planetDisplay;
+    planetDisplay << "--Nearby Planets Detected--\n";
+    for (const auto& p : planetList)
+        planetDisplay << p.quickRow(fuelPerAU) << "\n";
+
+    planetDisplay << "\nType 'travel to' followed by the index of the planet to travel there\n\n";
+
+    g.setBodyOutput(planetDisplay.str());
+    g.setErrorOutput("");
+    g.displayOutput();
+}
+
+void PlanetSystem::generatePlanets(int number, const std::vector<Rock>& allRocks) {
+    PlanetGenerator generator;
+
+    for (int i = 0; i < number; ++i) {
+        Planet p = generator.generatePlanet(i + 1);
+
+        p.populateRocks(allRocks);
+
+        planetList.push_back(std::move(p));
+    }
 }
