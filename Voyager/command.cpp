@@ -8,6 +8,18 @@
 
 using namespace std;
 
+/*
+The command class will be handling taking in inputs and breaking them up into tokens
+Then it will let the game read the command.
+*/
+
+/*
+setInput will first clear the command buffer of the previous command, 
+get the input from the player, and then using a while loop, tokenize and
+set the command to all lowercase, making it easier to implement commands
+in the game class, and then push the command to a vector.
+*/
+
 void Command::setInput() {
     command.clear(); // Empties command vector of previous commands
     std::cout << "> ";             // Input field
@@ -27,4 +39,8 @@ void Command::setInput() {
         }
 }
 
-vector<string> Command::getInput() { return command; }
+/*
+Returns the tokenized command for the command interpreter
+*/
+
+vector<string> Command::getInput() const{ return command; }

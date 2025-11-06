@@ -1,21 +1,32 @@
 #pragma once
+
+#include <iostream>
 #include <string>
+#include <iostream>
 
 class Rock {
 public:
-    // Attributes of a rock
-    int id;
+    // Constructors
+    Rock();
+    Rock(const std::string& name, const std::string& description,
+         const std::string& elementType, int value,
+         const std::string& resourceYielded, int yieldAmount);
+
+    // Public methods
+    void inspect() const;
+
+    // Getters
+    std::string getElementType() const;
+    std::string getName() const;
+    int getValue() const;
+    std::string getResourceYielded() const;
+    int getYieldAmount() const;
+
+private:
     std::string name;
     std::string description;
-    int researchValue;
-    std::string rarity;
-
-    // Default constructor
-    Rock();
-
-    // Constructor to easily create a new rock
-    Rock(int id, std::string name, std::string desc, int value, std::string rarity);
-
-    // A function to display the rock's details
-    void displayInfo() const;
+    std::string elementType;
+    int value;
+    std::string resourceYielded;
+    int yieldAmount;
 };

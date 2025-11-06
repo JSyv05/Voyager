@@ -3,10 +3,7 @@
 title: Voyager UML
 ---
 classDiagram
-	MainMenuCommand --o Game : uses
-	PlanetCommand --o Game : uses
-	ShipCommand --o Game : uses
-	NextCommand --o Game : uses
+	ValidCommand --o Game : uses
 	Command -- Game
 	Game -- Menu : Game.onMenu
 	Game -- Ship : Game.onShip
@@ -27,6 +24,8 @@ classDiagram
 	    - onShip: bool
 	    - onPlanet: bool
 		- gameOver: bool
+		- next: bool
+		- saved: bool
 	    + Game()
 
 	    + setBodyOutput(in: const string&) const
@@ -37,6 +36,7 @@ classDiagram
 		+ setPlanetFlag(in: const bool&) const
 		+ setNextFlag(in: const bool&) const
 		+ setGameOverFlag(in: const bool&) const
+		+ setSavedFlag(in: const bool&) const
 	    + getBodyOutput() string const
 	    + getArtOutput() string const
 	    + getErrorOutput() string const
@@ -45,9 +45,8 @@ classDiagram
 		+ getPlanetFlag() bool
 		+ getNextFlag() bool
 		+ getGameOverFlag() bool
-		+ checkMenuCommand(in: Command&) MainMenuCommand
-		+ checkPlanetCommand(in: Command&) PlanetCommand
-		+ checkNextCommand(in: Command&) NextCommand
+		+ getSavedFlag() bool
+		+ ValidCommand(in: Command&) ValidCommand
 		+ clearScreen() const
 		+ displayOutput() const
 	    + gameLoop(in: Game&) const
@@ -64,7 +63,7 @@ classDiagram
 		+ setMainMenu() const
 		+ setInstructions() const
 		+ setCredits() const
-		+ showIntro() const
+		+ setIntro() const
 	}
 
 	class Ship {
@@ -97,35 +96,24 @@ classDiagram
 		- rarity: string
 		+ displayInfo() const
 	}
-	class MainMenuCommand{
-		<<Enumeration>>
-		Start
-		Load
-		Credits
-		Instructions
-		Back
-		Exit
-		Error
-	}
-	class PlanetCommand{
-		<<Enumeration>>
-		Scan
+	class ValidCommand {
 		Collect
-		Drop
-		ReturnToShip
-		Error
-	}
-	class ShipCommand{
-		<<Enumeration>>
-		Travel
-		Exit
-		Save
-		Error
-	}
-	class NextCommand{
-		<<Enumeration>>
-		Next
-		Error
+        Credits
+        Drop
+        Error
+        Exit
+        Instructions
+        Load
+        MainMenu
+        Next
+        ReturnToShip
+        Save
+        Scan
+        ShipExit
+        ShipMainMenu
+        ScanForPlanets
+        Start
+        Travel
 	}
 	class Biome{
 		<<Enumeration>>
