@@ -27,15 +27,13 @@ void Ship::setRadar(int r) { radar = r; }
 int Ship::getRadar() const { return radar; }
 
 // Scans for nerby planets
-void Ship::getNearbyPlanet(Game& game) {
+void Ship::getNearbyPlanet(Game& game,const vector<Planet>& planet_vector) {
     game.clearScreen();
 
-    PlanetSystem system;
-    vector<Planet> allPlanets = system.getPlanetList(); // generate 20
     vector<pair<double, Planet>> planetDistances;
 
     // Calculate distances from ship to each planet
-    for (const auto& planet : allPlanets) {
+    for (const auto& planet : planet_vector) {
         auto coords =
             planet.getCoordinates(); // Grabs the 3D coords of the planets
         // Calculates the differnce between the ship's and the planet's position

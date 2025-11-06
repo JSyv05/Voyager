@@ -21,7 +21,7 @@ Planet::Planet(string id, string name, double distanceAU, Biome biome, int loot,
 
 string Planet::quickRow(double fuelPerAU) const {
     ostringstream ss;
-    ss << "[" << id_ << "]" << name_ << " | " << biomeToString(biome_) << " | "
+    ss << "[" << id_ << "] " << name_ << " | " << biomeToString(biome_) << " | "
        << fixed << setprecision(2) << distanceAU_ << " AU"
        << " | Fuel Cost: " << travelFuelCost(fuelPerAU);
     return ss.str();
@@ -185,6 +185,6 @@ void PlanetSystem::generatePlanets(int number,
 
         usedCoords.push_back(p.getCoordinates());
 
-        planetList.push_back(move(p));
+        planetList.push_back(p);
     }
 }

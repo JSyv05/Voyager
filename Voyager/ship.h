@@ -30,7 +30,7 @@ public:
     int getRadar() const;
 
     // Ship actions
-    void getNearbyPlanet(Game& game);            // Scans for planets
+    void getNearbyPlanet(Game& game,const std::vector<Planet>&);            // Scans for planets
     void travelToPlanet(Game& game, int choice); // Travel/Dock at chosen planet
     void returnToShip(Game& game);               // Returns tp ship
     void shipExit(Game& game);                   // Exits ship

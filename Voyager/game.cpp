@@ -283,7 +283,7 @@ void Game::gameLoop(Game& game) const {
             game.setShipFlag(false);
             break;
         case ValidCommand::ScanForPlanets:
-            ship.getNearbyPlanet(game);
+            ship.getNearbyPlanet(game, planetSystem.getPlanetList());
             break;
         case ValidCommand::Start:
             game.setMenuFlag(false);
@@ -292,17 +292,8 @@ void Game::gameLoop(Game& game) const {
             planetSystem.generatePlanets(20, allGameRocks);
             break;
         case ValidCommand::Travel:
-            index = stoi(input[2]) - 1;
-            cout << index << endl;
-            cout << planetSystem.getPlanetAtIndex(index).getName();
-            travelMsg << "You are now orbiting planet "
-                      << planetSystem.getPlanetAtIndex(index).getName()
-                      << planetSystem.getPlanetAtIndex(index).describe()
-                      << endl;
-            activePlanet = planetSystem.getPlanetAtIndex(index);
-            game.setBodyOutput(travelMsg.str());
-            game.setPlanetFlag(true);
-            game.setShipFlag(false);
+            index = stoi(input[2]);
+            ship.travelToPlanet(game, index);
             break;
         default:
             error = "ERR: PLease enter a valid input\n\n";
