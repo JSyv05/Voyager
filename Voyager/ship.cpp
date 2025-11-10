@@ -34,12 +34,12 @@ void Ship::getNearbyPlanet(Game& game,const vector<Planet>& planet_vector) {
 
     // Calculate distances from ship to each planet
     for (const auto& planet : planet_vector) {
-        auto coords =
+        auto planet_coords =
             planet.getCoordinates(); // Grabs the 3D coords of the planets
         // Calculates the differnce between the ship's and the planet's position
-        double dx = coordinates[0] - coords[0];
-        double dy = coordinates[1] - coords[1];
-        double dz = coordinates[2] - coords[2];
+        double dx = coordinates[0] - planet_coords[0];
+        double dy = coordinates[1] - planet_coords[1];
+        double dz = coordinates[2] - planet_coords[2];
         // The Euclidean distance formula to find how the distance from the
         // planet to the ship in 3D
         double dist = sqrt(dx * dx + dy * dy + dz * dz);

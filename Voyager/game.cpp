@@ -228,6 +228,8 @@ void Game::gameLoop(Game& game) const {
         */
 
         ostringstream travelMsg;
+        string art_text; //Temp variable for ASCII art
+        string body_text; // Temp variable for body text
         const auto& input = command.getInput();
         int index;
 
@@ -261,6 +263,21 @@ void Game::gameLoop(Game& game) const {
             game.setNextFlag(false);
             game.setMenuFlag(false);
             game.setShipFlag(true);
+            art_text = R"(              `           '              '
+        .         .          ,_.-``--.                         .
+   .                  .."  ,/   ;' /  `.         +    .
+              _.-"`---._.-'  ,'   /      `.
+           ,'"-_-.-      /  ,'   /         ``---'''\-._     .
+         ,'     |_.---.````/----\              V-A001  \
+ . +   ,'   _.-"       \  /   _-""```````---._,      ___\      , .
+     .'_.-""      '    :_/_.-'                 '-.____V__\
+ . _-""                         .        '         \  |  /
+_-"   .       '  +  .              .                \ | /
+       `                                        .    \|/
+.             '       .  ' .   .       '              v      .)";
+            body_text = "The view of space is unlike anything you have seen before.\nYou feel a sense of calm wash over you.";
+            game.setBodyOutput(body_text);
+            game.setArtOutput(art_text);
             break;
         case ValidCommand::ReturnToShip:
             game.setPlanetFlag(false);
@@ -292,8 +309,16 @@ void Game::gameLoop(Game& game) const {
             planetSystem.generatePlanets(20, allGameRocks);
             break;
         case ValidCommand::Travel:
-            index = stoi(input[2]);
-            ship.travelToPlanet(game, index);
+            try {
+                index = stoi(input[2]);
+                ship.travelToPlanet(game, index);
+            } catch (const invalid_argument& e) {
+                error = "ERR: Invalid argument\n\n";
+                game.setErrorOutput(error);
+            } catch (const out_of_range& e) {
+                error = "ERR: Argument is out of range\n\n";
+                game.setErrorOutput(error);
+            }
             break;
         default:
             error = "ERR: PLease enter a valid input\n\n";

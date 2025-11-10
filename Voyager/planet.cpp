@@ -15,9 +15,9 @@ using namespace std;
 Planet::Planet() = default;
 
 // Planet Class Implementation
-Planet::Planet(string id, string name, double distanceAU, Biome biome, int loot, array<double, 3>)
+Planet::Planet(string id, string name, double distanceAU, Biome biome, int loot, array<double, 3> coords)
     : id_(move(id)), name_(move(name)), distanceAU_(distanceAU), biome_(biome),
-      lootLevel_(loot) {}
+      lootLevel_(loot), coords_(coords) {}
 
 string Planet::quickRow(double fuelPerAU) const {
     ostringstream ss;
@@ -89,10 +89,6 @@ string Planet::biomeToString(Biome b) {
         return "Barren";
     }
     return "UNKNOWN";
-}
-
-void Planet::travelToPlanet(Command& command) {
-    const auto& input = command.getInput();
 }
 
 Planet PlanetGenerator::generatePlanet(
