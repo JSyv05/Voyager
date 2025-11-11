@@ -10,16 +10,16 @@ class Game; // forward declaration
 
 class Ship {
 private:
-    array<double, 3> coordinates;      // Ship coordinates
-    vector<Planet> lastScannedPlanets; // The 3 closest planets after scanning.
-                                       // Later the ship can
-    Planet currentPlanet;              // The planet the ship at
-    bool docked;
-    bool hovering;
+    array<double, 3> coordinates;              // Ship coordinates
+    array<double, 3> previousCoordinates;      // Ship last coordinates
+    vector<Planet> lastScannedPlanets;         // The 3 closest planets after scanning.
+    Planet currentPlanet;              // The planet the ship is at
     int radar; // Number of planets from scan (default is 3)
 
 public:
     Ship();
+
+    Planet& getCurrentPlanet() { return currentPlanet; }
 
     // Coordinates
     void setCoordinates(const array<double, 3>& coords);
@@ -30,7 +30,7 @@ public:
     int getRadar() const;
 
     // Ship actions
-    void getNearbyPlanet(Game& game,const std::vector<Planet>&);            // Scans for planets
+    void getNearbyPlanet(Game& game, const std::vector<Planet>&);            // Scans for planets
     void travelToPlanet(Game& game, int choice); // Travel/Dock at chosen planet
     void returnToShip(Game& game);               // Returns tp ship
     void shipExit(Game& game);                   // Exits ship

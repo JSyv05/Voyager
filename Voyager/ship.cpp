@@ -10,11 +10,22 @@ using namespace std;
 
 // Constructor
 Ship::Ship()
-    : coordinates{0.0, 0.0, 0.0},
-      currentPlanet("NULL", "Unknown", 0.0, Biome::Barren, 0,
-                    {0, 0, 0}),               // Placeholder planet
-      docked(false), hovering(true), radar(3) // Default scan range
+    : coordinates{ 0.0, 0.0, 0.0 },
+    currentPlanet("NULL", "EARTH", 0.0, Biome::Barren, 0, { 0,0,0 }),
+    radar(3),
+    previousCoordinates{ 0.0, 0.0, 0.0 } // if still declared
 {}
+// Helper functions - Distance and fuel calcutations
+static double calcDistanceAU(const array<double, 3>& a, const array<double, 3>& b)
+{
+    double dx = a[0] - b[0], dy = a[1] - b[1], dz = a[2] - b[2];
+    return sqrt(dx * dx + dy * dy + dz * dz) / 10.0; // scale to AU
+}
+
+static double calcFuelCost(double distanceAU, double fuelPerAU)
+{
+    return distanceAU * fuelPerAU;
+}
 
 // Coord setter and getter
 void Ship::setCoordinates(const array<double, 3>& coords) {
@@ -27,46 +38,50 @@ void Ship::setRadar(int r) { radar = r; }
 int Ship::getRadar() const { return radar; }
 
 // Scans for nerby planets
-void Ship::getNearbyPlanet(Game& game,const vector<Planet>& planet_vector) {
+void Ship::getNearbyPlanet(Game& game, const vector<Planet>& planet_vector) {
     game.clearScreen();
 
+    const double fuelPerAU = 2.5;
     vector<pair<double, Planet>> planetDistances;
 
-    // Calculate distances from ship to each planet
-    for (const auto& planet : planet_vector) {
-        auto coords =
-            planet.getCoordinates(); // Grabs the 3D coords of the planets
-        // Calculates the differnce between the ship's and the planet's position
-        double dx = coordinates[0] - coords[0];
-        double dy = coordinates[1] - coords[1];
-        double dz = coordinates[2] - coords[2];
-        // The Euclidean distance formula to find how the distance from the
-        // planet to the ship in 3D
-        double dist = sqrt(dx * dx + dy * dy + dz * dz);
-
-        planetDistances.emplace_back(
-            dist, planet); // Stores each planet together with calculated
-                           // distance and its name
+   // Calcute all distances once
+    for (const auto& p : planet_vector) 
+    {
+        double dAU = calcDistanceAU(coordinates, p.getCoordinates());
+        planetDistances.push_back({ dAU, p });
     }
 
-    // Sort planets by ascending order by distance and begins the closest planet
+    // Sort planets by ascending distance
     sort(planetDistances.begin(), planetDistances.end(),
-         [](const auto& a, const auto& b) { return a.first < b.first; });
+        [](const auto& a, const auto& b) { return a.first < b.first; });
 
     lastScannedPlanets.clear();
-    for (int i = 0; i < 3 && i < static_cast<int>(planetDistances.size()); ++i)
-        lastScannedPlanets.push_back(planetDistances[i].second);
 
-    // Display the closest 3 planets
+    // Add the 3 closest planets
+    int count = min(radar, (int)planetDistances.size());
+    for (int i = 0; i < count; ++i)
+    {
+        lastScannedPlanets.push_back(planetDistances[i].second);
+    }
+
+    // Include current planet after first travel
+    bool hasTraveledBefore = (currentPlanet.getName() != "EARTH");
+    if (hasTraveledBefore) { lastScannedPlanets.push_back(currentPlanet); }
+
+    // Display
     ostringstream display;
     display << "--Nearest Planets Detected--\n\n";
-    double fuelPerAU = 2.5;
-    for (int i = 0; i < static_cast<int>(lastScannedPlanets.size()); ++i)
-        display << "(" << (i + 1) << ") "
-                << lastScannedPlanets[i].quickRow(fuelPerAU) << "\n";
+    for (int i = 0; i < count; ++i) {
+        const Planet& p = planetDistances[i].second;
+        double fuelCost = calcFuelCost(planetDistances[i].first, fuelPerAU);
+        bool isCurrent = (p.getName() == currentPlanet.getName());
 
-    display << "\n(Type 'travel to 1', 'travel to 2', or 'travel to 3' to "
-               "visit a planet.)";
+        display << "(" << (i + 1) << ") "
+            << p.quickRow(planetDistances[i].first, fuelCost);
+        if (isCurrent)
+            display << "  <-- (You Are Here)";
+        display << "\n";
+    }
 
     game.setBodyOutput(display.str());
     game.setErrorOutput("");
@@ -85,17 +100,25 @@ void Ship::travelToPlanet(Game& game, int choice) {
         return;
     }
 
-    // Set coords to planet and docks on planet
-    currentPlanet = lastScannedPlanets[choice - 1];
-    setCoordinates(currentPlanet.getCoordinates());
-    docked = true;
-    hovering = false;
+    Planet destination = lastScannedPlanets[choice - 1];
+    const auto& destCoords = destination.getCoordinates();
+
+    // Calculate travel stats
+    double distanceAU = calcDistanceAU(coordinates, destCoords);
+    double fuelPerAU = 2.5;
+    double fuelCost = calcFuelCost(distanceAU, fuelPerAU);
+
+    previousCoordinates = coordinates;
+    coordinates = destCoords;
+    currentPlanet = destination;
 
     ostringstream msg;
-    msg << "Docking at " << currentPlanet.getName() << ".\n\n";
+    msg << "Traveling to " << currentPlanet.getName() << "...\n";
+    msg << "Distance: " << std::fixed << std::setprecision(2) << distanceAU << " AU\n";
+    msg << "Fuel Used: " << fuelCost << "\n\n";
+    msg << "Docking at " << currentPlanet.getName() << ".\n";
     msg << currentPlanet.describe();
-    msg << "\nType 'exit ship' to exit to the ship and back into explore the "
-           "planet";
+    msg << "\n(Type 'exit ship' to step out onto the surface.)";
 
     game.clearScreen();
     game.setBodyOutput(msg.str());
@@ -105,20 +128,6 @@ void Ship::travelToPlanet(Game& game, int choice) {
 
 // Return to ship. Plus undock and hover
 void Ship::returnToShip(Game& game) {
-    // checks if the ship is docked to use them command
-    if (!docked) {
-        game.setErrorOutput("ERR) You are not docked to any planet.");
-        game.displayOutput();
-        return;
-    }
-
-    // Lift slightly above current planet
-    // auto p = currentPlanet.getCoordinates();
-    // array<double, 3> hoverCoords = { p[0], p[1] + 10.0, p[2] };
-    // setCoordinates(hoverCoords);
-    // docked = false;
-    // hovering = true;
-
     ostringstream msg;
     msg << "You return to your ship and begin pre-flight checks";
     msg << "The ship is now ready for takeoff.\n\n";
@@ -131,18 +140,11 @@ void Ship::returnToShip(Game& game) {
 }
 
 void Ship::shipExit(Game& game) {
-    // checks if the ship is docked to use them command
-    if (!docked) {
-        game.setErrorOutput("ERR) You are not docked to any planet.");
-        game.displayOutput();
-        return;
-    }
-
     ostringstream msg;
     msg << "You step out onto the surface of " << currentPlanet.getName()
         << ".\n";
     msg << "The environment is as vast as it is mysterious.\n\n";
-    msg << "\n(Type 'return to ship' to enter your ship";
+    //msg << "\n(Type 'return to ship' to enter your ship";
 
     game.clearScreen();
     game.setBodyOutput(msg.str());

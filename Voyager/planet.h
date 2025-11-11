@@ -14,6 +14,8 @@
 // User created libraries
 #include "game.h"
 #include "rock.h"
+#include "npc.h"
+
 
 // Biomes
 enum class Biome {
@@ -37,6 +39,7 @@ private:
     int lootLevel_;
     std::vector<Rock> rocksOnPlanet_; // Rocks available on the planet
     std::array<double, 3> coords_;
+    vector<NPC> npcs_;
 
 public:
     Planet();
@@ -52,7 +55,7 @@ public:
 
     double travelFuelCost(double fuelPerAU) const;
 
-    std::string quickRow(double fuelPerAU) const;
+    std::string quickRow(double fuelPerAU, double distanceAU) const;
     std::string describe() const;
 
     void travelToPlanet(Command&);
@@ -65,6 +68,11 @@ public:
 
     std::string
     listRocks() const; // this is the list of rocks currently on the planet
+    
+    const vector<NPC>& getNPCs() const { return npcs_; }
+    void populateNPCs(int count);
+    string listNPCs() const;
+    string talkToNPC(int index) const;
 };
 
 // PlanetSysterm will handle displaying and navigating planets
