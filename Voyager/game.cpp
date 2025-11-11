@@ -8,6 +8,7 @@
 
 // Standard C++ libraries
 #include <iostream>
+#include <sstream>
 #include <vector>
 
 using namespace std;
@@ -124,7 +125,7 @@ Game::ValidCommand Game::checkCommand(const Command& command,
         return ValidCommand::Next;
     }
     else if ((input.size() >= 3 && input[0] == "return" && input[1] == "to" &&
-              input[3] == "ship") &&
+              input[2] == "ship") &&
              game.getPlanetFlag()) {
         return ValidCommand::ReturnToShip;
     }
@@ -155,7 +156,7 @@ Game::ValidCommand Game::checkCommand(const Command& command,
              game.getMenuFlag()) {
         return ValidCommand::Start;
     }
-    else if (input.size() >= 3 && input[0] == "travel" && input[1] == "to" &&
+    else if (input.size() >= 3 && input[0] == "travel" &&
              game.getShipFlag()) {
         return ValidCommand::Travel;
     }
@@ -230,6 +231,7 @@ void Game::gameLoop(Game& game) const {
         ostringstream travelMsg;
         string art_text; //Temp variable for ASCII art
         string body_text; // Temp variable for body text
+        array<double, 3> position;
         const auto& input = command.getInput();
         int index;
 
@@ -310,8 +312,21 @@ _-"   .       '  +  .              .                \ | /
             break;
         case ValidCommand::Travel:
             try {
-                index = stoi(input[2]);
-                ship.travelToPlanet(game, index);
+                if (input[1] == "-d" || input[1] == "--destination") {
+                    index = stoi(input[2]);
+                    ship.travelToPlanet(game, index);
+                    game.setPlanetFlag(true);
+                }
+                else if (input[1] == "-p" || input[1] == "--position") {
+
+                    position[0] = stoi(input[2]);
+                    position[1] = stoi(input[3]);
+                    position[2] = stoi(input[4]);
+                    ship.setCoordinates(position);
+                    travelMsg << "set coordinates to (" << position[0] << ", "
+                              << position[1] << ", " <<position[2] << ",)"; 
+                    game.setBodyOutput(travelMsg.str());
+                }
             } catch (const invalid_argument& e) {
                 error = "ERR: Invalid argument\n\n";
                 game.setErrorOutput(error);
