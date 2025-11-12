@@ -130,10 +130,12 @@
     <ClCompile Include="planet.cpp" />
     <ClCompile Include="rock.cpp" />
     <ClCompile Include="ship.cpp" />
+    <ClCompile Include="inventory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="command.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="inventoryh.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="planet.h" />
     <ClInclude Include="rock.h" />

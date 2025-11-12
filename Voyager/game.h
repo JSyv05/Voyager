@@ -50,6 +50,7 @@ private:
         ScanForPlanets,
         Start,
         Travel,
+        Inventory,
     };
 public:
     Game(); // Default constructor
