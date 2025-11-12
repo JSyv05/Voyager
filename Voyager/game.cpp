@@ -9,6 +9,7 @@
 
 // Standard C++ libraries
 #include <iostream>
+#include <sstream>
 #include <vector>
 #include <sstream>
 #include <array>
@@ -160,7 +161,7 @@ Game::ValidCommand Game::checkCommand(const Command& command,
              game.getMenuFlag()) {
         return ValidCommand::Start;
     }
-    else if (input.size() >= 3 && input[0] == "travel" && input[1] == "to" &&
+    else if (input.size() >= 3 && input[0] == "travel" &&
              game.getShipFlag()) {
         return ValidCommand::Travel;
     }
@@ -238,6 +239,7 @@ void Game::gameLoop(Game& game) const {
         ostringstream travelMsg;
         string art_text; //Temp variable for ASCII art
         string body_text; // Temp variable for body text
+        array<double, 3> position;
         const auto& input = command.getInput();
         int index;
 
