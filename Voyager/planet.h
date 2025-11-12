@@ -36,6 +36,7 @@ private:
     Biome biome_;
     int lootLevel_;
     std::vector<Rock> rocksOnPlanet_; // Rocks available on the planet
+    // Plants ToDo: declare memory for plantsOnPlanet_;
     std::array<double, 3> coords_;
 
 public:
@@ -65,6 +66,8 @@ public:
 
     std::string
     listRocks() const; // this is the list of rocks currently on the planet
+
+    // Plants ToDo: add method definitions to create the flora on a planet & to display the flora on a planet
 };
 
 // PlanetSysterm will handle displaying and navigating planets

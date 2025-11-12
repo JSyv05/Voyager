@@ -128,7 +128,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menu.cpp" />
     <ClCompile Include="planet.cpp" />
-    <ClCompile Include="Plants.cpp" />
+    <ClCompile Include="plants.cpp" />
     <ClCompile Include="rock.cpp" />
     <ClCompile Include="ship.cpp" />
     <ClCompile Include="inventory.cpp" />
@@ -139,7 +139,7 @@
     <ClInclude Include="inventoryh.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="planet.h" />
-    <ClInclude Include="Plants.h" />
+    <ClInclude Include="plants.h" />
     <ClInclude Include="rock.h" />
     <ClInclude Include="ship.h" />
   </ItemGroup>

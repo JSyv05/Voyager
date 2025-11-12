@@ -1,17 +1,14 @@
 #pragma once
 class Plants
 {
-// constructor Plants(enum plantName, string plantDescription)  // possibly add planet name
-
-		//string displayPlantName()
-
+        // from design subtask
+		// Methods:
+		//   constructor Plants(enum plantName, string plantDescription)
+		//    ToDo - possibly add planet name in future
+		//  string displayPlantDescription()
 		//Data structures :
-
-	//enum
-
-		//enum plantNameEnum
-
-		//string plantDescription 
+		//   enum plantNameEnum  (changing to PLANT_TYPES)
+		//   string plantDescription
+private:
+		enum PLANT_TYPES { HYDRANGEA }; // only define a single plant for now, choosing Upper Snake Case as contrast to command enum definition
 };
-
-
