@@ -13,6 +13,6 @@ Plants::Plants(PLANT_TYPES plantType, std::string plantDescription) {
 	plantType_ = plantType;
 }
 
-std::string Plants::getPlantDescription() {
+std::string Plants::displayPlantDescription() {
 	return plantDescription_;
 }
