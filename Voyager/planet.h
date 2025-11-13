@@ -58,9 +58,8 @@ public:
     std::string quickRow(double fuelPerAU) const;
     std::string describe() const;
 
-    void travelToPlanet(Command&);
-
     static std::string biomeToString(Biome b);
+
 
     void populateRocks(
         const std::vector<Rock>& allRocksInGame); // This will populate Rocks on

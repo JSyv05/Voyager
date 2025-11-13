@@ -1,6 +1,7 @@
 #ifndef SHIP_H
 #define SHIP_H
 
+#include"art.h"
 #include "planet.h"
 #include <array>
 #include <vector>
@@ -21,6 +22,10 @@ private:
 public:
     Ship();
 
+    // Planet
+
+    Planet getCurrentPlanet() const;
+
     // Coordinates
     void setCoordinates(const array<double, 3>& coords);
     array<double, 3> getCoordinates() const;
@@ -31,7 +36,7 @@ public:
 
     // Ship actions
     void getNearbyPlanet(Game& game,const std::vector<Planet>&);            // Scans for planets
-    void travelToPlanet(Game& game, int choice); // Travel/Dock at chosen planet
+    void travelToPlanet(Game& game, int choice, Art&); // Travel/Dock at chosen planet
     void returnToShip(Game& game);               // Returns tp ship
     void shipExit(Game& game);                   // Exits ship
 };

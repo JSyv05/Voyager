@@ -1,4 +1,5 @@
 // User created libraries
+#include "art.h"
 #include "game.h"
 #include "Rock.h"
 #include "command.h"
@@ -143,7 +144,8 @@ Game::ValidCommand Game::checkCommand(const Command& command,
     else if (input.size() == 1 && input[0] == "scan" && game.getPlanetFlag()) {
         return ValidCommand::Scan;
     }
-    else if (input.size() == 1 && input[0] == "exit" && game.getShipFlag()) {
+    else if (input.size() == 2 && input[0] == "exit" &&
+             input[1] == "ship" && game.getShipFlag()) {
         return ValidCommand::ShipExit;
     }
     else if (((input.size() == 1 && input[0] == "menu") ||
@@ -208,9 +210,10 @@ void Game::gameLoop(Game& game) const {
     Menu menu;
     Command command;
     Ship ship;
+    Art art;
+
     PlanetSystem planetSystem;
     vector<Rock> allGameRocks = createMasterRockList();
-    Planet activePlanet;
 
     Inventory playerInventory(20); 
     int currentPlanetIndex = -1; 
@@ -239,17 +242,16 @@ void Game::gameLoop(Game& game) const {
         ostringstream travelMsg;
         string art_text; //Temp variable for ASCII art
         string body_text; // Temp variable for body text
-        array<double, 3> position;
         const auto& input = command.getInput();
         int index;
 
         string inventoryMessage;
-
+        Planet activePlanet;
         ValidCommand passedCommand = game.checkCommand(command, game);
         switch (passedCommand) {
         case ValidCommand::Collect:
             if (currentPlanetIndex != -1) {
-                Planet activePlanet = planetSystem.getPlanetList()[currentPlanetIndex];
+                activePlanet = ship.getCurrentPlanet();
 
                 Biome planetBiome = activePlanet.getBiome();
 
@@ -387,58 +389,30 @@ void Game::gameLoop(Game& game) const {
             game.setNextFlag(false);
             game.setMenuFlag(false);
             game.setShipFlag(true);
-            art_text = R"(                 `         '         '
-       .         .           ,_.-``--.               .
-   .                  .."  ,/    ;' /   `.        +     .
-                 _.-"`---._.-'   ,'   /      `.
-               ,'"-_-.-       /   ,'   /         ``---'''\-._     .
-             ,'     |_.---.````/----\                  V-A001 \
-   . +     ,'    _.-"       \  /    _-""```````---._,      ___\     , .
-         .'_.-""     '     :_/_.-'                  '-.____V__\
-   . _-""                 .       '         \  |  /
- _-"    .      '   + .          .                 \ | /
-         `                                  .     \|/
- .          '         .   ' .    .      '           v       .)";
             body_text = "The view of space is unlike anything you have seen before.\nYou feel a sense of calm wash over you.";
+            art.setArtToShip();
             game.setBodyOutput(body_text);
-            game.setArtOutput(art_text);
+            game.setArtOutput(art.getArt());
             break;
         case ValidCommand::ReturnToShip:
             game.setPlanetFlag(false);
             game.setShipFlag(true);
+            body_text = "You return to the ship.";
+            game.setBodyOutput(body_text);
+            art.setArtToShip();
+            game.setArtOutput(art.getArt());
             break;
         case ValidCommand::Save:
             game.saveGame();
             break;
         case ValidCommand::Scan:
-            if (currentPlanetIndex != -1) {
-                Planet activePlanet = planetSystem.getPlanetList()[currentPlanetIndex];
-                game.setBodyOutput(activePlanet.describe() +
-                    activePlanet.listRocks());
-                // Plants ToDo: add call to display the flora on a planet
-                game.setBodyOutput(activePlanet.describe() + activePlanet.listPlantsOnPlanet());
-                game.setErrorOutput("Scan complete. Resources listed.");
-            }
-            else {
-                game.setErrorOutput("ERR: You must be on a planet to scan.\nThis is your ship, nothing to scan here.\n");
-            }
+            activePlanet = ship.getCurrentPlanet();
+            game.setBodyOutput(activePlanet.describe() + activePlanet.listRocks());
+            game.setErrorOutput("Scan complete. Resources listed.");
             break;
         case ValidCommand::ShipExit:
             // First, check if we are actually at a planet
-            if (currentPlanetIndex != -1) {
-                game.setShipFlag(false); 
-                game.setPlanetFlag(true); // You are now on the planet
-
-                // Give the player a message and the planet description
-                Planet activePlanet = planetSystem.getPlanetList()[currentPlanetIndex];
-                game.setArtOutput(""); // Clear the ship art
-                game.setBodyOutput("You exit the landing craft and step onto the surface.\n\n" + activePlanet.describe());
-                game.setErrorOutput("");
-            }
-            else {
-                // This happens if you're on the ship but not at a planet
-                game.setErrorOutput("ERR: You can't exit the ship, you're in deep space! Travel to a planet first.\n\n");
-            }
+            ship.shipExit(game);
             break;
         case ValidCommand::ShipMainMenu:
             menu.setMenu(game);
@@ -456,13 +430,14 @@ void Game::gameLoop(Game& game) const {
             break;
         case ValidCommand::Travel:
             try {
-                if (input[1] == "to" || input[1] == "-d" || input[1] == "--destination") {
+                if (input[1] == "-d" || input[1] == "--destination") {
                     index = stoi(input[2]);
                     if (index >= 0 && index < planetSystem.getPlanetList().size()) {
                         // If valid, travel and set all game flags
-                        ship.travelToPlanet(game, index);
+                        ship.travelToPlanet(game, index, art);
                         game.setPlanetFlag(true);
                         currentPlanetIndex = index; // <-- This is the main fix!
+                        game.setArtOutput(art.getArt());
                     }
                     else {
                         // If invalid, set an error message
