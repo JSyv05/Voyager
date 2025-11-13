@@ -36,6 +36,12 @@
     <ClCompile Include="ship.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="inventory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="art.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -54,6 +60,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ship.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inventoryh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="art.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -51,6 +51,7 @@ private:
         Start,
         Travel,
         Talk,
+        Inventory,
     };
 public:
     Game(); // Default constructor

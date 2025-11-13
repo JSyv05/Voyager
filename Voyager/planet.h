@@ -16,6 +16,7 @@
 #include "rock.h"
 #include "npc.h"
 
+#include "plants.h"
 
 // Biomes
 enum class Biome {
@@ -38,6 +39,8 @@ private:
     Biome biome_;
     int lootLevel_;
     std::vector<Rock> rocksOnPlanet_; // Rocks available on the planet
+    // Plants ToDo: declare memory for plantsOnPlanet_;
+    std::vector<Plants> plantsOnPlanet_; 
     std::array<double, 3> coords_;
     vector<NPC> npcs_;
 
@@ -58,9 +61,8 @@ public:
     std::string quickRow(double fuelPerAU, double distanceAU) const;
     std::string describe() const;
 
-    void travelToPlanet(Command&);
-
     static std::string biomeToString(Biome b);
+
 
     void populateRocks(
         const std::vector<Rock>& allRocksInGame); // This will populate Rocks on
@@ -73,6 +75,10 @@ public:
     void populateNPCs(int count);
     string listNPCs() const;
     string talkToNPC(int index) const;
+
+    // Plants ToDo: add method definitions to create the flora on a planet & to display the flora on a planet
+    void populatePlantsOnPlanet();
+    std::string listPlantsOnPlanet();
 };
 
 // PlanetSysterm will handle displaying and navigating planets
