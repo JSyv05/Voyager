@@ -50,6 +50,7 @@ private:
         ScanForPlanets,
         Start,
         Travel,
+        Talk,
         Inventory,
     };
 public:
@@ -102,7 +103,7 @@ public:
     input. From there it will handle all game logic, and then clear
     */
 
-    void gameLoop(Game&) const;
+    void gameLoop(Game&) ;
 };
 
 #endif

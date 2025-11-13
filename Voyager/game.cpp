@@ -24,24 +24,24 @@ std::vector<Rock> createMasterRockList() {
 
     // Rock(name, description, elementType, value, resourceYielded, yieldAmount)
     allRocks.push_back(Rock("Basalt Shard",
-                            "A dark, fine-grained volcanic rock.", "Volcanic",
-                            10, "Iron", 5));
+        "A dark, fine-grained volcanic rock.", "Volcanic",
+        10, "Iron", 5));
     allRocks.push_back(Rock("Pumice Stone",
-                            "A very light and porous volcanic rock.",
-                            "Volcanic", 5, "Sulfur", 10));
+        "A very light and porous volcanic rock.",
+        "Volcanic", 5, "Sulfur", 10));
     allRocks.push_back(Rock("Iron Ore", "A rusty-red rock, heavy with metal.",
-                            "Metallic", 25, "Iron", 20));
+        "Metallic", 25, "Iron", 20));
     allRocks.push_back(Rock("Ice Chunk", "A chunk of frozen, murky water.",
-                            "Ice", 1, "Water", 10));
+        "Ice", 1, "Water", 10));
     allRocks.push_back(Rock("Sandstone", "A common sedimentary rock.", "Desert",
-                            2, "Silicon", 3));
+        2, "Silicon", 3));
     allRocks.push_back(Rock("Petrified Wood", "Ancient wood turned to stone.",
-                            "Forest", 15, "Carbon", 10));
+        "Forest", 15, "Carbon", 10));
     allRocks.push_back(Rock("Barren Stone", "A simple, useless rock.", "Barren",
-                            0, "Gravel", 1));
+        0, "Gravel", 1));
 
     std::cout << "Successfully created " << allRocks.size() << " rocks."
-              << std::endl;
+        << std::endl;
     return allRocks;
 }
 
@@ -49,8 +49,9 @@ std::vector<Rock> createMasterRockList() {
 
 Game::Game()
     : art_output(""), body_output(""), error_output(""), onMenu(false),
-      onShip(false), onPlanet(false), gameOver(false), saved(false),
-      next(false) {}
+    onShip(false), onPlanet(false), gameOver(false), saved(false),
+    next(false) {
+}
 
 /*
 Setters and getters for all outputs and game state flags
@@ -86,13 +87,13 @@ commands
 */
 
 Game::ValidCommand Game::checkCommand(const Command& command,
-                                      const Game& game) const {
+    const Game& game) const {
     const auto& input = command.getInput();
     if (input.empty() && !game.getNextFlag()) {
         return ValidCommand::Error;
     }
     else if (input.size() >= 1 && input[0] == "collect" &&
-             game.getPlanetFlag()) {
+        game.getPlanetFlag()) {
         return ValidCommand::Collect;
     }
     else if (input.size() == 1 && input[0] == "credits" && game.getMenuFlag()) {
@@ -111,24 +112,24 @@ Game::ValidCommand Game::checkCommand(const Command& command,
         return ValidCommand::Inventory;
     }
     else if (input.size() == 1 && input[0] == "instructions" &&
-             game.getMenuFlag()) {
+        game.getMenuFlag()) {
         return ValidCommand::Instructions;
     }
     else if (((input.size() == 1 && input[0] == "back") ||
-              (input.size() == 1 && input[0] == "menu") ||
-              (input.size() >= 2 && input[0] == "main" &&
-               input[1] == "menu")) &&
-             game.getMenuFlag()) {
+        (input.size() == 1 && input[0] == "menu") ||
+        (input.size() >= 2 && input[0] == "main" &&
+            input[1] == "menu")) &&
+        game.getMenuFlag()) {
         return ValidCommand::MainMenu;
     }
     else if (((input.size() == 1 && input[0] == "load") ||
-              (input.size() >= 2 && input[0] == "load" &&
-               input[1] == "game")) &&
-             game.getMenuFlag()) {
+        (input.size() >= 2 && input[0] == "load" &&
+            input[1] == "game")) &&
+        game.getMenuFlag()) {
         return ValidCommand::Load;
     }
     else if ((input.empty() || (input.size() == 1 && input[0] == "next")) &&
-             game.getNextFlag()) {
+        game.getNextFlag()) {
         return ValidCommand::Next;
     }
     else if ((input.size() == 3 && input[0] == "return" && input[1] == "to" &&
@@ -137,11 +138,11 @@ Game::ValidCommand Game::checkCommand(const Command& command,
         return ValidCommand::ReturnToShip;
     }
     else if ((input.size() == 1 && input[0] == "save") ||
-             (input.size() >= 2 && input[0] == "save" && input[1] == "game") &&
-                 !game.getMenuFlag()) {
+        (input.size() >= 2 && input[0] == "save" && input[1] == "game") &&
+        !game.getMenuFlag()) {
         return ValidCommand::Save;
     }
-    else if (input.size() == 1 && input[0] == "scan" && game.getPlanetFlag()) {
+    else if (input.size() >= 2 && input[0] == "scan" && input[1] == "-a" && game.getPlanetFlag()) {
         return ValidCommand::Scan;
     }
     else if (input.size() == 2 && input[0] == "exit" &&
@@ -154,18 +155,25 @@ Game::ValidCommand Game::checkCommand(const Command& command,
         game.getShipFlag() && game.getSavedFlag()) {
         return ValidCommand::ShipMainMenu;
     }
-    else if (input.size() == 1 && input[0] == "scan" && game.getShipFlag()) {
+    else if (input.size() >= 2 && input[0] == "scan" && input[1] == "-p" && game.getShipFlag()) {
         return ValidCommand::ScanForPlanets;
     }
+    else if (input.size() == 1 && input[0] == "scan") {
+        return ValidCommand::Error; // or a special Help command if you want
+    }
     else if (((input.size() == 1 && input[0] == "start") ||
-              (input.size() >= 2 && input[0] == "start" &&
-               input[1] == "game")) &&
-             game.getMenuFlag()) {
+        (input.size() >= 2 && input[0] == "start" &&
+            input[1] == "game")) &&
+        game.getMenuFlag()) {
         return ValidCommand::Start;
     }
     else if (input.size() >= 3 && input[0] == "travel" &&
              game.getShipFlag()) {
         return ValidCommand::Travel;
+    }
+    else if (input.size() >= 3 && input[0] == "talk" && input[1] == "to")
+    {
+        return ValidCommand::Talk;
     }
     else {
         return ValidCommand::Error;
@@ -386,8 +394,8 @@ void Game::gameLoop(Game& game) const {
             menu.setMenu(game);
             break;
         case ValidCommand::Next:
-            game.setNextFlag(false);
             game.setMenuFlag(false);
+            game.setNextFlag(true);
             game.setShipFlag(true);
             body_text = "The view of space is unlike anything you have seen before.\nYou feel a sense of calm wash over you.";
             art.setArtToShip();
@@ -407,7 +415,9 @@ void Game::gameLoop(Game& game) const {
             break;
         case ValidCommand::Scan:
             activePlanet = ship.getCurrentPlanet();
-            game.setBodyOutput(activePlanet.describe() + activePlanet.listRocks());
+            game.setBodyOutput(activePlanet.describe() +
+                               activePlanet.listRocks() +
+                               activePlanet.listPlantsOnPlanet());
             game.setErrorOutput("Scan complete. Resources listed.");
             break;
         case ValidCommand::ShipExit:
@@ -420,7 +430,7 @@ void Game::gameLoop(Game& game) const {
             game.setShipFlag(false);
             break;
         case ValidCommand::ScanForPlanets:
-            ship.getNearbyPlanet(game, planetSystem.getPlanetList());
+            playerShip.getNearbyPlanet(game, planetSystem.getPlanetList());
             break;
         case ValidCommand::Start:
             game.setMenuFlag(false);
@@ -466,6 +476,19 @@ void Game::gameLoop(Game& game) const {
                 game.setErrorOutput(error);
             }
             break;
+        case ValidCommand::Talk:
+        {
+            int npcIndex = 0;
+            try { npcIndex = stoi(input[2]); }
+            catch (...) { npcIndex = 0; }
+
+            ostringstream msg;
+            msg << playerShip.getCurrentPlanet().talkToNPC(npcIndex) << "\n";
+
+            setBodyOutput(msg.str());
+            setErrorOutput("");
+            break;
+        }
         default:
             error = "ERR: PLease enter a valid input\n\n";
             game.setErrorOutput(error);
