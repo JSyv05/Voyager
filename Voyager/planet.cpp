@@ -92,6 +92,31 @@ string Planet::biomeToString(Biome b) {
 }
 
 // Plants ToDo: add methods to create the flora on a planet & to display the flora on a planet
+        // void populatePlantsOnPlanet();
+        // std::string listPlanetsOnPlanet();
+void Planet::populatePlantsOnPlanet() {
+    if (Planet::biome_ != Biome::Forest) {
+        return;   // flora only exists on Forest planets
+    }
+    else {
+        // push a hydrangea on this planet
+        plantsOnPlanet_.push_back(Plants(Plants::HYDRANGEA, "A lovely pink hydrangea"));
+    }
+}
+
+std::string Planet::listPlantsOnPlanet() {
+    ostringstream ss;
+    ss << "\n--- Plants on the planet ---\n";
+    if (plantsOnPlanet_.empty()) {
+        ss << "No Flora found.\n";
+    }
+    else {
+        for (Plants& plant : plantsOnPlanet_) {
+            ss << "  - " << plant.displayPlantDescription() << "\n";
+        }
+    }
+    return ss.str();
+}
 
 Planet PlanetGenerator::generatePlanet(
     int index, const vector<array<double, 3>>& existingCoords) {
@@ -124,14 +149,18 @@ Planet PlanetGenerator::generatePlanet(
             }
         }
 
-        // Plants ToDo: add call to create the flora on a planet
+        
     }
     // Create a name and ID
     string name = generateName();
     ostringstream id;
     id << "P" << setw(3) << setfill('0') << index;
 
-    return {id.str(), name, distance, biome, lootLevel, coords};
+    // Plants ToDo: add call to create the flora on a planet
+    Planet p(id.str(), name, distance, biome, lootLevel, coords);
+    p.populatePlantsOnPlanet();
+
+    return p;
 }
 
 
@@ -187,7 +216,4 @@ void PlanetSystem::generatePlanets(int number,
 
         planetList.push_back(p);           // memory management - this 
     }
-
-    // Plants ToDo - temporary debugging to verify all plants created as expected (or not created)
-    //    loop through all of the created planets (ie planetList) list the planet name & displayPlantDescription()
 }

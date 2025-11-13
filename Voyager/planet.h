@@ -14,6 +14,7 @@
 // User created libraries
 #include "game.h"
 #include "rock.h"
+#include "plants.h"
 
 // Biomes
 enum class Biome {
@@ -37,6 +38,7 @@ private:
     int lootLevel_;
     std::vector<Rock> rocksOnPlanet_; // Rocks available on the planet
     // Plants ToDo: declare memory for plantsOnPlanet_;
+    std::vector<Plants> plantsOnPlanet_; 
     std::array<double, 3> coords_;
 
 public:
@@ -67,6 +69,8 @@ public:
     listRocks() const; // this is the list of rocks currently on the planet
 
     // Plants ToDo: add method definitions to create the flora on a planet & to display the flora on a planet
+    void populatePlantsOnPlanet();
+    std::string listPlantsOnPlanet();
 };
 
 // PlanetSysterm will handle displaying and navigating planets

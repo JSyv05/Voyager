@@ -407,7 +407,9 @@ void Game::gameLoop(Game& game) const {
             break;
         case ValidCommand::Scan:
             activePlanet = ship.getCurrentPlanet();
-            game.setBodyOutput(activePlanet.describe() + activePlanet.listRocks());
+            game.setBodyOutput(activePlanet.describe() +
+                               activePlanet.listRocks() +
+                               activePlanet.listPlantsOnPlanet());
             game.setErrorOutput("Scan complete. Resources listed.");
             break;
         case ValidCommand::ShipExit:
