@@ -123,6 +123,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="art.cpp" />
     <ClCompile Include="command.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="main.cpp" />
@@ -133,6 +134,7 @@
     <ClCompile Include="inventory.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="art.h" />
     <ClInclude Include="command.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="inventoryh.h" />

@@ -1,3 +1,4 @@
+#include "art.h"
 #include "ship.h"
 #include "game.h"
 #include "planet.h"
@@ -21,6 +22,10 @@ void Ship::setCoordinates(const array<double, 3>& coords) {
     coordinates = coords;
 }
 array<double, 3> Ship::getCoordinates() const { return coordinates; }
+
+// Planet
+
+Planet Ship::getCurrentPlanet() const { return currentPlanet; }
 
 // Radar setter and getter
 void Ship::setRadar(int r) { radar = r; }
@@ -65,7 +70,7 @@ void Ship::getNearbyPlanet(Game& game,const vector<Planet>& planet_vector) {
         display << "(" << (i + 1) << ") "
                 << lastScannedPlanets[i].quickRow(fuelPerAU) << "\n";
 
-    display << "\n(Type 'travel to 1', 'travel to 2', or 'travel to 3' to "
+    display << "\n(Type 'travel -d 1', 'travel -d 2', or 'travel -d 3' to "
                "visit a planet.)";
 
     game.setBodyOutput(display.str());
@@ -78,7 +83,7 @@ void Ship::getNearbyPlanet(Game& game,const vector<Planet>& planet_vector) {
 }
 
 // Travel to planet, dock on planet, displays name and description
-void Ship::travelToPlanet(Game& game, int choice) {
+void Ship::travelToPlanet(Game& game, int choice, Art& art) {
     if (lastScannedPlanets.empty()) {
         game.setErrorOutput("ERR: No planets scanned. Use 'scan' first.\n");
         game.displayOutput();
@@ -90,6 +95,33 @@ void Ship::travelToPlanet(Game& game, int choice) {
     setCoordinates(currentPlanet.getCoordinates());
     docked = true;
     hovering = false;
+
+    switch (currentPlanet.getBiome()) {
+    case Biome::Desert:
+        art.setArtToDesert();
+        break;
+    case Biome::Ice:
+        art.setArtToIce();
+        break;
+    case Biome::Ocean:
+        art.setArtToOcean();
+        break;
+    case Biome::Forest:
+        art.setArtToForest();
+        break;
+    case Biome::Volcanic:
+        art.setArtToVolcano();
+        break;
+    case Biome::GasGiant:
+        art.setArtToGasGiant();
+        break;
+    case Biome::Urban:
+        art.setArtToCity();
+        break;
+    case Biome::Barren:
+        art.setArtToWasteLand();
+        break;
+    }
 
     ostringstream msg;
     msg << "Docking at " << currentPlanet.getName() << ".\n\n";
@@ -140,8 +172,8 @@ void Ship::shipExit(Game& game) {
 
     ostringstream msg;
     msg << "You step out onto the surface of " << currentPlanet.getName()
-        << ".\n";
-    msg << "The environment is as vast as it is mysterious.\n\n";
+        << ".\n\n";
+    msg << currentPlanet.describe();
     msg << "\n(Type 'return to ship' to enter your ship";
 
     game.clearScreen();
