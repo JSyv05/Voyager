@@ -9,6 +9,9 @@ class Plants
 		//Data structures :
 		//   enum plantNameEnum  (changing to PLANT_TYPES)
 		//   string plantDescription
-private:
+public:
 		enum PLANT_TYPES { HYDRANGEA }; // only define a single plant for now, choosing Upper Snake Case as contrast to command enum definition
+
+private:
+
 };
