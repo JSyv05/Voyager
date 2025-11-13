@@ -216,11 +216,4 @@ void PlanetSystem::generatePlanets(int number,
 
         planetList.push_back(p);           // memory management - this 
     }
-
-    // Plants ToDo - temporary debugging to verify all plants created as expected (or not created)
-    //    loop through all of the created planets (ie planetList) list the planet name & displayPlantDescription()
-    for (Planet p : planetList) {
-        cout << "Plants on planet " << p.getName() << "Of type " << p.biomeToString(p.getBiome()) << " are " << p.listPlantsOnPlanet() << "\n";
-    }
-    system("pause");
 }

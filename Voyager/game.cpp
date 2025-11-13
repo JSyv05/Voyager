@@ -416,6 +416,7 @@ void Game::gameLoop(Game& game) const {
                 game.setBodyOutput(activePlanet.describe() +
                     activePlanet.listRocks());
                 // Plants ToDo: add call to display the flora on a planet
+                game.setBodyOutput(activePlanet.describe() + activePlanet.listPlantsOnPlanet());
                 game.setErrorOutput("Scan complete. Resources listed.");
             }
             else {
