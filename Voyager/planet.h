@@ -14,6 +14,8 @@
 // User created libraries
 #include "game.h"
 #include "rock.h"
+#include "npc.h"
+
 #include "plants.h"
 
 // Biomes
@@ -40,6 +42,7 @@ private:
     // Plants ToDo: declare memory for plantsOnPlanet_;
     std::vector<Plants> plantsOnPlanet_; 
     std::array<double, 3> coords_;
+    vector<NPC> npcs_;
 
 public:
     Planet();
@@ -55,7 +58,7 @@ public:
 
     double travelFuelCost(double fuelPerAU) const;
 
-    std::string quickRow(double fuelPerAU) const;
+    std::string quickRow(double fuelPerAU, double distanceAU) const;
     std::string describe() const;
 
     static std::string biomeToString(Biome b);
@@ -67,6 +70,11 @@ public:
 
     std::string
     listRocks() const; // this is the list of rocks currently on the planet
+    
+    const vector<NPC>& getNPCs() const { return npcs_; }
+    void populateNPCs(int count);
+    string listNPCs() const;
+    string talkToNPC(int index) const;
 
     // Plants ToDo: add method definitions to create the flora on a planet & to display the flora on a planet
     void populatePlantsOnPlanet();

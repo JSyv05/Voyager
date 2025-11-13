@@ -128,6 +128,7 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menu.cpp" />
+    <ClCompile Include="npc.cpp" />
     <ClCompile Include="planet.cpp" />
     <ClCompile Include="plants.cpp" />
     <ClCompile Include="rock.cpp" />
@@ -140,6 +141,7 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="inventoryh.h" />
     <ClInclude Include="menu.h" />
+    <ClInclude Include="npc.h" />
     <ClInclude Include="planet.h" />
     <ClInclude Include="plants.h" />
     <ClInclude Include="rock.h" />

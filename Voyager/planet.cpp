@@ -19,11 +19,10 @@ Planet::Planet(string id, string name, double distanceAU, Biome biome, int loot,
     : id_(move(id)), name_(move(name)), distanceAU_(distanceAU), biome_(biome),
       lootLevel_(loot), coords_(coords) {}
 
-string Planet::quickRow(double fuelPerAU) const {
     ostringstream ss;
     ss << "[" << id_ << "] " << name_ << " | " << biomeToString(biome_) << " | "
-       << fixed << setprecision(2) << distanceAU_ << " AU"
-       << " | Fuel Cost: " << travelFuelCost(fuelPerAU);
+        << fixed << setprecision(2) << distanceAU_ << " AU"
+        << " | Fuel Cost: " << travelFuelCost(fuelPerAU);
     return ss.str();
 }
 
@@ -40,15 +39,15 @@ string Planet::describe() const {
     ss << "Distance: " << fixed << setprecision(2) << distanceAU_ << " AU\n";
     ss << "Loot Level: " << lootLevel_ << "\n";
     ss << "Surface Conditions: "
-       << (biome_ == Biome::Volcanic   ? "Molten terrain and unstable geysers."
-           : biome_ == Biome::Ocean    ? "Vast seas with strong currents."
-           : biome_ == Biome::Forest   ? "Dense vegetation and humid climate."
-           : biome_ == Biome::Urban    ? "Ruins of an advanced civilization."
-           : biome_ == Biome::Ice      ? "Frozen wastelands under dim sunlight."
-           : biome_ == Biome::GasGiant ? "Massive storms and crushing pressure."
-           : biome_ == Biome::Desert   ? "Endless dunes and scorching heat."
-                                       : "Barren and lifeless terrain.")
-       << "\n";
+        << (biome_ == Biome::Volcanic ? "Molten terrain and unstable geysers."
+            : biome_ == Biome::Ocean ? "Vast seas with strong currents."
+            : biome_ == Biome::Forest ? "Dense vegetation and humid climate."
+            : biome_ == Biome::Urban ? "Ruins of an advanced civilization."
+            : biome_ == Biome::Ice ? "Frozen wastelands under dim sunlight."
+            : biome_ == Biome::GasGiant ? "Massive storms and crushing pressure."
+            : biome_ == Biome::Desert ? "Endless dunes and scorching heat."
+            : "Barren and lifeless terrain.")
+        << "\n";
     return ss.str();
 }
 
@@ -135,7 +134,7 @@ Planet PlanetGenerator::generatePlanet(
     array<double, 3> coords;
     bool unique = false;
     while (!unique) {
-        coords = {distCoord(rng), distCoord(rng), distCoord(rng)};
+        coords = { distCoord(rng), distCoord(rng), distCoord(rng) };
         unique = true;
 
         for (const auto& c : existingCoords) {
@@ -165,10 +164,10 @@ Planet PlanetGenerator::generatePlanet(
 
 
 string PlanetGenerator::generateName() {
-    std::vector<std::string> prefixes = {"RX", "M52", "NX", "LX",
-                                         "KZ", "ULS", "AD"};
-    std::vector<std::string> suffixes = {"-1b",   "-3c", "-Prime", "-Alpha",
-                                         "-Vega", "-9",  "-Tau"};
+    std::vector<std::string> prefixes = { "RX", "M52", "NX", "LX",
+                                         "KZ", "ULS", "AD" };
+    std::vector<std::string> suffixes = { "-1b",   "-3c", "-Prime", "-Alpha",
+                                         "-Vega", "-9",  "-Tau" };
     std::uniform_int_distribution<int> num(10, 999);
 
     std::string pre = prefixes[rng() % prefixes.size()];
@@ -190,10 +189,44 @@ string Planet::listRocks() const {
             // We can't use rock.inspect() because it prints to cout.
             // We'll build the string manually.
             ss << "  - " << rock.getName() << " (" << rock.getElementType()
-               << ")\n";
+                << ")\n";
         }
     }
     return ss.str();
+}
+
+//NPC-relate functions
+void Planet::populateNPCs(int count)
+{
+    npcs_.clear();
+    vector<NPC> selected = pickNPCsForBiome(biome_, count);
+    npcs_.insert(npcs_.end(), selected.begin(), selected.end());
+}
+
+string Planet::listNPCs() const
+{
+    ostringstream ss;
+    ss << "\n--- Local NPCs ---\n";
+    if (npcs_.empty())
+    {
+        ss << "No life forms or settlements detected.\n";
+    }
+    else
+    {
+        for (int i = 0; i < (int)npcs_.size(); ++i)
+        {
+            ss << "  " << npcs_[i].shortCard(i + 1) << "\n";
+        }
+        ss << "\n(Type 'talk to 1' to speak with the first NPC)\n";
+    }
+    return ss.str();
+}
+
+string Planet::talkToNPC(int index) const
+{
+    if (index < 1 || index >(int)npcs_.size())
+        return "There is no one by that number.";
+    return npcs_[index - 1].talkText();
 }
 
 vector<Planet> PlanetSystem::getPlanetList() const { return planetList; }
@@ -202,17 +235,34 @@ Planet PlanetSystem::getPlanetAtIndex(int index) const {
 }
 
 void PlanetSystem::generatePlanets(int number,
-                                   const std::vector<Rock>& allRocks) {
+    const vector<Rock>& allRocks) 
+{
     PlanetGenerator generator;
-    vector<array<double, 3>>
-        usedCoords; // store coordinates to make sure they are unique
+    planetList.clear();
 
-    for (int i = 0; i < number; ++i) {
-        Planet p = generator.generatePlanet(i + 1, usedCoords);
+    vector<array<double, 3>> fixedCoords =
+    {
+        {9, 7, -5}, {10, 5, -2}, {20, -4, 6}, {30, 8, -10}, {40, 0, 5},
+        {50, 12, -6}, {60, -8, 10}, {70, 4, -15}, {80, -12, 3}, {90, 7, 9},
+        {100, -6, -3}, {110, 10, 4}, {120, -5, 12}, {130, 15, -8},
+        {140, -10, 0}, {150, 20, 5}, {160, -15, 10}, {170, 25, -12},
+        {180, -20, 8}, {190, 30, 0}
+    };
+
+    for (int i = 0; i < number && i < (int)fixedCoords.size(); ++i) {
+        // Generate random name, biome, and loot for the planets
+        Planet rand = generator.generatePlanet(i + 1, {});
+
+        const auto& coords = fixedCoords[i];
+        double distanceAU = sqrt(coords[0] * coords[0] + coords[1] * coords[1] + coords[2] * coords[2]) / 10.0;
+
+        //create the planets
+        Planet p(rand.getId(), rand.getName(), distanceAU,
+            rand.getBiome(), rand.getDistanceAU(), coords);
+
 
         p.populateRocks(allRocks);
-
-        usedCoords.push_back(p.getCoordinates());
+        p.populateNPCs(2); // 2 NPCs per planet for now (later scale by size)
 
         planetList.push_back(p);           // memory management - this 
     }
