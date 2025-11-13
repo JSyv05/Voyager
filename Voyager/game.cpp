@@ -415,6 +415,7 @@ void Game::gameLoop(Game& game) const {
                 Planet activePlanet = planetSystem.getPlanetList()[currentPlanetIndex];
                 game.setBodyOutput(activePlanet.describe() +
                     activePlanet.listRocks());
+                // Plants ToDo: add call to display the flora on a planet
                 game.setErrorOutput("Scan complete. Resources listed.");
             }
             else {

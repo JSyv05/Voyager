@@ -91,6 +91,8 @@ string Planet::biomeToString(Biome b) {
     return "UNKNOWN";
 }
 
+// Plants ToDo: add methods to create the flora on a planet & to display the flora on a planet
+
 Planet PlanetGenerator::generatePlanet(
     int index, const vector<array<double, 3>>& existingCoords) {
     uniform_real_distribution<double> distAU(0.5, 10.0);
@@ -121,6 +123,8 @@ Planet PlanetGenerator::generatePlanet(
                 break;
             }
         }
+
+        // Plants ToDo: add call to create the flora on a planet
     }
     // Create a name and ID
     string name = generateName();
@@ -181,6 +185,9 @@ void PlanetSystem::generatePlanets(int number,
 
         usedCoords.push_back(p.getCoordinates());
 
-        planetList.push_back(p);
+        planetList.push_back(p);           // memory management - this 
     }
+
+    // Plants ToDo - temporary debugging to verify all plants created as expected (or not created)
+    //    loop through all of the created planets (ie planetList) list the planet name & displayPlantDescription()
 }
