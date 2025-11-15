@@ -11,7 +11,7 @@ Inventory::Inventory(int startCapacity) : maxCapacity(startCapacity) {
 bool Inventory::addRock(const Rock& rock, std::string& message) {
     if (rocks.size() < maxCapacity) {
         rocks.push_back(rock);
-        message = "Added " + rock.getName() + " to inventory.";
+        message = "Added " + rock.getName() + " to inventory.\n(Type 'inventory' to view your inventory)";
         return true;
     }
     else {

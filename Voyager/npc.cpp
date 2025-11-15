@@ -29,7 +29,7 @@ Biome NPC::getBiome() const { return biome_; }
 
 string NPC::shortCard(int index) const
 {
-    return "(" + to_string(index) + ") " + name_ + " — " + getType();
+    return "(" + to_string(index) + ") " + name_ + " | " + getType();
 }
 
 string NPC::talkText() const

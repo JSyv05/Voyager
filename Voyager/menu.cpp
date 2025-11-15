@@ -1,27 +1,8 @@
-#include<iostream>
-
-#include"command.h"
-#include"game.h"
 #include"menu.h"
-#include"planet.h"
+#include <string>
 
 using namespace std;
-
-void Menu::setMenu(Game& game) const {
-    string art = R"(
-                :::     ::: :::::::: :::   :::  :::     :::::::: :::::::::::::::::::             
-               :+:     :+::+:    :+::+:   :+::+: :+:  :+:    :+::+:       :+:    :+:              
-              +:+     +:++:+    +:+ +:+ +:++:+   +:+ +:+       +:+       +:+    +:+               
-             +#+     +:++#+    +:+  +#++:+#++:++#++::#:       +#++:++#  +#++:++#:                 
-             +#+   +#+ +#+    +#+   +#+ +#+     +#++#+    +#+#+#       +#+  +#+                 
-             #+#+#+#  #+#    #+#   #+# #+#     #+##+#    #+##+#       #+#    #+                  
-              ###     ########    ### ###     ### ######## #############    ###                   
-____ _  _ ____ ____ _   _ ____ ____ ____ ____ _ ____ _ ____ ____ _  _ ____ ___ ___ ____ ____ ____ 
-|___ |  | |___ |__/  \_/  [__  |__| |    |__/ | |___ | |    |___ |\/| |__|  |   |  |___ |__/ [__  
-|___  \/  |___ |  \   |   ___] |  | |___ |  \ | |    | |___ |___ |  | |  |  |   |  |___ |  \ ___] 
-
-v1.0.0)"; // ASCII art title screen ooooooo
-
+ string Menu::setMenu() const {
     string text = 
         "> Start Game\n"
         "> Load Game\n"
@@ -31,21 +12,9 @@ v1.0.0)"; // ASCII art title screen ooooooo
 
         "Please enter your choice."; // Main menu text
 
-    game.setArtOutput(art);   // Sets art to title screen
-    game.setErrorOutput("");  // Clears error output
-    game.setBodyOutput(text); // Sets text to menu options
-	// Implementation for setting up the main menu
+    return text;
 }
-void Menu::setInstructions(Game& game) const {
-    string art = R"(
-                :::     ::: :::::::: :::   :::  :::     :::::::: :::::::::::::::::::             
-               :+:     :+::+:    :+::+:   :+::+: :+:  :+:    :+::+:       :+:    :+:              
-              +:+     +:++:+    +:+ +:+ +:++:+   +:+ +:+       +:+       +:+    +:+               
-             +#+     +:++#+    +:+  +#++:+#++:++#++::#:       +#++:++#  +#++:++#:                 
-             +#+   +#+ +#+    +#+   +#+ +#+     +#++#+    +#+#+#       +#+  +#+                 
-             #+#+#+#  #+#    #+#   #+# #+#     #+##+#    #+##+#       #+#    #+                  
-              ###     ########    ### ###     ### ######## #############    ###)";
-
+string Menu::setInstructions() const {
     string text = 
         "the goal of Voyager is to collect as many samples as\n"
         "possible, explore as many planets as possible, and then\n" 
@@ -65,21 +34,10 @@ void Menu::setInstructions(Game& game) const {
 
         "Type 'back' to return to main menu ";
 
-    game.setArtOutput(art); // Sets art to instructions screen
-    game.setErrorOutput("");
-    game.setBodyOutput(text); // Sets text to instructions
+    return text;
 }
 
-void Menu::setCredits(Game& game) const{
-    string art = R"(
-                :::     ::: :::::::: :::   :::  :::     :::::::: :::::::::::::::::::             
-               :+:     :+::+:    :+::+:   :+::+: :+:  :+:    :+::+:       :+:    :+:              
-              +:+     +:++:+    +:+ +:+ +:++:+   +:+ +:+       +:+       +:+    +:+               
-             +#+     +:++#+    +:+  +#++:+#++:++#++::#:       +#++:++#  +#++:++#:                 
-             +#+   +#+ +#+    +#+   +#+ +#+     +#++#+    +#+#+#       +#+  +#+                 
-             #+#+#+#  #+#    #+#   #+# #+#     #+##+#    #+##+#       #+#    #+                  
-              ###     ########    ### ###     ### ######## #############    ###)";
-
+string Menu::setCredits() const{
     string text = "Team Members:\nAlina Betances\nAnthony Pinto\nElias "
                   "Reeves\nMatthew Silva\nJohn Syvertsen\n\n"
                   "Scrum Master:\nJohn Syvertsen\n\n"
@@ -87,25 +45,10 @@ void Menu::setCredits(Game& game) const{
                   "Reeves\nMatthew Silva\nJohn Syvertsen\n\n"
                   "Type back to return to the main menu.";
 
-    game.setArtOutput(art);
-    game.setBodyOutput(text);
-    game.setErrorOutput("");
+    return text;
 }
 
-void Menu::setIntro(Game& game) const{
-    string art = R"(
-   <<Grand Legion of Humanity>>
-        .---.        .---.
-       /     \  __  /     \
-      / /     \(  )/     \ \
-     //////   ' \/ `   \\\\\\
-    //// / // :WWWW: \\ \ \\\\
-   // /   /  /`WWWW'\  \   \ \\
-  //          //..\\  /=/  |  \\
-        <====UU====UU====--O--
-             '//||\\` \=\  |
-               ''``
-  <<Dept. of Space Exploration>>)";
+string Menu::setIntro() const{
 
     string text = 
         "VOYAGER PROGRAM: LOG ALPHA-01\n\n"
@@ -124,12 +67,10 @@ void Menu::setIntro(Game& game) const{
 
         "Type 'next' or press Enter to continue...";
 
-    game.setArtOutput(art);
-    game.setBodyOutput(text);
-    game.setErrorOutput("");
+    return text;
 }
 
-void Menu::setError(Game& game) const {
-    string error = "ERR: Please input a valid command\n\n";
-    game.setErrorOutput(error);
+string Menu::setError() const {
+    string error = "ERR: Please input a valid command";
+    return error;
 }

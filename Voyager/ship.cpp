@@ -1,11 +1,11 @@
 #include "art.h"
 #include "ship.h"
-#include "game.h"
 #include "planet.h"
 #include <algorithm>
 #include <cmath>
 #include <iomanip>
 #include <sstream>
+#include <string>
 
 using namespace std;
 
@@ -43,8 +43,8 @@ void Ship::setRadar(int r) { radar = r; }
 int Ship::getRadar() const { return radar; }
 
 // Scans for nerby planets
-void Ship::getNearbyPlanet(Game& game, const vector<Planet>& planet_vector) {
-    game.clearScreen();
+string Ship::getNearbyPlanet(const vector<Planet>& planet_vector) {
+
 
     const double fuelPerAU = 2.5;
     vector<pair<double, Planet>> planetDistances;
@@ -82,7 +82,7 @@ void Ship::getNearbyPlanet(Game& game, const vector<Planet>& planet_vector) {
         bool isCurrent = (p.getName() == currentPlanet.getName());
 
         display << "(" << (i + 1) << ") "
-            << p.quickRow(planetDistances[i].first, fuelCost);
+            << p.quickRow(planetDistances[i].first);
         if (isCurrent)
             display << "  <-- (You Are Here)";
         display << "\n";
@@ -90,22 +90,12 @@ void Ship::getNearbyPlanet(Game& game, const vector<Planet>& planet_vector) {
     display << "\n(Type 'travel -d 1', 'travel -d 2', or 'travel -d 3' to "
                "visit a planet.)";
 
-    game.setBodyOutput(display.str());
-    game.setErrorOutput("");
-    game.displayOutput();
+    return display.str();
 
-    // Update state flags
-    game.setShipFlag(true);
-    game.setPlanetFlag(false);
 }
 
 // Travel to planet, dock on planet, displays name and description
-void Ship::travelToPlanet(Game& game, int choice, Art& art) {
-    if (lastScannedPlanets.empty()) {
-        game.setErrorOutput("ERR: No planets scanned. Use 'scan' first.\n");
-        game.displayOutput();
-        return;
-    }
+string Ship::travelToPlanet(int choice, Art& art) {
 
     Planet destination = lastScannedPlanets[choice - 1];
     const auto& destCoords = destination.getCoordinates();
@@ -154,34 +144,26 @@ void Ship::travelToPlanet(Game& game, int choice, Art& art) {
     msg << currentPlanet.describe();
     msg << "\n(Type 'exit ship' to step out onto the surface.)";
 
-    game.clearScreen();
-    game.setBodyOutput(msg.str());
-    game.setErrorOutput("");
-    game.displayOutput();
+return msg.str();
 }
 
 // Return to ship. Plus undock and hover
-void Ship::returnToShip(Game& game) {
+string Ship::returnToShip() {
     ostringstream msg;
     msg << "You return to your ship and begin pre-flight checks";
     msg << "The ship is now ready for takeoff.\n\n";
-    msg << "\n(Type scan' to return to scan for nearby planets";
+    msg << "\n(Type scan -p' to return to scan for nearby planets";
 
-    game.clearScreen();
-    game.setBodyOutput(msg.str());
-    game.setErrorOutput("");
-    game.displayOutput();
+    return msg.str();
 }
 
-void Ship::shipExit(Game& game) {
+string Ship::shipExit() {
     ostringstream msg;
     msg << "You step out onto the surface of " << currentPlanet.getName()
         << ".\n\n";
     msg << currentPlanet.describe();
-    msg << "\n(Type 'return to ship' to enter your ship";
+    msg << "\nType 'scan -a' to look around";
+    msg << "\n(Type 'return to ship' when you are done";
 
-    game.clearScreen();
-    game.setBodyOutput(msg.str());
-    game.setErrorOutput("");
-    game.displayOutput();
+    return msg.str();
 }

@@ -17,4 +17,6 @@ public:
     void setArtToGasGiant();
     void setArtToCity();
     void setArtToWasteLand();
+    void setArtToTitle();
+    void setArtToAguila();
 };

@@ -4,36 +4,34 @@
 #include"art.h"
 #include "planet.h"
 #include <array>
+#include <string>
 #include <vector>
-
-using namespace std;
-class Game; // forward declaration
 
 class Ship {
 private:
-    array<double, 3> coordinates;              // Ship coordinates
-    array<double, 3> previousCoordinates;      // Ship last coordinates
-    vector<Planet> lastScannedPlanets;         // The 3 closest planets after scanning.
+    std::array<double, 3> coordinates;              // Ship coordinates
+    std::array<double, 3> previousCoordinates;      // Ship last coordinates
+    std::vector<Planet> lastScannedPlanets;         // The 3 closest planets after scanning.
     Planet currentPlanet;              // The planet the ship is at
     int radar; // Number of planets from scan (default is 3)
 
 public:
     Ship();
 
-    Planet& getCurrentPlanet() { return currentPlanet; }
+    Planet getCurrentPlanet() const;
 
     // Coordinates
-    void setCoordinates(const array<double, 3>& coords);
-    array<double, 3> getCoordinates() const;
+    void setCoordinates(const std::array<double, 3>& coords);
+    std::array<double, 3> getCoordinates() const;
 
     // Radar
     void setRadar(int r);
     int getRadar() const;
 
     // Ship actions
-    void getNearbyPlanet(Game& game,const std::vector<Planet>&);            // Scans for planets
-    void travelToPlanet(Game& game, int choice, Art&); // Travel/Dock at chosen planet
-    void returnToShip(Game& game);               // Returns tp ship
-    void shipExit(Game& game);                   // Exits ship
+    std::string getNearbyPlanet(const std::vector<Planet>&);            // Scans for planets
+    std::string travelToPlanet(int choice, Art&); // Travel/Dock at chosen planet
+    std::string returnToShip();               // Returns tp ship
+    std::string shipExit();                   // Exits ship
 };
 #endif

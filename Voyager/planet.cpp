@@ -1,6 +1,5 @@
 #include "planet.h"
 #include "command.h"
-#include "game.h"
 #include "rock.h"
 #include <vector>
 #include <array>
@@ -9,6 +8,7 @@
 #include <iomanip>
 #include <iostream>
 #include <sstream>
+#include<string>
 
 using namespace std;
 
@@ -19,10 +19,13 @@ Planet::Planet(string id, string name, double distanceAU, Biome biome, int loot,
     : id_(move(id)), name_(move(name)), distanceAU_(distanceAU), biome_(biome),
       lootLevel_(loot), coords_(coords) {}
 
+string Planet::quickRow(double fuelPerAU) const {
     ostringstream ss;
     ss << "[" << id_ << "] " << name_ << " | " << biomeToString(biome_) << " | "
         << fixed << setprecision(2) << distanceAU_ << " AU"
-        << " | Fuel Cost: " << travelFuelCost(fuelPerAU);
+       << "| Pos: (" << coords_[0] << ", " << coords_[1] << ", " << coords_[2]
+       << ") "
+       << "| Fuel Cost: " << travelFuelCost(fuelPerAU);
     return ss.str();
 }
 
@@ -262,6 +265,7 @@ void PlanetSystem::generatePlanets(int number,
 
 
         p.populateRocks(allRocks);
+        p.populatePlantsOnPlanet();
         p.populateNPCs(2); // 2 NPCs per planet for now (later scale by size)
 
         planetList.push_back(p);           // memory management - this 

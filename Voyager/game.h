@@ -87,7 +87,7 @@ public:
     /*
     The check function will check .
     */ 
-    ValidCommand checkCommand(const Command&,const Game&) const;
+    ValidCommand checkCommand(const Command&) const;
 
     /*
     These are the UI commands. They will handle clearing and updating
@@ -103,7 +103,7 @@ public:
     input. From there it will handle all game logic, and then clear
     */
 
-    void gameLoop(Game&) ;
+    void gameLoop() ;
 };
 
 #endif

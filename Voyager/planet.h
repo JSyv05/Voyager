@@ -58,7 +58,7 @@ public:
 
     double travelFuelCost(double fuelPerAU) const;
 
-    std::string quickRow(double fuelPerAU, double distanceAU) const;
+    std::string quickRow(double) const;
     std::string describe() const;
 
     static std::string biomeToString(Biome b);

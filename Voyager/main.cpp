@@ -2,6 +2,6 @@
 
 int main() {
     Game game; // initialize game object
-    game.gameLoop(game); // start game loop
+    game.gameLoop(); // start game loop
 	return 0;
 }

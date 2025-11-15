@@ -9,11 +9,10 @@
 #include "inventoryh.h"
 
 // Standard C++ libraries
+#include <array>
 #include <iostream>
 #include <sstream>
 #include <vector>
-#include <sstream>
-#include <array>
 
 using namespace std;
 
@@ -86,76 +85,75 @@ These will be used in the game loop to manage core logic behind
 commands
 */
 
-Game::ValidCommand Game::checkCommand(const Command& command,
-    const Game& game) const {
+Game::ValidCommand Game::checkCommand(const Command& command) const {
     const auto& input = command.getInput();
-    if (input.empty() && !game.getNextFlag()) {
+    if (input.empty() && !getNextFlag()) {
         return ValidCommand::Error;
     }
     else if (input.size() >= 1 && input[0] == "collect" &&
-        game.getPlanetFlag()) {
+        getPlanetFlag()) {
         return ValidCommand::Collect;
     }
-    else if (input.size() == 1 && input[0] == "credits" && game.getMenuFlag()) {
+    else if (input.size() == 1 && input[0] == "credits" && getMenuFlag()) {
         return ValidCommand::Credits;
     }
-    else if (input.size() >= 2 && input[0] == "drop" && game.getPlanetFlag()) {
+    else if (input.size() >= 2 && input[0] == "drop" && getPlanetFlag()) {
         return ValidCommand::Drop;
     }
-    else if (input.size() == 1 && input[0] == "exit" && game.getMenuFlag()) {
+    else if (input.size() == 1 && input[0] == "exit" && getMenuFlag()) {
         return ValidCommand::Exit;
     }
     else if (input.size() >= 3 && input[0] == "inspect" && input[1] == "rock") {
         return ValidCommand::InspectRock;
     }
-    else if (input.size() == 1 && (input[0] == "inventory" || input[0] == "inv") && !game.getMenuFlag()) {
+    else if (input.size() == 1 && (input[0] == "inventory" || input[0] == "inv") && !getMenuFlag()) {
         return ValidCommand::Inventory;
     }
     else if (input.size() == 1 && input[0] == "instructions" &&
-        game.getMenuFlag()) {
+        getMenuFlag()) {
         return ValidCommand::Instructions;
     }
     else if (((input.size() == 1 && input[0] == "back") ||
         (input.size() == 1 && input[0] == "menu") ||
         (input.size() >= 2 && input[0] == "main" &&
             input[1] == "menu")) &&
-        game.getMenuFlag()) {
+        getMenuFlag()) {
         return ValidCommand::MainMenu;
     }
     else if (((input.size() == 1 && input[0] == "load") ||
         (input.size() >= 2 && input[0] == "load" &&
             input[1] == "game")) &&
-        game.getMenuFlag()) {
+        getMenuFlag()) {
         return ValidCommand::Load;
     }
     else if ((input.empty() || (input.size() == 1 && input[0] == "next")) &&
-        game.getNextFlag()) {
+        getNextFlag()) {
         return ValidCommand::Next;
     }
     else if ((input.size() == 3 && input[0] == "return" && input[1] == "to" &&
         input[2] == "ship") &&
-        game.getPlanetFlag()) {
+        getPlanetFlag()) {
         return ValidCommand::ReturnToShip;
     }
     else if ((input.size() == 1 && input[0] == "save") ||
         (input.size() >= 2 && input[0] == "save" && input[1] == "game") &&
-        !game.getMenuFlag()) {
+        !getMenuFlag()) {
         return ValidCommand::Save;
     }
-    else if (input.size() >= 2 && input[0] == "scan" && input[1] == "-a" && game.getPlanetFlag()) {
+    else if (input.size() >= 2 && input[0] == "scan" && input[1] == "-a" && getPlanetFlag()) {
         return ValidCommand::Scan;
     }
     else if (input.size() == 2 && input[0] == "exit" &&
-             input[1] == "ship" && game.getShipFlag()) {
+             input[1] == "ship" && getShipFlag()) {
         return ValidCommand::ShipExit;
     }
     else if (((input.size() == 1 && input[0] == "menu") ||
         (input.size() >= 2 && input[0] == "main" &&
             input[1] == "menu")) &&
-        game.getShipFlag() && game.getSavedFlag()) {
+        getShipFlag() && getSavedFlag()) {
         return ValidCommand::ShipMainMenu;
     }
-    else if (input.size() >= 2 && input[0] == "scan" && input[1] == "-p" && game.getShipFlag()) {
+    else if (input.size() >= 2 && input[0] == "scan" && input[1] == "-p" && getShipFlag()) {
         return ValidCommand::ScanForPlanets;
     }
     else if (input.size() == 1 && input[0] == "scan") {
@@ -164,11 +162,11 @@ Game::ValidCommand Game::checkCommand(const Command& command,
     else if (((input.size() == 1 && input[0] == "start") ||
         (input.size() >= 2 && input[0] == "start" &&
             input[1] == "game")) &&
-        game.getMenuFlag()) {
+        getMenuFlag()) {
         return ValidCommand::Start;
     }
     else if (input.size() >= 3 && input[0] == "travel" &&
-             game.getShipFlag()) {
+             getShipFlag()) {
         return ValidCommand::Travel;
     }
     else if (input.size() >= 3 && input[0] == "talk" && input[1] == "to")
@@ -201,9 +199,14 @@ that as one output.
 */
 
 void Game::displayOutput() const {
-    string output =
-        getArtOutput() + "\n\n" + getBodyOutput() + "\n\n" + getErrorOutput();
-    cout << output;
+    ostringstream output;
+    output << getArtOutput() << "\n\n" << getBodyOutput() << "\n\n" <<
+                    getErrorOutput();
+
+    if (getErrorOutput() != "") {
+        output << "\n\n";
+    }
+    cout << output.str();
 }
 
 void Game::saveGame() {}
@@ -213,7 +216,7 @@ The game loop is the heart of the game. It will handle all of the displaying of
 outputs as well as the logic behind each command.
 */
 
-void Game::gameLoop(Game& game) const { 
+void Game::gameLoop() { 
     // initializations for initial game objects
     Menu menu;
     Command command;
@@ -228,18 +231,21 @@ void Game::gameLoop(Game& game) const {
 
     string error; // string to store error messages
 
-    game.setMenuFlag(true);
-    menu.setMenu(game);
+    setMenuFlag(true);
+    art.setArtToTitle();
+    setBodyOutput(menu.setMenu());
 
-    while (!game.getGameOverFlag()) {
+    while (!getGameOverFlag()) {
 
         /*
         Display the main menu initially and then take input.
         Contents of the display will be updated in the switch case
         */
-
-        game.displayOutput();
+        setArtOutput(art.getArt());
+        displayOutput();
         command.setInput();
+
+        setErrorOutput("");
 
         /*
         This is where all of the command logic will be stored. It will go over
@@ -255,7 +261,7 @@ void Game::gameLoop(Game& game) const {
 
         string inventoryMessage;
         Planet activePlanet;
-        ValidCommand passedCommand = game.checkCommand(command, game);
+        ValidCommand passedCommand = checkCommand(command);
         switch (passedCommand) {
         case ValidCommand::Collect:
             if (currentPlanetIndex != -1) {
@@ -304,31 +310,30 @@ void Game::gameLoop(Game& game) const {
                 if (foundRock) {
                     // Try to add the rock, which fills inventoryMessage
                     if (playerInventory.addRock(rockToCollect, inventoryMessage)) {
-                        game.setBodyOutput(inventoryMessage);
-                        game.setErrorOutput("");
+                        setBodyOutput(inventoryMessage);
+                        setErrorOutput("");
                     }
                     else {
-                        game.setBodyOutput("");
-                        game.setErrorOutput(inventoryMessage + "\n\n");
+                        setBodyOutput("");
+                        setErrorOutput(inventoryMessage);
                     }
                 }
                 else {
-                    game.setBodyOutput("You scan the area but find no valuable rocks of this planet's type.");
-                    game.setErrorOutput("");
+                    setBodyOutput("You scan the area but find no valuable rocks of this planet's type.");
                 }
             }
             else {
-                game.setErrorOutput("ERR: You must be on a planet to collect rocks.\n\n");
+                setErrorOutput("ERR: You must be on a planet to collect rocks.\n\n");
             }
             break;
 
         case ValidCommand::Credits:
-            menu.setCredits(game);
+            setBodyOutput(menu.setCredits());
             break;
         case ValidCommand::Drop:
         { // Added curly braces to create a new scope for variables
             if (input.size() < 2) {
-                game.setErrorOutput("ERR: What do you want to drop? (e.g., drop Basalt Shard)\n\n");
+                setErrorOutput("ERR: What do you want to drop? (e.g., drop Basalt Shard)");
                 break;
             }
 
@@ -339,26 +344,25 @@ void Game::gameLoop(Game& game) const {
             }
 
             if (playerInventory.removeRock(rockToDrop, inventoryMessage)) {
-                game.setBodyOutput(inventoryMessage);
-                game.setErrorOutput("");
+                setBodyOutput(inventoryMessage);
             }
             else {
-                game.setBodyOutput("");
-                game.setErrorOutput(inventoryMessage); 
+                setBodyOutput("");
+                setErrorOutput(inventoryMessage); 
             }
         }
         break;
         case ValidCommand::Error:
-            error = "ERR: Please enter a valid input\n\n";
-            game.setErrorOutput(error);
+            error = "ERR: Please enter a valid input";
+            setErrorOutput(error);
             break;
         case ValidCommand::Exit:
-            game.setGameOverFlag(true);
+            setGameOverFlag(true);
             break;
         case ValidCommand::InspectRock:
         { // Added curly braces for scope
             if (input.size() < 3) {
-                game.setErrorOutput("ERR: What rock do you want to inspect? (e.g., inspect rock Basalt Shard)\n\n");
+                setErrorOutput("ERR: What rock do you want to inspect? (e.g., inspect rock Basalt Shard)");
                 break;
             }
 
@@ -371,109 +375,101 @@ void Game::gameLoop(Game& game) const {
             // inspectRock returns the full string, success or error
             std::string inspectResult = playerInventory.inspectRock(rockToInspect);
             if (inspectResult.rfind("ERR:", 0) == 0) { // Check if string starts with "ERR:"
-                game.setBodyOutput("");
-                game.setErrorOutput(inspectResult);
+                setBodyOutput("");
+                setErrorOutput(inspectResult);
             }
             else {
-                game.setBodyOutput(inspectResult);
-                game.setErrorOutput("");
+                setBodyOutput(inspectResult);
             }
         }
         break;
         case ValidCommand::Inventory:
             playerInventory.autoSortRocks(); // Sort before displaying
-            game.setBodyOutput(playerInventory.getDisplayString());
-            game.setErrorOutput("");
+            setBodyOutput(playerInventory.getDisplayString());
             break;
         case ValidCommand::Instructions:
-            menu.setInstructions(game);
+            setBodyOutput(menu.setInstructions());
             break;
         case ValidCommand::Load:
             break;
         case ValidCommand::MainMenu:
-            menu.setMenu(game);
+            setBodyOutput(menu.setMenu());
             break;
         case ValidCommand::Next:
-            game.setMenuFlag(false);
-            game.setNextFlag(true);
-            game.setShipFlag(true);
-            body_text = "The view of space is unlike anything you have seen before.\nYou feel a sense of calm wash over you.";
+            setMenuFlag(false);
+            setNextFlag(false);
+            setShipFlag(true);
+            body_text = "The view of space is unlike anything you have seen before.\nYou feel a sense of calm wash over you.\n(use scan -p to scan for nearby planets)";
             art.setArtToShip();
-            game.setBodyOutput(body_text);
-            game.setArtOutput(art.getArt());
+            setBodyOutput(body_text);
             break;
         case ValidCommand::ReturnToShip:
-            game.setPlanetFlag(false);
-            game.setShipFlag(true);
-            body_text = "You return to the ship.";
-            game.setBodyOutput(body_text);
+            setPlanetFlag(false);
+            setShipFlag(true);
+            setBodyOutput(ship.returnToShip());
             art.setArtToShip();
-            game.setArtOutput(art.getArt());
             break;
         case ValidCommand::Save:
-            game.saveGame();
+            saveGame();
             break;
         case ValidCommand::Scan:
             activePlanet = ship.getCurrentPlanet();
-            game.setBodyOutput(activePlanet.describe() +
+            setBodyOutput(activePlanet.describe() +
                                activePlanet.listRocks() +
-                               activePlanet.listPlantsOnPlanet());
-            game.setErrorOutput("Scan complete. Resources listed.");
+                               activePlanet.listPlantsOnPlanet()+ 
+            activePlanet.listNPCs());
+            setErrorOutput("Scan complete. Resources listed.");
             break;
         case ValidCommand::ShipExit:
             // First, check if we are actually at a planet
-            ship.shipExit(game);
+            setBodyOutput(ship.shipExit());
+            setShipFlag(false);
+            setPlanetFlag(true);
             break;
         case ValidCommand::ShipMainMenu:
-            menu.setMenu(game);
-            game.setMenuFlag(true);
-            game.setShipFlag(false);
+            setBodyOutput(menu.setMenu());
+            setMenuFlag(true);
+            setShipFlag(false);
             break;
         case ValidCommand::ScanForPlanets:
-            playerShip.getNearbyPlanet(game, planetSystem.getPlanetList());
+            setBodyOutput(ship.getNearbyPlanet(planetSystem.getPlanetList()));
             break;
         case ValidCommand::Start:
-            game.setMenuFlag(false);
-            game.setNextFlag(true);
-            menu.setIntro(game);
+            setMenuFlag(false);
+            setNextFlag(true);
+            setBodyOutput(menu.setIntro());
+            art.setArtToAguila();
             planetSystem.generatePlanets(20, allGameRocks);
             break;
         case ValidCommand::Travel:
             try {
                 if (input[1] == "-d" || input[1] == "--destination") {
                     index = stoi(input[2]);
-                    if (index >= 0 && index < planetSystem.getPlanetList().size()) {
                         // If valid, travel and set all game flags
-                        ship.travelToPlanet(game, index, art);
-                        game.setPlanetFlag(true);
-                        currentPlanetIndex = index; // <-- This is the main fix!
-                        game.setArtOutput(art.getArt());
-                    }
-                    else {
-                        // If invalid, set an error message
-                        game.setErrorOutput("ERR: Invalid planet index. Use 'scan' to see available planets.\n\n");
-                    }
+                    setBodyOutput(ship.travelToPlanet(index, art));
                 }
                 else if (input[1] == "-p" || input[1] == "--position") {
-
-                    
                     std::array<double, 3> position;
                     position[0] = stoi(input[2]);
                     position[1] = stoi(input[3]);
                     position[2] = stoi(input[4]);
                     ship.setCoordinates(position);
                     travelMsg << "set coordinates to (" << position[0] << ", "
-                        << position[1] << ", " << position[2] << ",)";
-                    game.setBodyOutput(travelMsg.str());
+                        << position[1] << ", " << position[2] << ")";
+                    setBodyOutput(travelMsg.str());
+                }
+                else {
+                    error = "ERR: Please pass a valid flag";
+                    setBodyOutput(error);
                 }
             }
             catch (const invalid_argument& e) {
-                error = "ERR: Invalid argument\n\n";
-                game.setErrorOutput(error);
+                error = "ERR: Invalid argument";
+                setErrorOutput(error);
             }
             catch (const out_of_range& e) {
-                error = "ERR: Argument is out of range\n\n";
-                game.setErrorOutput(error);
+                error = "ERR: Argument is out of range";
+                setErrorOutput(error);
             }
             break;
         case ValidCommand::Talk:
@@ -483,17 +479,16 @@ void Game::gameLoop(Game& game) const {
             catch (...) { npcIndex = 0; }
 
             ostringstream msg;
-            msg << playerShip.getCurrentPlanet().talkToNPC(npcIndex) << "\n";
+            msg << ship.getCurrentPlanet().talkToNPC(npcIndex) << "\n";
 
             setBodyOutput(msg.str());
-            setErrorOutput("");
             break;
         }
         default:
-            error = "ERR: PLease enter a valid input\n\n";
-            game.setErrorOutput(error);
+            error = "ERR: PLease enter a valid input";
+            setErrorOutput(error);
             break;
         }
-        game.clearScreen(); // Clear screen before start of next loop iteration
+        clearScreen(); // Clear screen before start of next loop iteration
     }
 }
