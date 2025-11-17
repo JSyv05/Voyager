@@ -42,6 +42,12 @@
     <ClCompile Include="art.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+	  <ClCompile Include="npc.cpp">
+		  <Filter>Source Files</Filter>
+	  </ClCompile>
+	  <ClCompile Include="plants.cpp">
+		  <Filter>Source Files</Filter>
+	  </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -68,5 +74,11 @@
     <ClInclude Include="art.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+	  <ClInclude Include="npc.h">
+		  <Filter>Header Files</Filter>
+	  </ClInclude>
+	  <ClInclude Include="plants.h">
+		  <Filter>Header Files</Filter>
+	  </ClInclude>
   </ItemGroup>
 </Project>
