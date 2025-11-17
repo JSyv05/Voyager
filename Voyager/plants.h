@@ -20,5 +20,4 @@ public:
 private:
 	std::string plantDescription_;
 	PLANT_TYPES plantType_;
-
 };

@@ -104,13 +104,13 @@ Game::ValidCommand Game::checkCommand(const Command& command) const {
     else if (input.size() == 1 && input[0] == "Quit" && getMenuFlag()) {
         return ValidCommand::Quit;
     }
-    else if (input.size() == 1 && input[0] == "help" ) {
+    else if (input.size() == 1 && input[0] == "help" && !(getMenuFlag() || getNextFlag())) {
         return ValidCommand::Help;
     }
     else if (input.size() >= 3 && input[0] == "inspect" && input[1] == "rock") {
         return ValidCommand::InspectRock;
     }
-    else if (input.size() == 1 && (input[0] == "inventory" || input[0] == "inv") && !(getMenuFlag() && getNextFlag())) {
+    else if (input.size() == 1 && (input[0] == "inventory" || input[0] == "inv") && !(getMenuFlag() || getNextFlag())) {
         return ValidCommand::Inventory;
     }
     else if (input.size() == 1 && input[0] == "instructions" &&

@@ -3,6 +3,7 @@
 #include "../Voyager/plants.h"
 #include "../Voyager/planet.h"
 #include "../Voyager/rock.h"
+#include "../Voyager/npc.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
