@@ -20,13 +20,14 @@ namespace VoyagerAutomatedTest
 		//  Test rock refactoring
 		TEST_METHOD(RockRefactoringTest) {
 			Logger::WriteMessage("Creating a few planets & show the rocks created\n");
-			Planet planetArray[5];
+			const int NUM_PLANETS_TO_CREATE = 10;
+			Planet planetArray[NUM_PLANETS_TO_CREATE];
 			PlanetGenerator generator;
 			vector<Rock> allGameRocks = createMasterRockList();
 			//     Planet(std::string id, std::string name, double distanceAU, Biome biome,int loot, std::array<double, 3>)
 			// Planet PlanetGenerator::generatePlanet(int index, const vector<array<double, 3>>& existingCoords) {
 			// verify that I can create 5 planets & will see rocks on each planet
-			for (int planetNum = 0; planetNum < 5; planetNum++) {
+			for (int planetNum = 0; planetNum < NUM_PLANETS_TO_CREATE; planetNum++) {
 				// generate the planet
 				planetArray[planetNum] = generator.generatePlanet(planetNum, { {0,0}, {0,0}, {0,0} });
 

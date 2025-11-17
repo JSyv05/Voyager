@@ -34,9 +34,9 @@ void Ship::setCoordinates(const array<double, 3>& coords) {
 }
 array<double, 3> Ship::getCoordinates() const { return coordinates; }
 
-// Planet
+// Planet - return handle to the actual planet, so can modify it (e.g. removing rocks)
 
-Planet Ship::getCurrentPlanet() const { return currentPlanet; }
+Planet& Ship::getCurrentPlanet() { return currentPlanet; }
 
 // Radar setter and getter
 void Ship::setRadar(int r) { radar = r; }

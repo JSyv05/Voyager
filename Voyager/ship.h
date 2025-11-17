@@ -17,7 +17,7 @@ private:
 public:
     Ship();
 
-    Planet getCurrentPlanet() const;
+    Planet& getCurrentPlanet();
 
     // Coordinates
     void setCoordinates(const std::array<double, 3>& coords);
