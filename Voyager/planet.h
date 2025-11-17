@@ -64,19 +64,21 @@ public:
     static std::string biomeToString(Biome b);
 
 
+    // Rock related methods
     void populateRocks(
         const std::vector<Rock>& allRocksInGame); // This will populate Rocks on
                                                   // the planet based on biome
-
     std::string
     listRocks() const; // this is the list of rocks currently on the planet
-    
+    Rock collectRockOnPlanet();  // returns the last rock added to the planet & deletes it from the planet
+
+    // NPC related methods
     const vector<NPC>& getNPCs() const { return npcs_; }
     void populateNPCs(int count);
     string listNPCs() const;
     string talkToNPC(int index) const;
 
-    // Plants ToDo: add method definitions to create the flora on a planet & to display the flora on a planet
+    // Plant methodsd to create the flora on a planet & to display the flora on a planet
     void populatePlantsOnPlanet();
     std::string listPlantsOnPlanet();
 };

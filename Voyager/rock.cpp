@@ -1,5 +1,38 @@
 #include "rock.h"
 #include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+// global function to create rocks - bad!!  ToDo - refactor this
+// Function implementation for Rock class
+vector<Rock> createMasterRockList() {
+    cout << "Creating master rock list from code..." << endl;
+    vector<Rock> all_rocks;
+
+    // Rock(name, description, elementType, value, resourceYielded, yieldAmount)
+    all_rocks.push_back(Rock("Basalt Shard",
+        "A dark, fine-grained volcanic rock.", "Volcanic",
+        10, "Iron", 5));
+    all_rocks.push_back(Rock("Pumice Stone",
+        "A very light and porous volcanic rock.",
+        "Volcanic", 5, "Sulfur", 10));
+    all_rocks.push_back(Rock("Iron Ore", "A rusty-red rock, heavy with metal.",
+        "Metallic", 25, "Iron", 20));
+    all_rocks.push_back(Rock("Ice Chunk", "A chunk of frozen, murky water.",
+        "Ice", 1, "Water", 10));
+    all_rocks.push_back(Rock("Sandstone", "A common sedimentary rock.", "Desert",
+        2, "Silicon", 3));
+    all_rocks.push_back(Rock("Petrified Wood", "Ancient wood turned to stone.",
+        "Forest", 15, "Carbon", 10));
+    all_rocks.push_back(Rock("Barren Stone", "A simple, useless rock.", "Barren",
+        0, "Gravel", 1));
+
+    cout << "Successfully created " << all_rocks.size() << " rocks."
+        << endl;
+    return all_rocks;
+}
 
 // Constructors
 Rock::Rock()
