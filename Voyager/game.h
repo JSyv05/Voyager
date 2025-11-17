@@ -36,7 +36,8 @@ private:
         Credits,
         Drop,
         Error,
-        Exit,
+        Quit,
+        Help,
         InspectRock,
         Instructions,
         Load,
@@ -45,9 +46,8 @@ private:
         ReturnToShip,
         Save,
         Scan,
-        ShipExit,
+        Exit,
         ShipMainMenu,
-        ScanForPlanets,
         Start,
         Travel,
         Talk,
@@ -103,7 +103,7 @@ public:
     input. From there it will handle all game logic, and then clear
     */
 
-    void gameLoop() ;
+    void gameLoop();
 };
 
 #endif

@@ -8,7 +8,7 @@ using namespace std;
         "> Load Game\n"
         "> Instructions\n"
         "> Credits\n"
-        "> Exit\n\n"
+        "> Quit\n\n"
 
         "Please enter your choice."; // Main menu text
 
@@ -68,9 +68,4 @@ string Menu::setIntro() const{
         "Type 'next' or press Enter to continue...";
 
     return text;
-}
-
-string Menu::setError() const {
-    string error = "ERR: Please input a valid command";
-    return error;
 }

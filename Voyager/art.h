@@ -3,20 +3,16 @@
 #include <string>
 
 class Art {
-private:
-    std::string art;
-
 public:
-    std::string getArt() const;
-    void setArtToShip();
-    void setArtToOcean();
-    void setArtToDesert();
-    void setArtToIce();
-    void setArtToForest();
-    void setArtToVolcano();
-    void setArtToGasGiant();
-    void setArtToCity();
-    void setArtToWasteLand();
-    void setArtToTitle();
-    void setArtToAguila();
+    std::string setArtToShip() const;
+    std::string setArtToOcean() const;
+    std::string setArtToDesert() const;
+    std::string setArtToIce() const;
+    std::string setArtToForest() const;
+    std::string setArtToVolcano() const;
+    std::string setArtToGasGiant() const;
+    std::string setArtToCity() const;
+    std::string setArtToWasteLand() const;
+    std::string setArtToTitle() const;
+    std::string setArtToAguila() const;
 };

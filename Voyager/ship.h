@@ -1,7 +1,6 @@
 #ifndef SHIP_H
 #define SHIP_H
 
-#include"art.h"
 #include "planet.h"
 #include <array>
 #include <string>
@@ -30,7 +29,7 @@ public:
 
     // Ship actions
     std::string getNearbyPlanet(const std::vector<Planet>&);            // Scans for planets
-    std::string travelToPlanet(int choice, Art&); // Travel/Dock at chosen planet
+    std::string travelToPlanet(int choice); // Travel/Dock at chosen planet
     std::string returnToShip();               // Returns tp ship
     std::string shipExit();                   // Exits ship
 };
