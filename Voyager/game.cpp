@@ -18,7 +18,11 @@ using namespace std;
 
 // Function implementation for Rock class
 
-//TODO: 
+/*TODO :
+-Fix Collect and createMasterRockList so that logic for collecting rocks and
+determining what rocks are on only occurs in planet class
+
+*/ 
 std::vector<Rock> createMasterRockList() {
     std::cout << "Creating master rock list from code..." << std::endl;
     std::vector<Rock> allRocks;
