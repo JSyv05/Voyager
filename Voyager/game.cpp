@@ -167,9 +167,13 @@ Game::ValidCommand Game::checkCommand(const Command& command) const {
              getShipFlag()) {
         return ValidCommand::Travel;
     }
-    else if (input.size() >= 3 && input[0] == "interact" && getPlanetFlag())
+    else if (input.size() == 1 && input[0] == "interact" && getPlanetFlag())
     {
         return ValidCommand::Talk;
+    }
+    else if (input.size() == 1 && input[0] == "health")
+    {
+        return ValidCommand::Health;
     }
     else {
         return ValidCommand::Error;
@@ -512,6 +516,11 @@ void Game::gameLoop() {
 
             setBodyOutput(output.str());
         } 
+        case ValidCommand::Health:
+        {
+            string output = "Player health" + player.getPlayerHealth();
+            setErrorOutput(output);
+        }
         break;
 
         default:
