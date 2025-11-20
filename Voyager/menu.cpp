@@ -38,11 +38,21 @@ string Menu::setInstructions() const {
 }
 
 string Menu::setCredits() const{
-    string text = "Team Members:\nAlina Betances\nAnthony Pinto\nElias "
-                  "Reeves\nMatthew Silva\nJohn Syvertsen\n\n"
-                  "Scrum Master:\nJohn Syvertsen\n\n"
-                  "Programmers:\nAlina Betances\nAnthony Pinto\nElias "
-                  "Reeves\nMatthew Silva\nJohn Syvertsen\n\n"
+    string text = "Team Members:\n"
+                  "\tAlina Betances\n"
+                  "\tAnthony Pinto\n"
+                  "\tElias Reeves\n"
+                  "\tMatthew Silva\n"
+                  "\tJohn Syvertsen\n\n"
+
+                  "Scrum Master:\n"
+                  "\tJohn Syvertsen\n\n"
+
+                  "Playtesters (Thank you!)\n"
+                  "\tErwin Jonson\n"
+                  "\tJosh Klenk\n"
+                  "\tMaya Sriram\n\n"
+                  
                   "Type back to return to the main menu.";
 
     return text;

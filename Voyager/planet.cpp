@@ -220,7 +220,6 @@ string Planet::listNPCs() const
         {
             ss << "  " << npcs_[i].shortCard(i + 1) << "\n";
         }
-        ss << "\n(Type 'talk to 1' to speak with the first NPC)\n";
     }
     return ss.str();
 }

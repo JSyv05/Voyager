@@ -91,6 +91,32 @@ These will be used in the game loop to manage core logic behind
 commands
 */
 
+// TODO: refactor checkCommand to use a map instead of if/else-if block
+
+/*
+Rather than have if/else-if statements, use a map with input[0] as the key, with the values being arrays of size 2,
+the first value being a default return value if there is no flag, and the second being a map for flag return values.
+
+string manip to store input[0] and input[1] as string variables command and flag
+
+using namespace ValidCommand
+map = {
+    "collect": [Collect, null]
+    "scan": [
+        Scan, {
+            "-a": scanAreaForSamples,
+            "-p": scanForPlanets
+        }
+    ]
+}
+
+if flag?:
+    return map[command][1][flag]
+else: 
+    return map[command][0]
+
+Idea 2: break apart checkCommand into checkCommand by Flag
+*/
 Game::ValidCommand Game::checkCommand(const Command& command) const {
     const auto& input = command.getInput();
     if (input.empty() && !getNextFlag()) {
@@ -419,12 +445,28 @@ void Game::gameLoop() {
             saveGame();
             break;
         case ValidCommand::Scan:
-            activePlanet = ship.getCurrentPlanet();
-            setBodyOutput(activePlanet.describe() +
-                               activePlanet.listRocks() +
-                               activePlanet.listPlantsOnPlanet()+ 
-            activePlanet.listNPCs());
-            setErrorOutput("Scan complete. Resources listed.");
+            if ((input.size() == 1) ||
+                (input[1] == "-h" || input[1] == "--help")) {
+                setBodyOutput(help.getScanHelp());
+            }
+
+            else if ((input[1] == "-a" || input[1] == "--area") && getPlanetFlag()) {
+                Planet active_planet = ship.getCurrentPlanet();
+                setBodyOutput(active_planet.describe() +
+                              active_planet.listRocks() +
+                              active_planet.listPlantsOnPlanet() +
+                              active_planet.listNPCs());
+                setErrorOutput("Scan complete. Resources listed.\n(use 'collect' to collect samples and 'interact -t' to talk to NPCs)");
+            }
+
+            else if ((input[1] == "-p" || input[1] == "--planets") && getShipFlag()) {
+                setBodyOutput(ship.getNearbyPlanet(planet_system.getPlanetList()));
+            }
+            else {
+                string error =
+                    "ERR: Please input a valid flag (try 'scan --help')";
+                setErrorOutput(error);
+            }
             break;
         case ValidCommand::ShipExit:
             // First, check if we are actually at a planet
