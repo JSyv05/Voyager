@@ -518,7 +518,7 @@ void Game::gameLoop() {
         } 
         case ValidCommand::Health:
         {
-            string output = "Player health" + player.getPlayerHealth();
+            string output = "Player health " + to_string(player.getPlayerHealth());
             setErrorOutput(output);
         }
         break;
