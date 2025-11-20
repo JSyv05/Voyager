@@ -3,10 +3,12 @@
 #include <iostream>
 #include <string>
 #include <iostream>
+#include <vector>
 
 class Rock {
 public:
     // Constructors
+    //   Default constructor creates a rock with name "Unnamed Rock" and an element type of "Generic"
     Rock();
     Rock(const std::string& name, const std::string& description,
          const std::string& elementType, int value,
@@ -30,3 +32,5 @@ private:
     std::string resourceYielded;
     int yieldAmount;
 };
+
+std::vector<Rock> createMasterRockList();

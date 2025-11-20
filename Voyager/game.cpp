@@ -17,33 +17,7 @@
 
 using namespace std;
 
-// Function implementation for Rock class
-vector<Rock> createMasterRockList() {
-    cout << "Creating master rock list from code..." << endl;
-    vector<Rock> all_rocks;
-
-    // Rock(name, description, elementType, value, resourceYielded, yieldAmount)
-    all_rocks.push_back(Rock("Basalt Shard",
-        "A dark, fine-grained volcanic rock.", "Volcanic",
-        10, "Iron", 5));
-    all_rocks.push_back(Rock("Pumice Stone",
-        "A very light and porous volcanic rock.",
-        "Volcanic", 5, "Sulfur", 10));
-    all_rocks.push_back(Rock("Iron Ore", "A rusty-red rock, heavy with metal.",
-        "Metallic", 25, "Iron", 20));
-    all_rocks.push_back(Rock("Ice Chunk", "A chunk of frozen, murky water.",
-        "Ice", 1, "Water", 10));
-    all_rocks.push_back(Rock("Sandstone", "A common sedimentary rock.", "Desert",
-        2, "Silicon", 3));
-    all_rocks.push_back(Rock("Petrified Wood", "Ancient wood turned to stone.",
-        "Forest", 15, "Carbon", 10));
-    all_rocks.push_back(Rock("Barren Stone", "A simple, useless rock.", "Barren",
-        0, "Gravel", 1));
-
-    cout << "Successfully created " << all_rocks.size() << " rocks."
-        << endl;
-    return all_rocks;
-}
+vector<Rock> createMasterRockList();   // declare rock creation routine, a global in the rock class
 
 // Function implementation for Game class
 
@@ -311,66 +285,29 @@ void Game::gameLoop() {
         ValidCommand passed_command = checkCommand(command);
         switch (passed_command) {
         case ValidCommand::Collect: {
-            Planet active_planet;
-            active_planet = ship.getCurrentPlanet();
+            Planet& active_planet = ship.getCurrentPlanet();  // will be mutating the rocks on the planet in this code
 
-            Biome planet_biome = active_planet.getBiome();
-
-            // Convert the planet's Biome enum to a string to match your
-            // Rock class
-            string target_rock_type = "Barren";
-            switch (planet_biome) {
-            case Biome::Volcanic:
-                target_rock_type = "Volcanic";
-                break;
-            case Biome::Ice:
-                break;
-            case Biome::Ocean:
-                target_rock_type = "Ice";
-                break;
-            case Biome::Desert:
-                target_rock_type = "Desert";
-                break;
-            case Biome::Forest:
-                target_rock_type = "Forest";
-                break;
-            case Biome::GasGiant:
-                break;
-            case Biome::Urban:
-                target_rock_type = "Metallic";
-                break;
-            case Biome::Barren:
-            default:
-                target_rock_type = "Barren";
-                break;
-            }
-
-            Rock rock_to_collect;
-            bool found_rock = false;
-
-            // Find a rock from the master list that matches the planet's string
-            // type
-            for (const auto& rock : all_game_rocks) {
-                if (rock.getElementType() == target_rock_type) {
-                    rock_to_collect = rock;
-                    found_rock = true;
-                }
-            }
+            // Rock Refactor (LV) - deleted code to decide rock to collect based on the biome
+            //    Now take a rock from the planet - note - will remove the rock from the planet after collection
+            //    If there are no rocks on the planet, collectRock... will return element type = "Generic"
+            Rock rock = active_planet.collectRockOnPlanet();
 
             string inventory_message;
 
-            if (found_rock) {
+            if (rock.getElementType() != "Generic") {
                 // Try to add the rock, which fills inventoryMessage
-                if (player_inventory.addRock(rock_to_collect, inventory_message)) {
+                if (player_inventory.addRock(rock, inventory_message)) {
                     setBodyOutput(inventory_message);
                     setErrorOutput("");
                 }
-                else {
+                else {   // problem - couldn't add the rock to the inventory, but rock already deleted
+                    // could ToDo possibly add a new planet method to add a rock and call it to replace the rock
+                    // note - should create the method regardless - more intuitive and scalable
                     setBodyOutput("");
                     setErrorOutput(inventory_message);
                 }
             }
-            else {
+            else {  // no rocks on the planet to collect
                 setBodyOutput("You scan the area but find no valuable rocks of "
                               "this planet's type.");
             }
@@ -492,7 +429,7 @@ void Game::gameLoop() {
                 setBodyOutput(help.getScanHelp());
             }
             else if ((input[1] == "-a" || input[1] == "--area") && getPlanetFlag()) {
-                Planet active_planet = ship.getCurrentPlanet();
+                Planet& active_planet = ship.getCurrentPlanet();
                 setBodyOutput(active_planet.describe() +
                               active_planet.listRocks() +
                               active_planet.listPlantsOnPlanet() +

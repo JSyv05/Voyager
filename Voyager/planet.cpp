@@ -120,6 +120,19 @@ std::string Planet::listPlantsOnPlanet() {
     return ss.str();
 }
 
+// collectRockOnPlanet - returns a rock from those on the planet & deletes the rock
+//    the rock returned is based on LIFO (ie the last rock added to the planet)
+//    currently - only a single rock is created on each planet, so that is the rock returned
+Rock Planet::collectRockOnPlanet() {
+    if (!rocksOnPlanet_.empty()) {
+        Rock rock = rocksOnPlanet_.back();   // grab the rock from the back of the vector
+        rocksOnPlanet_.pop_back();           //    delete the item from the planet
+        return rock;
+    }
+    else
+        return Rock{};                          // return the null object - no rocks found
+}
+
 Planet PlanetGenerator::generatePlanet(
     int index, const vector<array<double, 3>>& existingCoords) {
     uniform_real_distribution<double> distAU(0.5, 10.0);
