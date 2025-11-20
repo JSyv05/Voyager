@@ -4,6 +4,7 @@
 #include "Rock.h"
 #include "command.h"
 #include "menu.h"
+#include "help.h"
 #include "planet.h"
 #include "ship.h"
 #include "inventoryh.h"
@@ -17,37 +18,31 @@
 using namespace std;
 
 // Function implementation for Rock class
-
-/*TODO :
--Fix Collect and createMasterRockList so that logic for collecting rocks and
-determining what rocks are on only occurs in planet class
-
-*/ 
-std::vector<Rock> createMasterRockList() {
-    std::cout << "Creating master rock list from code..." << std::endl;
-    std::vector<Rock> allRocks;
+vector<Rock> createMasterRockList() {
+    cout << "Creating master rock list from code..." << endl;
+    vector<Rock> all_rocks;
 
     // Rock(name, description, elementType, value, resourceYielded, yieldAmount)
-    allRocks.push_back(Rock("Basalt Shard",
+    all_rocks.push_back(Rock("Basalt Shard",
         "A dark, fine-grained volcanic rock.", "Volcanic",
         10, "Iron", 5));
-    allRocks.push_back(Rock("Pumice Stone",
+    all_rocks.push_back(Rock("Pumice Stone",
         "A very light and porous volcanic rock.",
         "Volcanic", 5, "Sulfur", 10));
-    allRocks.push_back(Rock("Iron Ore", "A rusty-red rock, heavy with metal.",
+    all_rocks.push_back(Rock("Iron Ore", "A rusty-red rock, heavy with metal.",
         "Metallic", 25, "Iron", 20));
-    allRocks.push_back(Rock("Ice Chunk", "A chunk of frozen, murky water.",
+    all_rocks.push_back(Rock("Ice Chunk", "A chunk of frozen, murky water.",
         "Ice", 1, "Water", 10));
-    allRocks.push_back(Rock("Sandstone", "A common sedimentary rock.", "Desert",
+    all_rocks.push_back(Rock("Sandstone", "A common sedimentary rock.", "Desert",
         2, "Silicon", 3));
-    allRocks.push_back(Rock("Petrified Wood", "Ancient wood turned to stone.",
+    all_rocks.push_back(Rock("Petrified Wood", "Ancient wood turned to stone.",
         "Forest", 15, "Carbon", 10));
-    allRocks.push_back(Rock("Barren Stone", "A simple, useless rock.", "Barren",
+    all_rocks.push_back(Rock("Barren Stone", "A simple, useless rock.", "Barren",
         0, "Gravel", 1));
 
-    std::cout << "Successfully created " << allRocks.size() << " rocks."
-        << std::endl;
-    return allRocks;
+    cout << "Successfully created " << all_rocks.size() << " rocks."
+        << endl;
+    return all_rocks;
 }
 
 // Function implementation for Game class
@@ -132,13 +127,16 @@ Game::ValidCommand Game::checkCommand(const Command& command) const {
     else if (input.size() >= 2 && input[0] == "drop" && getPlanetFlag()) {
         return ValidCommand::Drop;
     }
-    else if (input.size() == 1 && input[0] == "exit" && getMenuFlag()) {
-        return ValidCommand::Exit;
+    else if (input.size() == 1 && input[0] == "Quit" && getMenuFlag()) {
+        return ValidCommand::Quit;
+    }
+    else if (input.size() == 1 && input[0] == "help" && !(getMenuFlag() || getNextFlag())) {
+        return ValidCommand::Help;
     }
     else if (input.size() >= 3 && input[0] == "inspect" && input[1] == "rock") {
         return ValidCommand::InspectRock;
     }
-    else if (input.size() == 1 && (input[0] == "inventory" || input[0] == "inv") && !getMenuFlag()) {
+    else if (input.size() == 1 && (input[0] == "inventory" || input[0] == "inv") && !(getMenuFlag() || getNextFlag())) {
         return ValidCommand::Inventory;
     }
     else if (input.size() == 1 && input[0] == "instructions" &&
@@ -162,8 +160,8 @@ Game::ValidCommand Game::checkCommand(const Command& command) const {
         getNextFlag()) {
         return ValidCommand::Next;
     }
-    else if ((input.size() == 3 && input[0] == "return" && input[1] == "to" &&
-        input[2] == "ship") &&
+    else if (input.size() == 3 && input[0] == "return" && input[1] == "to" &&
+        input[2] == "ship" &&
         getPlanetFlag()) {
         return ValidCommand::ReturnToShip;
     }
@@ -172,12 +170,12 @@ Game::ValidCommand Game::checkCommand(const Command& command) const {
         !getMenuFlag()) {
         return ValidCommand::Save;
     }
-    else if (input.size() >= 2 && input[0] == "scan" && input[1] == "-a" && getPlanetFlag()) {
+    else if (input.size() >= 1 && input[0] == "scan" && !(getMenuFlag() && getNextFlag())) {
         return ValidCommand::Scan;
     }
     else if (input.size() == 2 && input[0] == "exit" &&
              input[1] == "ship" && getShipFlag()) {
-        return ValidCommand::ShipExit;
+        return ValidCommand::Exit;
     }
     else if (((input.size() == 1 && input[0] == "menu") ||
         (input.size() >= 2 && input[0] == "main" &&
@@ -185,23 +183,17 @@ Game::ValidCommand Game::checkCommand(const Command& command) const {
         getShipFlag() && getSavedFlag()) {
         return ValidCommand::ShipMainMenu;
     }
-    else if (input.size() >= 2 && input[0] == "scan" && input[1] == "-p" && getShipFlag()) {
-        return ValidCommand::ScanForPlanets;
-    }
-    else if (input.size() == 1 && input[0] == "scan") {
-        return ValidCommand::Error; // or a special Help command if you want
-    }
     else if (((input.size() == 1 && input[0] == "start") ||
         (input.size() >= 2 && input[0] == "start" &&
             input[1] == "game")) &&
         getMenuFlag()) {
         return ValidCommand::Start;
     }
-    else if (input.size() >= 3 && input[0] == "travel" &&
+    else if (input.size() >= 1 && input[0] == "travel" &&
              getShipFlag()) {
         return ValidCommand::Travel;
     }
-    else if (input.size() >= 3 && input[0] == "talk" && input[1] == "to")
+    else if (input.size() >= 3 && input[0] == "interact" && getPlanetFlag())
     {
         return ValidCommand::Talk;
     }
@@ -243,6 +235,39 @@ void Game::displayOutput() const {
 
 void Game::saveGame() {}
 
+//Helper function to throw an error for travel -p
+
+void checkInputSizeLessThanFive(const vector<string>& in_vector) {
+    if (in_vector.size() < 5) {
+        throw out_of_range("ERR: Not enough arguments for coordinate");
+    }
+}
+
+// Helper function to get art based on planet type
+
+string getArtForTravelToPlanet(Biome biome, Art art) {
+    switch (biome) {
+    case Biome::Desert:
+        return art.setArtToDesert();
+    case Biome::Ice:
+        return art.setArtToIce();   
+    case Biome::Ocean:
+        return art.setArtToOcean();  
+    case Biome::Forest:
+        return art.setArtToForest();  
+    case Biome::Volcanic:
+        return art.setArtToVolcano();
+    case Biome::GasGiant:
+        return art.setArtToGasGiant();
+    case Biome::Urban:
+        return art.setArtToCity();
+    case Biome::Barren:
+        return art.setArtToWasteLand();
+    default:
+        return "ERR: Surface could not be processed";
+    }
+}
+
 /*
 The game loop is the heart of the game. It will handle all of the displaying of
 outputs as well as the logic behind each command.
@@ -254,17 +279,15 @@ void Game::gameLoop() {
     Command command;
     Ship ship;
     Art art;
+    Help help;
 
-    PlanetSystem planetSystem;
-    vector<Rock> allGameRocks = createMasterRockList();
+    PlanetSystem planet_system;
+    vector<Rock> all_game_rocks = createMasterRockList();
 
-    Inventory playerInventory(20); 
-    int currentPlanetIndex = -1; 
-
-    string error; // string to store error messages
+    Inventory player_inventory(20);  
 
     setMenuFlag(true);
-    art.setArtToTitle();
+    setArtOutput(art.setArtToTitle());
     setBodyOutput(menu.setMenu());
 
     while (!getGameOverFlag()) {
@@ -273,7 +296,6 @@ void Game::gameLoop() {
         Display the main menu initially and then take input.
         Contents of the display will be updated in the switch case
         */
-        setArtOutput(art.getArt());
         displayOutput();
         command.setInput();
 
@@ -284,84 +306,81 @@ void Game::gameLoop() {
         each enum value in ValidCommand and run the corresponding logic behind
         each command
         */
-
-        ostringstream travelMsg;
-        string art_text; //Temp variable for ASCII art
-        string body_text; // Temp variable for body text
         const auto& input = command.getInput();
-        int index;
 
-        string inventoryMessage;
-        Planet activePlanet;
-        ValidCommand passedCommand = checkCommand(command);
-        switch (passedCommand) {
-        case ValidCommand::Collect:
-            if (currentPlanetIndex != -1) {
-                activePlanet = ship.getCurrentPlanet();
+        ValidCommand passed_command = checkCommand(command);
+        switch (passed_command) {
+        case ValidCommand::Collect: {
+            Planet active_planet;
+            active_planet = ship.getCurrentPlanet();
 
-                Biome planetBiome = activePlanet.getBiome();
+            Biome planet_biome = active_planet.getBiome();
 
-                // Convert the planet's Biome enum to a std::string to match your Rock class
-                std::string targetRockType = "Barren"; 
-                switch (planetBiome) {
-                case Biome::Volcanic:
-                    targetRockType = "Volcanic";
-                    break;
-                case Biome::Ice:
-                case Biome::Ocean:
-                    targetRockType = "Ice";
-                    break;
-                case Biome::Desert:
-                    targetRockType = "Desert";
-                    break;
-                case Biome::Forest:
-                    targetRockType = "Forest";
-                    break;
-                case Biome::GasGiant:
-                case Biome::Urban:
-                    targetRockType = "Metallic";
-                    break;
-                case Biome::Barren:
-                default:
-                    targetRockType = "Barren"; 
-                    break;
+            // Convert the planet's Biome enum to a string to match your
+            // Rock class
+            string target_rock_type = "Barren";
+            switch (planet_biome) {
+            case Biome::Volcanic:
+                target_rock_type = "Volcanic";
+                break;
+            case Biome::Ice:
+                break;
+            case Biome::Ocean:
+                target_rock_type = "Ice";
+                break;
+            case Biome::Desert:
+                target_rock_type = "Desert";
+                break;
+            case Biome::Forest:
+                target_rock_type = "Forest";
+                break;
+            case Biome::GasGiant:
+                break;
+            case Biome::Urban:
+                target_rock_type = "Metallic";
+                break;
+            case Biome::Barren:
+            default:
+                target_rock_type = "Barren";
+                break;
+            }
+
+            Rock rock_to_collect;
+            bool found_rock = false;
+
+            // Find a rock from the master list that matches the planet's string
+            // type
+            for (const auto& rock : all_game_rocks) {
+                if (rock.getElementType() == target_rock_type) {
+                    rock_to_collect = rock;
+                    found_rock = true;
                 }
+            }
 
-                Rock rockToCollect;
-                bool foundRock = false;
+            string inventory_message;
 
-                // Find a rock from the master list that matches the planet's string type
-                for (const auto& rock : allGameRocks) {
-                    if (rock.getElementType() == targetRockType) {
-                        rockToCollect = rock; 
-                        foundRock = true;
-                        break; 
-                    }
-                }
-
-                if (foundRock) {
-                    // Try to add the rock, which fills inventoryMessage
-                    if (playerInventory.addRock(rockToCollect, inventoryMessage)) {
-                        setBodyOutput(inventoryMessage);
-                        setErrorOutput("");
-                    }
-                    else {
-                        setBodyOutput("");
-                        setErrorOutput(inventoryMessage);
-                    }
+            if (found_rock) {
+                // Try to add the rock, which fills inventoryMessage
+                if (player_inventory.addRock(rock_to_collect, inventory_message)) {
+                    setBodyOutput(inventory_message);
+                    setErrorOutput("");
                 }
                 else {
-                    setBodyOutput("You scan the area but find no valuable rocks of this planet's type.");
+                    setBodyOutput("");
+                    setErrorOutput(inventory_message);
                 }
             }
             else {
-                setErrorOutput("ERR: You must be on a planet to collect rocks.\n\n");
+                setBodyOutput("You scan the area but find no valuable rocks of "
+                              "this planet's type.");
             }
+        }
             break;
 
         case ValidCommand::Credits:
             setBodyOutput(menu.setCredits());
             break;
+
         case ValidCommand::Drop:
         { // Added curly braces to create a new scope for variables
             if (input.size() < 2) {
@@ -370,27 +389,37 @@ void Game::gameLoop() {
             }
 
             // Combine all words after "drop" into a single string
-            std::string rockToDrop;
+            string rockToDrop;
             for (size_t i = 1; i < input.size(); ++i) {
                 rockToDrop += input[i] + (i == input.size() - 1 ? "" : " ");
             }
 
-            if (playerInventory.removeRock(rockToDrop, inventoryMessage)) {
-                setBodyOutput(inventoryMessage);
+
+            string inventory_message;
+            if (player_inventory.removeRock(rockToDrop, inventory_message)) {
+                setBodyOutput(inventory_message);
             }
             else {
                 setBodyOutput("");
-                setErrorOutput(inventoryMessage); 
+                setErrorOutput(inventory_message); 
             }
         }
         break;
-        case ValidCommand::Error:
-            error = "ERR: Please enter a valid input";
+
+        case ValidCommand::Error: {
+            string error = "ERR: Please enter a valid input";
             setErrorOutput(error);
+        }
             break;
-        case ValidCommand::Exit:
+
+        case ValidCommand::Quit:
             setGameOverFlag(true);
             break;
+
+        case ValidCommand::Help:
+            setBodyOutput(help.getGeneralHelp());
+            break;
+
         case ValidCommand::InspectRock:
         { // Added curly braces for scope
             if (input.size() < 3) {
@@ -399,66 +428,77 @@ void Game::gameLoop() {
             }
 
             // Combine all words after "inspect rock"
-            std::string rockToInspect;
+            string rock_to_inspect;
             for (size_t i = 2; i < input.size(); ++i) {
-                rockToInspect += input[i] + (i == input.size() - 1 ? "" : " ");
+                rock_to_inspect += input[i] + (i == input.size() - 1 ? "" : " ");
             }
 
             // inspectRock returns the full string, success or error
-            std::string inspectResult = playerInventory.inspectRock(rockToInspect);
-            if (inspectResult.rfind("ERR:", 0) == 0) { // Check if string starts with "ERR:"
+            string inspect_result = player_inventory.inspectRock(rock_to_inspect);
+            if (inspect_result.rfind("ERR:", 0) == 0) { // Check if string starts with "ERR:"
                 setBodyOutput("");
-                setErrorOutput(inspectResult);
+                setErrorOutput(inspect_result);
             }
             else {
-                setBodyOutput(inspectResult);
+                setBodyOutput(inspect_result);
             }
         }
         break;
+
         case ValidCommand::Inventory:
-            playerInventory.autoSortRocks(); // Sort before displaying
-            setBodyOutput(playerInventory.getDisplayString());
+            player_inventory.autoSortRocks(); // Sort before displaying
+            setBodyOutput(player_inventory.getDisplayString());
             break;
+
         case ValidCommand::Instructions:
             setBodyOutput(menu.setInstructions());
             break;
+
         case ValidCommand::Load:
             break;
+
         case ValidCommand::MainMenu:
             setBodyOutput(menu.setMenu());
             break;
-        case ValidCommand::Next:
+
+        case ValidCommand::Next: {
             setMenuFlag(false);
             setNextFlag(false);
             setShipFlag(true);
-            body_text = "The view of space is unlike anything you have seen before.\nYou feel a sense of calm wash over you.\n(use scan -p to scan for nearby planets)";
-            art.setArtToShip();
-            setBodyOutput(body_text);
+
+            string output =
+                "The view of space is unlike anything you have seen "
+                "before.\nYou feel a sense of calm wash over you.\n(use scan "
+                "-p to scan for nearby planets)";
+            setArtOutput(art.setArtToShip());
+            setBodyOutput(output);
+        }
             break;
+
         case ValidCommand::ReturnToShip:
             setPlanetFlag(false);
             setShipFlag(true);
             setBodyOutput(ship.returnToShip());
-            art.setArtToShip();
+            setArtOutput(art.setArtToShip());
             break;
+
         case ValidCommand::Save:
             saveGame();
             break;
+
         case ValidCommand::Scan:
             if ((input.size() == 1) ||
                 (input[1] == "-h" || input[1] == "--help")) {
                 setBodyOutput(help.getScanHelp());
             }
-
             else if ((input[1] == "-a" || input[1] == "--area") && getPlanetFlag()) {
                 Planet active_planet = ship.getCurrentPlanet();
                 setBodyOutput(active_planet.describe() +
                               active_planet.listRocks() +
                               active_planet.listPlantsOnPlanet() +
                               active_planet.listNPCs());
-                setErrorOutput("Scan complete. Resources listed.\n(use 'collect' to collect samples and 'interact -t' to talk to NPCs)");
+                setErrorOutput("Scan complete. Resources listed.\n\n");
             }
-
             else if ((input[1] == "-p" || input[1] == "--planets") && getShipFlag()) {
                 setBodyOutput(ship.getNearbyPlanet(planet_system.getPlanetList()));
             }
@@ -468,72 +508,77 @@ void Game::gameLoop() {
                 setErrorOutput(error);
             }
             break;
-        case ValidCommand::ShipExit:
-            // First, check if we are actually at a planet
+
+        case ValidCommand::Exit:
             setBodyOutput(ship.shipExit());
             setShipFlag(false);
             setPlanetFlag(true);
             break;
+
         case ValidCommand::ShipMainMenu:
             setBodyOutput(menu.setMenu());
             setMenuFlag(true);
             setShipFlag(false);
             break;
-        case ValidCommand::ScanForPlanets:
-            setBodyOutput(ship.getNearbyPlanet(planetSystem.getPlanetList()));
-            break;
+
         case ValidCommand::Start:
             setMenuFlag(false);
             setNextFlag(true);
             setBodyOutput(menu.setIntro());
-            art.setArtToAguila();
-            planetSystem.generatePlanets(20, allGameRocks);
+            setArtOutput(art.setArtToAguila());
+            planet_system.generatePlanets(20, all_game_rocks);
             break;
+
         case ValidCommand::Travel:
             try {
-                if (input[1] == "-d" || input[1] == "--destination") {
-                    index = stoi(input[2]);
-                        // If valid, travel and set all game flags
-                    setBodyOutput(ship.travelToPlanet(index, art));
+                if ((input.size() == 1) ||
+                    (input[1] == "-h" || input[1] == "--help")) {
+                    setBodyOutput(help.getTravelHelp());
+                }
+                else if (input[1] == "-d" || input[1] == "--destination") {
+                    int index = stoi(input[2]);
+                    setBodyOutput(ship.travelToPlanet(index));
+                    setArtOutput(getArtForTravelToPlanet(
+                        ship.getCurrentPlanet().getBiome(), art));
                 }
                 else if (input[1] == "-p" || input[1] == "--position") {
-                    std::array<double, 3> position;
-                    position[0] = stoi(input[2]);
-                    position[1] = stoi(input[3]);
-                    position[2] = stoi(input[4]);
+                    checkInputSizeLessThanFive(input);
+                    array<double, 3> position = {stod(input[2]), stod(input[3]), stod(input[4])};
                     ship.setCoordinates(position);
-                    travelMsg << "set coordinates to (" << position[0] << ", "
+                    ostringstream output;
+                    output << "set coordinates to (" << position[0] << ", "
                         << position[1] << ", " << position[2] << ")";
-                    setBodyOutput(travelMsg.str());
+                    setBodyOutput(output.str());
                 }
                 else {
-                    error = "ERR: Please pass a valid flag";
-                    setBodyOutput(error);
+                    string error = "ERR: Please pass a valid flag (try 'travel --help')";
+                    setErrorOutput(error);
                 }
             }
             catch (const invalid_argument& e) {
-                error = "ERR: Invalid argument";
+                string error = "ERR: Invalid argument";
                 setErrorOutput(error);
             }
             catch (const out_of_range& e) {
-                error = "ERR: Argument is out of range";
+                string error = e.what();
                 setErrorOutput(error);
             }
             break;
+
         case ValidCommand::Talk:
         {
-            int npcIndex = 0;
-            try { npcIndex = stoi(input[2]); }
-            catch (...) { npcIndex = 0; }
+            int npc_index = 0;
+            try { npc_index = stoi(input[2]); }
+            catch (...) { npc_index = 0; }
+            ostringstream output;
+            output << ship.getCurrentPlanet().talkToNPC(npc_index) << "\n";
 
-            ostringstream msg;
-            msg << ship.getCurrentPlanet().talkToNPC(npcIndex) << "\n";
+            setBodyOutput(output.str());
+        } 
+        break;
 
-            setBodyOutput(msg.str());
-            break;
-        }
         default:
-            error = "ERR: PLease enter a valid input";
+            string error = "ERR: Please enter a valid input";
             setErrorOutput(error);
             break;
         }

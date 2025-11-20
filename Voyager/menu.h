@@ -13,7 +13,6 @@ public:
 	std::string setMenu() const;
     std::string setInstructions() const;
     std::string setCredits() const;
-    std::string setError() const;
     std::string setIntro() const;
 };
 

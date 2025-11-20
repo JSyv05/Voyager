@@ -4,10 +4,8 @@
 
 using namespace std;
 
-string Art::getArt() const { return art; }
-
-void Art::setArtToShip() {
-    art = R"(
+string Art::setArtToShip() const const {
+    string art= R"(
               `           '              '    . '
         .         .          ,_.-``--.                         .
    .                  ..   ,/   ;' /V `.         +    .
@@ -20,9 +18,10 @@ void Art::setArtToShip() {
 _-"   .       '  +  .   \_,,_.-`    .               \ | /   .
        `                                        .    \|/        ,
 .             '       .  ' .   .       '              V      .)";
+    return art;
 }
 
-void Art::setArtToCity() { art = R"(
+string Art::setArtToCity() const { string art= R"(
 ::::8888888888888888888888P   ____.------.____   488888888888888:::888
 ::::88888888888888888P __.--""    _._         ""--.__ 4888888888:::888
 :::::888888888888P _.-"        .-~ | ~-.             "-._ 488888:::888
@@ -41,9 +40,11 @@ void Art::setArtToCity() { art = R"(
 8|      |   | |      |   | |       |  |   |     |  |  |   |   j      |
 8|      9   | |      |   | |       |  |   |     |  |  |   |   o      |
 8|      9   | |      |   | |       |  |   |     |  |  |   |   |      |
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~)"; }
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~)"; 
+    return art;
+}
 
-void Art::setArtToForest() { art = R"(                                                            ---\=,__,>,_`-.     |
+string Art::setArtToForest() const { string art= R"(                                                            ---\=,__,>,_`-.     |
        :  |  `"""V#######,,_ `-  ""##################' --z--;" /_/  `. `.   |
           |          `/"""".`|`|| } }|.""""""""|"""""  --'//`/'  `    \  '. |
     :          :      |:     ||   |  |  :   :  |   :   ,_\---_\._   :  `.\ |/
@@ -56,9 +57,11 @@ void Art::setArtToForest() { art = R"(                                          
                          :   | ||#|#| | ':    :    :             :       ` 
          '#"      :   :    : | ||,|, ||   :      /        :           |:  ||
   ""'                    :  \\|\ X XX///`      :|   :    |   :      : |   |
-        :             :  / >\\> <\/\< )"; }
+        :             :  / >\\> <\/\< )"; 
+    return art;
+}
 
-void Art::setArtToDesert() { art = R"(
+string Art::setArtToDesert() const { string art= R"(
     .    _    +     .  ______   .          .
  (      /|\      .    |      \      .   +
      . |||||     _    | |   | | ||         .
@@ -74,10 +77,12 @@ __||||_|||||____| |_|_____________\__________
    . _ ||||| . _               .   _________
 _   ___|||||__  _ \\--//    .          _
      _ `---'    .)=\oo|=(.   _   .   .    .
-_  ^      .  -    . \.|)"; }
+_  ^      .  -    . \.|)"; 
+    return art;
+}
 
-void Art::setArtToGasGiant() {
-    art = R"(              .
+string Art::setArtToGasGiant() const {
+    string art= R"(              .
                					
               |					
      .               /				
@@ -96,10 +101,11 @@ void Art::setArtToGasGiant() {
                   (_  )                     ` __.:'
                                         	
 --..,___.--,--'`,---..-.--+--.,,-,,..._.--..-._.-a:f--.)";
+    return art;
 }
 
-void Art::setArtToIce() {
-    art = R"(
+string Art::setArtToIce() const {
+    string art= R"(
                        .-.      / \        _
            ^^         /   \    /^./\__   _/ \
          _        .--'\/\_ \__/.      \ /    \  ^^  ___
@@ -114,10 +120,10 @@ void Art::setArtToIce() {
 @88:::&(&8&&8::JGS:&`.~-_~~-~~_~-~_~-~~=.'@(&%::::%@8&8)::&#@8::::
 `::::::8%@@%:::::@%&8:`.=~~-.~~-.~~=..~'8::::::::&@8:::::&8::::::'
  `::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::')";
-
+    return art;
 }
 
-void Art::setArtToOcean() { art = R"(                               _
+string Art::setArtToOcean() const { string art= R"(                               _
                  ~        ~               ~~
           ~~          ~~          ~~   ~      ~~
      ~~    ~   ~~  __...--------...__ ~~~     ~~
@@ -128,10 +134,12 @@ void Art::setArtToOcean() { art = R"(                               _
  ~~~   ~    ~~      ~ `````---"""""  ~~   ~     ~~
         ~~~~    ~~  ~~~~       ~~~~~~  ~ ~~   ~~ ~~~  ~
      ~~   ~   ~~~     ~~~ ~         ~~       ~~   SSt
-              ~        ~~       ~~~       ~)"; }
+              ~        ~~       ~~~       ~)"; 
+    return art;
+}
 
-void Art::setArtToVolcano() {
-    art = R"(
+string Art::setArtToVolcano() const {
+    string art= R"(
                   xl""``""lx
                  X8X::::::X8X
                  8X::dX::d8X8    X
@@ -143,10 +151,11 @@ void Art::setArtToVolcano() {
     d:X:bdX8X8::d8X8::X8X8X8::bX8bdX8Xb_
    dXX8:8X8X8::X8X8::X8X8X8X8::db8Xbd8X8b-.
 .-d8X8X8X8X::dX8X8X8::X8X8X:::X8db8X8X8-RG-b-.)";
+    return art;
 }
 
-void Art::setArtToWasteLand() {
-    art = R"(
+string Art::setArtToWasteLand() const {
+    string art= R"(
 
 
 
@@ -155,10 +164,11 @@ void Art::setArtToWasteLand() {
  _.,-*~'^'~*-,._      (               _.,-*~'^'~*-,._
 |               '*-,.__.,-*~'^'~*.,-*'               '-,._
 |                     '*-,.__.,-*'                          '*-,.__.,-*,)";
+    return art;
 }
 
-void Art::setArtToTitle() {
-    art = R"(
+string Art::setArtToTitle() const {
+    string art= R"(
                 :::     ::: :::::::: :::   :::  :::     :::::::: :::::::::::::::::::             
                :+:     :+::+:    :+::+:   :+::+: :+:  :+:    :+::+:       :+:    :+:              
               +:+     +:++:+    +:+ +:+ +:++:+   +:+ +:+       +:+       +:+    +:+               
@@ -169,10 +179,11 @@ void Art::setArtToTitle() {
 ____ _  _ ____ ____ _   _ ____ ____ ____ ____ _ ____ _ ____ ____ _  _ ____ ___ ___ ____ ____ ____ 
 |___ |  | |___ |__/  \_/  [__  |__| |    |__/ | |___ | |    |___ |\/| |__|  |   |  |___ |__/ [__  
 |___  \/  |___ |  \   |   ___] |  | |___ |  \ | |    | |___ |___ |  | |  |  |   |  |___ |  \ ___] )";
+    return art;
 }
 
-void Art::setArtToAguila() {
-    art = R"(
+string Art::setArtToAguila() const {
+    string art= R"(
    <<Grand Legion of Humanity>>
         .---.        .---.
        /     \  __  /     \
@@ -186,4 +197,5 @@ void Art::setArtToAguila() {
                ''``
   <<Dept. of Space Exploration>>
 )";
+    return art;
 }

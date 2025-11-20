@@ -95,8 +95,10 @@ string Ship::getNearbyPlanet(const vector<Planet>& planet_vector) {
 }
 
 // Travel to planet, dock on planet, displays name and description
-string Ship::travelToPlanet(int choice, Art& art) {
-
+string Ship::travelToPlanet(int choice) {
+    if (choice > 3 || choice < 1) {
+        throw out_of_range("ERR: index is out of range");
+    }
     Planet destination = lastScannedPlanets[choice - 1];
     const auto& destCoords = destination.getCoordinates();
 
@@ -108,33 +110,6 @@ string Ship::travelToPlanet(int choice, Art& art) {
     previousCoordinates = coordinates;
     coordinates = destCoords;
     currentPlanet = destination;
-
-    switch (currentPlanet.getBiome()) {
-    case Biome::Desert:
-        art.setArtToDesert();
-        break;
-    case Biome::Ice:
-        art.setArtToIce();
-        break;
-    case Biome::Ocean:
-        art.setArtToOcean();
-        break;
-    case Biome::Forest:
-        art.setArtToForest();
-        break;
-    case Biome::Volcanic:
-        art.setArtToVolcano();
-        break;
-    case Biome::GasGiant:
-        art.setArtToGasGiant();
-        break;
-    case Biome::Urban:
-        art.setArtToCity();
-        break;
-    case Biome::Barren:
-        art.setArtToWasteLand();
-        break;
-    }
 
     ostringstream msg;
     msg << "Traveling to " << currentPlanet.getName() << "...\n";
