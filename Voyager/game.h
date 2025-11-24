@@ -2,6 +2,8 @@
 #define GAME_H
 
 #include"command.h"
+#include"Player.h"
+
 
 #include <string>
 
@@ -25,6 +27,8 @@ private:
     bool gameOver;
     bool saved;
     bool next;
+
+    Player player;
 
     /*
     Valid command will keep track of all possible commands in the game. The command parser checkCommand()
@@ -52,6 +56,7 @@ private:
         Travel,
         Talk,
         Inventory,
+        Health,
     };
 public:
     Game(); // Default constructor

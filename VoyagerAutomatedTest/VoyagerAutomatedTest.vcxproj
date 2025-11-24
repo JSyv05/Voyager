@@ -165,6 +165,9 @@
     <ClCompile Include="..\Voyager\plants.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\Voyager\Player.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\Voyager\rock.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -176,6 +179,7 @@
     </ClCompile>
     <ClCompile Include="PlantTest.cpp" />
     <ClCompile Include="RockTest.cpp" />
+    <ClCompile Include="Test.cpp" />
     <ClCompile Include="VoyagerAutomatedTest.cpp" />
   </ItemGroup>
   <ItemGroup>

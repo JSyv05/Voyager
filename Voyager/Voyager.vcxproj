@@ -132,6 +132,7 @@
     <ClCompile Include="npc.cpp" />
     <ClCompile Include="planet.cpp" />
     <ClCompile Include="plants.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="rock.cpp" />
     <ClCompile Include="ship.cpp" />
     <ClCompile Include="inventory.cpp" />
@@ -146,6 +147,7 @@
     <ClInclude Include="npc.h" />
     <ClInclude Include="planet.h" />
     <ClInclude Include="plants.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="rock.h" />
     <ClInclude Include="ship.h" />
   </ItemGroup>
