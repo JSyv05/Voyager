@@ -179,6 +179,7 @@
     </ClCompile>
     <ClCompile Include="PlantTest.cpp" />
     <ClCompile Include="RockTest.cpp" />
+    <ClCompile Include="shipStorageTest.cpp" />
     <ClCompile Include="Test.cpp" />
     <ClCompile Include="VoyagerAutomatedTest.cpp" />
   </ItemGroup>

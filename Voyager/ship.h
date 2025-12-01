@@ -2,6 +2,7 @@
 #define SHIP_H
 
 #include "planet.h"
+#include "inventory.h"
 #include <array>
 #include <string>
 #include <vector>
@@ -29,6 +30,7 @@ public:
 
     // Ship actions
     std::string getNearbyPlanet(const std::vector<Planet>&);            // Scans for planets
+    std::string getShipStorage();
     std::string travelToPlanet(int choice); // Travel/Dock at chosen planet
     std::string returnToShip();               // Returns tp ship
     std::string shipExit();                   // Exits ship
