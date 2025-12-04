@@ -1,14 +1,14 @@
 #include "npc.h"
 #include "planet.h"
+#include "Player.h"
 #include <algorithm>
 #include <random>
-
+#include <sstream>
 using namespace std;
 
 // NPC Implementation
 NPC::NPC(string name, string line, string appearance, NpcCategory cat, Biome biome)
-    : name_(move(name)), openingLine_(move(line)), appearance_(move(appearance)), category_(cat), biome_(biome) {
-}
+    : name_(move(name)), openingLine_(move(line)), appearance_(move(appearance)), category_(cat), biome_(biome) {}
 
 string NPC::getType() const
 {
@@ -16,7 +16,6 @@ string NPC::getType() const
     {
     case NpcCategory::Person: return "Person";
     case NpcCategory::Monster: return "Monster";
-    case NpcCategory::Merchant: return "Merchant";
     case NpcCategory::Event: return "Event";
     default: return "Unknown";
     }
@@ -37,10 +36,86 @@ string NPC::talkText() const
     return name_ + " says: " + openingLine_ + "\nAppearance: " + appearance_ + "\n";
 }
 
+// Monster Implementation
+Monster::Monster(string name, string line, string appearance, NpcCategory cat, Biome biome, int hp, int atk)
+    : NPC(name, line, appearance, NpcCategory::Monster, biome), health_(hp), attackPower_(atk) {}
+
+int Monster::dealDamage() const { return attackPower_; }
+
+void Monster::takeDamage(int dmg)
+{
+    health_ -= dmg;
+    if (health_ < 0)
+        health_ = 0;
+}
+
+bool Monster::isDead() const
+{
+    return health_ <= 0;
+}
+
+string Monster::attackPlayer(Player& player)
+{
+    int dmg = dealDamage();
+    player.takeDamage(dmg);
+
+    ostringstream ss;
+    ss << getName() << " attacks you for " << dmg << " damage!\n"
+        << "Your health is now " << player.getPlayerHealth() << ".";
+    return ss.str();
+}
+
+// Comabt helpers 
+// Core attack loop
+// - Monster attacks on odd-numbered turhns (turn_counter % 2 != 0)
+// - Player attacks on even-numbered turns
+// - If playerGetsFirstStrike is true, the player gets one sneak hit before the loop
+void attackSequence(Monster& monster, Player& player, int& turn_counter, bool playerGetsFirstStrike)
+{
+    if (playerGetsFirstStrike && !monster.isDead() && player.getPlayerHealth() > 0)
+    {
+        player.attackMonster(monster);
+        if (monster.isDead()) return;
+
+    }
+
+    while (!monster.isDead() && player.getPlayerHealth() > 0)
+    {
+        if (turn_counter % 2 != 0)
+        {
+            monster.attackPlayer(player);
+        }
+        else
+        {
+            player.attackMonster(monster);
+        }
+        ++turn_counter;
+    }
+}
+
+// Starts a combat with a new turn_counter
+void monsterStartAttack(Monster& monster, Player& player, bool playerGetsFirstStrike)
+{
+    int turn_counter = 0;
+    attackSequence(monster, player, turn_counter, playerGetsFirstStrike);
+}
+
+void inputCounter(int& counter, int threshold, Monster& monster, Player& player, bool& playerGetsFirstStrike)
+{
+    ++counter;
+    if (counter >= threshold)
+    {
+        counter = 0;
+        monsterStartAttack(monster, player, playerGetsFirstStrike);
+    }
+}
+
+
+
 // NPC DATA (2 per Biome for testing)
 static vector<NPC> ALL_NPCS =
 {
-    // Forest
+    // Forests noncombat NPCs
     {"Gorm Garnersson",
      "Greetings outlander, I am Gorm of house Garnersson. What brings you to this realm?",
      "7.5 ft tall, draconic features, armored knight with sword and dagger.",
@@ -68,7 +143,7 @@ static vector<NPC> ALL_NPCS =
       {"Marina May",
        "Warm waves welcome you, traveler.",
        "Coral body with pink-to-orange gradient.",
-       NpcCategory::Merchant, Biome::Ocean},
+       NpcCategory::Person, Biome::Ocean},
 
        // Ice
        {"Icicle",
@@ -94,7 +169,7 @@ static vector<NPC> ALL_NPCS =
          {"P.A.R.E.",
           "... SCANNING ... USER NOT FOUND ... SHOW DRESCO ID.",
           "Rusty humanoid robot barely moving.",
-          NpcCategory::Merchant, Biome::Barren},
+          NpcCategory::Person, Biome::Barren},
          {"Barren John",
           "OoooOooOoOoOoOoOoOoOoo...",
           "Dark silhouette with glowing eyes.",
@@ -104,7 +179,7 @@ static vector<NPC> ALL_NPCS =
           {"Taxi Jaxi",
            "Need yaself a ride? Take a ride in Taxi Jaxi’s Jaxi Taxi!",
            "1920s-style cabbie with newsboy hat.",
-           NpcCategory::Merchant, Biome::Urban},
+           NpcCategory::Person, Biome::Urban},
           {"Justin Case",
            "Greetings partner… foremost, amazing, genius, expert…",
            "5'8 robot in dirty overcoat; cardboard badge.",
@@ -141,3 +216,102 @@ vector<NPC> pickNPCsForBiome(Biome biome, int count)
 
     return pool;
 }
+
+// All the monsters objects
+static vector<Monster> All_MONSTERS =
+{
+    // Forests Monster
+    Monster("Tree Monster", "THE FOREST HUNGERS!", "A towering walking tree...", 
+            NpcCategory::Monster, Biome::Forest, 40, 10),   // HP = 40 and Attack = 10
+
+    // Volcanic Monster 
+    Monster("Lava Serpent", "The ground cracks and molten eyes glare at you...", "A long serpent made of rock and magma.",
+            NpcCategory::Monster, Biome::Volcanic, 35, 12),
+
+    // Ocean Monster
+    Monster("Leviathan", "THE LEVIATHAN IS COMING...", "A titanic sea serpent rises from the depths, its body dwarfing "
+        "everything around it and its roar shaking the ocean itself.", NpcCategory::Monster, Biome::Ocean, 60, 12),
+
+    // Ice Monster 
+    Monster("Glacier Wraith", "A chilling whisper echoes across the tundra...", "A translucent spirit wrapped in frost.",
+             NpcCategory::Monster, Biome::Ice,30, 8),
+
+   // Gas Giant Monster 
+   Monster("Storm Titan", "The clouds tremble... thunder answers.", "A towering figure of swirling clouds and lightning, its body "
+           "formed from the raw fury of the gas giant's atmosphere.", NpcCategory::Monster, Biome::GasGiant, 55, 10),
+
+   // Barren Monster 
+   Monster("Dust  Wraith", "A hollow whisper drifts across the wasteland...", "A ghostly creature formed from dust and splintered bone, drifting "
+           "silently through the barren plains.", NpcCategory::Monster, Biome::Barren, 35, 8),
+
+   // Urban Monster 
+    Monster("Living Trash Heap", "Garbage shifts... then stands upright.", "A massive pile of animated refuse, leaking sludge and rattling "
+            "with broken machinery, trudges toward you.", NpcCategory::Monster, Biome::Urban, 50, 9),
+
+   // Desert Monster 
+    Monster("Colossal Scorpion", "The sands shift... something enormous crawls beneath them.", "A gigantic scorpion bursts from the dunes, its armored plates "
+            "glinting beneath the scorching sun.", NpcCategory::Monster, Biome::Desert, 45, 11),
+ 
+};
+
+// Return all templates
+const vector<Monster>& getAllMonsters()
+{
+    return All_MONSTERS;
+}
+
+
+// Find a template for this biome, or nullptr if none
+static const Monster* findTemplateForBiome(Biome biome)
+{
+    for (const auto& mon : All_MONSTERS)
+    {
+        if (mon.getBiome() == biome)
+            return &mon;
+    }
+    return nullptr;
+}
+
+// Creates a monster instance scaled by difficulty
+Monster createMonsterForBiomeAndDifficulty(Biome biome, int difficulty)
+{
+    const Monster* tmpl = findTemplateForBiome(biome);
+
+    // If no monster for this biome yet, fall back to a generic weak one
+    if (!tmpl)
+    {
+        return Monster(
+            "Mysterious Shade",
+            "...something stirs in the shadows...",
+            "A faint, shifting silhouette.",
+            NpcCategory::Monster,
+            biome,
+            20,  // HP
+            5    // attack
+        );
+    }
+
+    // Base stats from template
+    int baseHp = tmpl->getHealth();
+    int baseAtk = tmpl->getAttackPower();
+
+    // Difficulty scaling: tweak numbers as you like
+    // difficulty is 1–10 from your difficultyLevels / lootLevel_
+    int extraHp = (difficulty - 1) * 3;  // +3 HP per level above 1
+    int extraAtk = (difficulty - 1) * 1;  // +1 ATK per level above 1
+
+    int scaledHp = baseHp + extraHp;
+    int scaledAtk = baseAtk + extraAtk;
+
+    // Build a fresh Monster for this combat
+    return Monster(
+        tmpl->getName(),
+        tmpl->getOpeningLine(),
+        tmpl->getAppearance(),
+        NpcCategory::Monster,
+        biome,
+        scaledHp,
+        scaledAtk
+    );
+}
+

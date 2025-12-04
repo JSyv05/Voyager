@@ -43,55 +43,118 @@ void Ship::setRadar(int r) { radar = r; }
 int Ship::getRadar() const { return radar; }
 
 // Scans for nerby planets
-string Ship::getNearbyPlanet(const vector<Planet>& planet_vector) {
+string Ship::getNearbyPlanet(const vector<Planet>& planet_vector)
+{
+    const double fuelPerAU = 2.5; 
 
+    //  Build distance list from ship to every planet 
+    vector<pair<double, const Planet*>> planetDistances;
+    planetDistances.reserve(planet_vector.size());
 
-    const double fuelPerAU = 2.5;
-    vector<pair<double, Planet>> planetDistances;
-
-   // Calcute all distances once
-    for (const auto& p : planet_vector) 
-    {
+    for (const auto& p : planet_vector) {
         double dAU = calcDistanceAU(coordinates, p.getCoordinates());
-        planetDistances.push_back({ dAU, p });
+        planetDistances.push_back({ dAU, &p });
     }
 
-    // Sort planets by ascending distance
+    // Sort by distance (closest first)
     sort(planetDistances.begin(), planetDistances.end(),
         [](const auto& a, const auto& b) { return a.first < b.first; });
 
+    //  Remember last scan for cooldown 
+    vector<Planet> previousScan = lastScannedPlanets;
     lastScannedPlanets.clear();
 
-    // Add the 3 closest planets
-    int count = min(radar, (int)planetDistances.size());
-    for (int i = 0; i < count; ++i)
-    {
-        lastScannedPlanets.push_back(planetDistances[i].second);
+    // Compare planets by coordinates (unique in system)
+    auto samePlanet = [](const Planet& a, const Planet& b) {
+        auto ac = a.getCoordinates();
+        auto bc = b.getCoordinates();
+        return ac[0] == bc[0] && ac[1] == bc[1] && ac[2] == bc[2];
+        };
+
+    auto inPreviousScan = [&](const Planet& p) {
+        return any_of(previousScan.begin(), previousScan.end(),
+            [&](const Planet& prev) { return samePlanet(p, prev); });
+        };
+
+    // Selected planets for this scan: (distance, planet*)
+    vector<pair<double, const Planet*>> selected;
+
+    auto inSelected = [&](const Planet& p) {
+        return any_of(selected.begin(), selected.end(),
+            [&](const auto& entry) { return samePlanet(p, *entry.second); });
+        };
+
+    bool hasTraveledBefore = (currentPlanet.getName() != "EARTH");
+
+    // Always include current planet after first travel 
+    if (hasTraveledBefore) {
+        for (const auto& entry : planetDistances) {
+            const Planet& p = *entry.second;
+            if (samePlanet(p, currentPlanet)) {
+                selected.push_back(entry);
+                lastScannedPlanets.push_back(p);
+                break;
+            }
+        }
     }
 
-    // Include current planet after first travel
-    bool hasTraveledBefore = (currentPlanet.getName() != "EARTH");
-    if (hasTraveledBefore) { lastScannedPlanets.push_back(currentPlanet); }
+    // 1st pass pick planets NOT in previous scan 
+    for (const auto& entry : planetDistances)
+    {
+        if ((int)selected.size() >= radar) { break; }
 
-    // Display
+        const Planet& p = *entry.second;
+
+        if (hasTraveledBefore && samePlanet(p, currentPlanet)) { continue; }  // already added above
+
+        if (inPreviousScan(p)) { continue; } // cooldown: skip planets just seen last scaned
+     
+
+        if (inSelected(p)) { continue; } // no duplicates
+
+        selected.push_back(entry);
+        lastScannedPlanets.push_back(p);
+    }
+
+    // 2nd pass if still not full, allow repeats
+    if ((int)selected.size() < radar) {
+        for (const auto& entry : planetDistances) {
+            if ((int)selected.size() >= radar)
+                break;
+
+            const Planet& p = *entry.second;
+
+            if (inSelected(p))
+                continue;
+
+            selected.push_back(entry);
+            lastScannedPlanets.push_back(p);
+        }
+    }
+
+    // Build display from selected
     ostringstream display;
     display << "--Nearest Planets Detected--\n\n";
-    for (int i = 0; i < count; ++i) {
-        const Planet& p = planetDistances[i].second;
-        double fuelCost = calcFuelCost(planetDistances[i].first, fuelPerAU);
-        bool isCurrent = (p.getName() == currentPlanet.getName());
 
+    for (size_t i = 0; i < selected.size(); ++i) {
+        double distanceFromShipAU = selected[i].first;
+        const Planet& p = *selected[i].second;
+
+        bool isCurrent = hasTraveledBefore && samePlanet(p, currentPlanet);
+
+        // quickRow now gets the distance from the ship so it can compute fuel
         display << "(" << (i + 1) << ") "
-            << p.quickRow(planetDistances[i].first);
+            << p.quickRow(distanceFromShipAU);
+
         if (isCurrent)
             display << "  <-- (You Are Here)";
+
         display << "\n";
     }
-    display << "\n(Type 'travel -d 1', 'travel -d 2', or 'travel -d 3' to "
-               "visit a planet.)";
+
+    display << "\n(Type 'travel -d 1', 'travel -d 2', or 'travel -d 3' to visit a planet.)";
 
     return display.str();
-
 }
 
 // Travel to planet, dock on planet, displays name and description

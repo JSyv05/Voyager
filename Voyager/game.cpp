@@ -8,11 +8,13 @@
 #include "planet.h"
 #include "ship.h"
 #include "inventoryh.h"
+#include "npc.h"
 
 // Standard C++ libraries
 #include <array>
 #include <iostream>
 #include <sstream>
+#include <memory>
 #include <vector>
 
 using namespace std;
@@ -91,6 +93,10 @@ Game::ValidCommand Game::checkCommand(const Command& command) const {
     if (input.empty() && !getNextFlag()) {
         return ValidCommand::Error;
     }
+    else if (input.size() >= 1 && input[0] == "attack" && getPlanetFlag())
+    {
+        return ValidCommand::Attack;
+    }
     else if (input.size() >= 1 && input[0] == "collect" &&
         getPlanetFlag()) {
         return ValidCommand::Collect;
@@ -143,6 +149,10 @@ Game::ValidCommand Game::checkCommand(const Command& command) const {
         (input.size() >= 2 && input[0] == "save" && input[1] == "game") &&
         !getMenuFlag()) {
         return ValidCommand::Save;
+    }
+    else if (input.size() == 1 && input[0] == "sneak" && getPlanetFlag())
+    {
+        return ValidCommand::Sneak;
     }
     else if (input.size() >= 1 && input[0] == "scan" && !(getMenuFlag() && getNextFlag())) {
         return ValidCommand::Scan;
@@ -264,6 +274,13 @@ void Game::gameLoop() {
 
     Inventory player_inventory(20);  
 
+    int planetCommandCounter = 0; // counter inputs while on a planet
+    bool playerIsSneaking = false;  // set by sneak command
+    const int MONSTER_ATTACK_THRESHOLD = 5; // how many commands before auto-attack
+
+    // New monster that persits while you're on the planet 
+    unique_ptr<Monster> activeMonster;
+
     setMenuFlag(true);
     setArtOutput(art.setArtToTitle());
     setBodyOutput(menu.setMenu());
@@ -288,6 +305,74 @@ void Game::gameLoop() {
 
         ValidCommand passed_command = checkCommand(command);
         switch (passed_command) {
+        case ValidCommand::Attack:
+        {
+            if (!getPlanetFlag())
+            {
+                setErrorOutput("You can only attack while on a planet.");
+                break;
+            }
+
+            // Lazily create a monster for this planet if we don't have one yet
+            if (!activeMonster)
+            {
+                Planet& active_planet = ship.getCurrentPlanet();
+                Biome biome = active_planet.getBiome();
+                int difficulty = active_planet.getLootLevel();   // lootLevel_ is your difficulty
+
+                activeMonster = make_unique<Monster> (createMonsterForBiomeAndDifficulty(biome, difficulty));
+            }
+
+            Monster& monster = *activeMonster;
+
+            ostringstream summary;
+
+            // Player's attack 
+            int hpBefore = monster.getHealth();
+            int dmgToMonster = player.dealDamage();
+            monster.takeDamage(dmgToMonster);
+            int hpAfter = monster.getHealth();
+
+            summary << "You attack " << monster.getName()
+                << " for " << dmgToMonster << " damage.\n"
+                << monster.getName() << " HP: " << hpAfter << "\n";
+
+            // Did you kill it with this hit?
+            if (monster.isDead())
+            {
+                summary << "\nYou defeated " << monster.getName() << "!";
+                activeMonster.reset();           // no monster until a new one is spawned
+                playerIsSneaking = false;        // clear sneak
+                setBodyOutput(summary.str());
+                setErrorOutput("");
+                break;
+            }
+
+            // --- Monster counter-attack (unless it was a sneak attack) ---
+            if (playerIsSneaking)
+            {
+                // Sneak gives a free hit – no counter this turn
+                summary << monster.getName()
+                    << " is caught off guard and can't react!";
+                playerIsSneaking = false;   // consume the sneak
+            }
+            else
+            {
+                // Monster hits back once
+                summary << monster.attackPlayer(player) << "\n";
+
+                if (player.isDead())
+                {
+                    summary << "You have been defeated by "
+                        << monster.getName() << "...";
+                    setGameOverFlag(true);
+                }
+            }
+
+            setBodyOutput(summary.str());
+            setErrorOutput("");
+        }
+        break;
         case ValidCommand::Collect: {
             Planet& active_planet = ship.getCurrentPlanet();  // will be mutating the rocks on the planet in this code
 
@@ -449,7 +534,18 @@ void Game::gameLoop() {
                 setErrorOutput(error);
             }
             break;
+        case ValidCommand::Sneak:
+        {
+            if (!getPlanetFlag())
+            {
+                break;
+            }
 
+            playerIsSneaking = true;
+            setBodyOutput("You move quietly, preparing a sneak attack...");
+            setErrorOutput("");
+        }
+        break;
         case ValidCommand::Exit:
             setBodyOutput(ship.shipExit());
             setShipFlag(false);
@@ -528,6 +624,67 @@ void Game::gameLoop() {
             setErrorOutput(error);
             break;
         }
+        if (getPlanetFlag())
+        {
+            bool countsTowardsAggro = false;
+
+            switch (passed_command)
+            {
+            case ValidCommand::Collect:
+            case ValidCommand::Scan:
+            case ValidCommand::Inventory:
+            case ValidCommand::Talk:
+            case ValidCommand::Health:
+                countsTowardsAggro = true;
+                break;
+            default:
+                break;
+            }
+
+            if (countsTowardsAggro)
+            {
+                ++planetCommandCounter;
+                if (planetCommandCounter >= MONSTER_ATTACK_THRESHOLD)
+                {
+                    planetCommandCounter = 0; // reset
+
+                    // Make sure we have a monster for this planet
+                    if (!activeMonster)
+                    {
+                        Planet& active_planet = ship.getCurrentPlanet();
+                        Biome biome = active_planet.getBiome();
+                        int difficulty = active_planet.getLootLevel();
+
+                        activeMonster = std::make_unique<Monster>(
+                            createMonsterForBiomeAndDifficulty(biome, difficulty));
+                    }
+
+                    Monster& monster = *activeMonster;
+
+                    if (!monster.isDead())
+                    {
+                        ostringstream autoMsg;
+                        // Keep whatever body text we already had this turn
+                        autoMsg << getBodyOutput();
+                        if (!getBodyOutput().empty())
+                            autoMsg << "\n\n";
+
+                        autoMsg << monster.attackPlayer(player) << "\n"
+                            << "(Lingering too long has drawn its attention!)";
+
+                        if (player.isDead())
+                        {
+                            autoMsg << "\nYou have been slain by "
+                                << monster.getName() << "...";
+                            setGameOverFlag(true);
+                        }
+
+                        setBodyOutput(autoMsg.str());
+                    }
+                }
+            }
+        }
+
         clearScreen(); // Clear screen before start of next loop iteration
     }
 }

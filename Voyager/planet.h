@@ -54,12 +54,14 @@ public:
     double getDistanceAU() const { return distanceAU_; }
     Biome getBiome() const { return biome_; }
     std::array<double, 3> getCoordinates() const { return coords_; }
+    int getLootLevel() const { return lootLevel_; }
 
 
     double travelFuelCost(double fuelPerAU) const;
 
     std::string quickRow(double) const;
     std::string describe() const;
+    string getDifficultyIcon() const;
 
     static std::string biomeToString(Biome b);
 
