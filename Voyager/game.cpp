@@ -108,7 +108,7 @@ Game::ValidCommand Game::checkCommand(const Command& command) const {
     else if (input.size() >= 2 && input[0] == "drop" && getPlanetFlag()) {
         return ValidCommand::Drop;
     }
-    else if (input.size() == 1 && input[0] == "Quit" && getMenuFlag()) {
+    else if (input.size() == 1 && input[0] == "quit" && getMenuFlag()) {
         return ValidCommand::Quit;
     }
     else if (input.size() == 1 && input[0] == "help" && !(getMenuFlag() || getNextFlag())) {
@@ -161,6 +161,9 @@ Game::ValidCommand Game::checkCommand(const Command& command) const {
     else if (input.size() == 2 && input[0] == "exit" &&
              input[1] == "ship" && getShipFlag()) {
         return ValidCommand::Exit;
+    }
+    else if (input.size() == 1 && input[0] == "quit" && getMenuFlag()) {
+        return ValidCommand::Quit;
     }
     else if (input.size() == 3 && input[0] == "exchange" && getShipFlag()) {
         return ValidCommand::Exchange;
@@ -448,7 +451,6 @@ void Game::gameLoop() {
         case ValidCommand::Help:
             setBodyOutput(help.getGeneralHelp());
             break;
-
         case ValidCommand::InspectRock:
         { // Added curly braces for scope
             if (input.size() < 3) {
