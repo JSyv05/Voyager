@@ -19,20 +19,26 @@ namespace VoyagerautomatedTest {
             Inventory* storage = ship.getShipStorage();
 
             storage->addRock(rock);
+            Logger::WriteMessage("Added rock to inventory\n");
 
             string before_removal = storage->getDisplayString();
             int before_exchange = eStation.getLootPoint();
 
             eStation.exchangeSampleForLootPoint(storage, 1);
+            Logger::WriteMessage("Attempted to exchange sample\n");
 
             string after_removal = storage->getDisplayString();
             int after_exchange = eStation.getLootPoint();
 
+            Assert::AreNotEqual(before_exchange, after_exchange,
+                   L"Item was not exchanged for points");
+            Logger::WriteMessage(
+                "Item was successfully exchanged for points\n");
+
+
             Assert::IsTrue(before_removal != after_removal, L"Item was not removed from storage");
             Logger::WriteMessage("Item was removed from storage\n");
 
-            Assert::AreNotEqual(before_exchange, after_exchange, L"Item was not exchanged for points");
-            Logger::WriteMessage("Item was successfully exchanged for points\n");
         }
         TEST_METHOD(exchange_loot_point_to_fuel) {
             Logger::WriteMessage("Testing to exchange loot points for fuel\n");

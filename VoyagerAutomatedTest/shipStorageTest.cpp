@@ -17,7 +17,7 @@ namespace VoyagerautomatedTest {
         }
         TEST_METHOD(move_from_inventory_to_storage) {
             Logger::WriteMessage("Testing to move from one rock from inventory to storage\n");
-            Inventory inventory(1);
+            Inventory inventory(20);
             Rock rock("Basalt Shard",
                 "A dark, fine-grained volcanic rock.", "Volcanic",
                 10, "Iron", 5);

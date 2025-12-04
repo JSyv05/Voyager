@@ -45,8 +45,8 @@ string Ship::getStorageContents() {
 
 void Ship::addToShipStorage(Inventory& inventory, int index) {
     Rock temp_rock = inventory.getRockAtIndex(index-1);
-    inventory.removeRock(index - 1);
     getShipStorage()->addRock(temp_rock);
+    inventory.removeRock(index-1);
 }
 
 // Coord setter and getter

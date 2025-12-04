@@ -11,11 +11,11 @@ void ExchangeStation::addToLootPoint(int x) {
 	lootPoint += x;
 }
 
-void ExchangeStation::exchangeSampleForLootPoint(Inventory* inv, int index) {
-	Rock rock = inv->getRockAtIndex(index - 1);
+void ExchangeStation::exchangeSampleForLootPoint(Inventory* storage, int index) {
+	Rock rock = storage->getRockAtIndex(index-1);
+    storage->removeRock(index - 1);
 	int lp_to_be_added = rock.getValue();
 	addToLootPoint(lp_to_be_added);
-	inv->removeRock(index);
 }
 
 double ExchangeStation::exchangeLootPointForHealth(int x) {

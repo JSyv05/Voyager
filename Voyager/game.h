@@ -54,6 +54,7 @@ private:
         Exit,
         ShipMainMenu,
         Start,
+        Storage,
         Store,
         Travel,
         Talk,
