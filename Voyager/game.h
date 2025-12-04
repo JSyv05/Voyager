@@ -36,6 +36,7 @@ private:
     */
 
     enum class ValidCommand {
+        Attack,
         Collect,
         Credits,
         Drop,
@@ -52,6 +53,7 @@ private:
         Scan,
         Exit,
         ShipMainMenu,
+        Sneak,
         Start,
         Store,
         Travel,

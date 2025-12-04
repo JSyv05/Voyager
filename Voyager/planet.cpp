@@ -21,12 +21,27 @@ Planet::Planet(string id, string name, double distanceAU, Biome biome, int loot,
 
 string Planet::quickRow(double fuelPerAU) const {
     ostringstream ss;
-    ss << "[" << id_ << "] " << name_ << " | " << biomeToString(biome_) << " | "
-        << fixed << setprecision(2) << distanceAU_ << " AU"
-       << "| Pos: (" << coords_[0] << ", " << coords_[1] << ", " << coords_[2]
-       << ") "
-       << "| Fuel Cost: " << travelFuelCost(fuelPerAU);
+    ss << "[" << id_ << "] " << name_
+        << " | " << biomeToString(biome_)
+        << " | Lv " << lootLevel_ << " " << getDifficultyIcon()
+        << " | " << fixed << setprecision(2) << distanceAU_ << " AU"
+        << " | Pos: (" << coords_[0] << ", " << coords_[1] << ", " << coords_[2] << ")"
+        << " | Fuel Cost: " << travelFuelCost(fuelPerAU);
     return ss.str();
+}
+
+string Planet::getDifficultyIcon() const
+{
+    string icon = "";
+    int level = lootLevel_;
+
+    // Cap at 10 stars
+    for (int i = 0; i < level; ++i)
+    {
+        icon += "*";
+    }
+
+    return icon;
 }
 
 PlanetGenerator::PlanetGenerator() : rng(std::random_device{}()) {}
@@ -40,7 +55,7 @@ string Planet::describe() const {
     ss << "\n--- " << name_ << " ---\n";
     ss << "Biome: " << biomeToString(biome_) << "\n";
     ss << "Distance: " << fixed << setprecision(2) << distanceAU_ << " AU\n";
-    ss << "Loot Level: " << lootLevel_ << "\n";
+    ss << "Loot Level: " << lootLevel_ << " " << getDifficultyIcon() << "\n";
     ss << "Surface Conditions: "
         << (biome_ == Biome::Volcanic ? "Molten terrain and unstable geysers."
             : biome_ == Biome::Ocean ? "Vast seas with strong currents."
@@ -263,17 +278,40 @@ void PlanetSystem::generatePlanets(int number,
         {140, -10, 0}, {150, 20, 5}, {160, -15, 10}, {170, 25, -12},
         {180, -20, 8}, {190, 30, 0}
     };
+    // Build difficulty (2 per level 1-10)
+    vector<int> difficultyLevels;
+    difficultyLevels.reserve(20);
 
+    for (int lvl = 1; lvl <= 10; ++lvl)
+    {
+        difficultyLevels.push_back(lvl);
+        difficultyLevels.push_back(lvl);
+    }
+
+    // Make first 3 planets guaranteed low difficulty
+    difficultyLevels[0] = 1;
+    difficultyLevels[1] = 1;
+    difficultyLevels[2] = 2;
+
+    // Shuffle the rest of the 17 level
+    mt19937 rng(random_device{}());
+    shuffle(difficultyLevels.begin() + 3, difficultyLevels.end(), rng);
+
+    // Create all the planets
     for (int i = 0; i < number && i < (int)fixedCoords.size(); ++i) {
         // Generate random name, biome, and loot for the planets
         Planet rand = generator.generatePlanet(i + 1, {});
 
+        // Fixed coordinates for this planet
         const auto& coords = fixedCoords[i];
+        // Actual distance AU from origin
         double distanceAU = sqrt(coords[0] * coords[0] + coords[1] * coords[1] + coords[2] * coords[2]) / 10.0;
+        // Assigned difficulty
+        int lootLevel = difficultyLevels[i];
 
         //create the planets
         Planet p(rand.getId(), rand.getName(), distanceAU,
-            rand.getBiome(), rand.getDistanceAU(), coords);
+            rand.getBiome(), lootLevel, coords);
 
 
         p.populateRocks(allRocks);
