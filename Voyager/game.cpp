@@ -543,32 +543,41 @@ void Game::gameLoop() {
             break;
 
         case ValidCommand::Exchange:
-            if (input[1] == "fuel") {
-                double refuel = exchange.exchangeLootPointForFuel(stoi(input[2]));
-                ship.setFuel(refuel);
-                ostringstream oss;
-                oss << "Refueled " << refuel << " units. Remaining LP: " << exchange.getLootPoint();
-                setErrorOutput(oss.str());
-            }
-            else if (input[1] == "health") {
-                double heal =
-                    exchange.exchangeLootPointForHealth(stoi(input[2]));
-                player.gainHealth(heal);
-                ostringstream oss;
-                oss << "Healed " << heal
-                    << " units. Remaining LP: " << exchange.getLootPoint();
-                setErrorOutput(oss.str());
-            }
-            else if (input[1] == "sample") {
-                exchange.exchangeSampleForLootPoint(ship.getShipStorage(),stoi(input[2]));
-                ostringstream oss;
-                oss << "Exchanged! Gained " << exchange.getLootPoint()
-                    << " points!";
-                setBodyOutput(ship.getStorageContents());
-                setErrorOutput(oss.str());
-            }
-            else {
-                setErrorOutput("ERR: Please select either fuel or health 'exchange fuel 15'");
+            try {
+                if (input[1] == "fuel") {
+                    double refuel =
+                        exchange.exchangeLootPointForFuel(stoi(input[2]));
+                    ship.setFuel(refuel);
+                    ostringstream oss;
+                    oss << "Refueled " << refuel
+                        << " units. Remaining LP: " << exchange.getLootPoint();
+                    setErrorOutput(oss.str());
+                }
+                else if (input[1] == "health") {
+                    double heal =
+                        exchange.exchangeLootPointForHealth(stoi(input[2]));
+                    player.gainHealth(heal);
+                    ostringstream oss;
+                    oss << "Healed " << heal
+                        << " units. Remaining LP: " << exchange.getLootPoint();
+                    setErrorOutput(oss.str());
+                }
+                else if (input[1] == "sample") {
+                    exchange.exchangeSampleForLootPoint(ship.getShipStorage(),
+                                                        stoi(input[2]));
+                    ostringstream oss;
+                    oss << "Exchanged! Gained " << exchange.getLootPoint()
+                        << " points!";
+                    setBodyOutput(ship.getStorageContents());
+                    setErrorOutput(oss.str());
+                }
+                else {
+                    setErrorOutput("ERR: Please select either fuel or health "
+                                   "'exchange fuel 15'");
+                }
+            } catch (const invalid_argument& e) {
+                string error = "ERR: Invalid argument";
+                setErrorOutput(error);
             }
             break;
 
