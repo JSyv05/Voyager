@@ -14,6 +14,6 @@ Player::Player() {
 
 
   // returns the current health
-int Player::getPlayerHealth() {
+double Player::getPlayerHealth() const{
 	return playerHealth;
 }

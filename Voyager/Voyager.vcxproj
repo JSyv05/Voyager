@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -125,6 +125,7 @@
   <ItemGroup>
     <ClCompile Include="art.cpp" />
     <ClCompile Include="command.cpp" />
+    <ClCompile Include="exchange.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="help.cpp" />
     <ClCompile Include="main.cpp" />
@@ -132,7 +133,7 @@
     <ClCompile Include="npc.cpp" />
     <ClCompile Include="planet.cpp" />
     <ClCompile Include="plants.cpp" />
-    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="player.cpp" />
     <ClCompile Include="rock.cpp" />
     <ClCompile Include="ship.cpp" />
     <ClCompile Include="inventory.cpp" />
@@ -140,6 +141,7 @@
   <ItemGroup>
     <ClInclude Include="art.h" />
     <ClInclude Include="command.h" />
+    <ClInclude Include="exchange.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="help.h" />
     <ClInclude Include="inventory.h" />
@@ -147,7 +149,7 @@
     <ClInclude Include="npc.h" />
     <ClInclude Include="planet.h" />
     <ClInclude Include="plants.h" />
-    <ClInclude Include="Player.h" />
+    <ClInclude Include="player.h" />
     <ClInclude Include="rock.h" />
     <ClInclude Include="ship.h" />
   </ItemGroup>

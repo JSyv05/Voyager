@@ -14,6 +14,8 @@ private:
     std::vector<Planet> lastScannedPlanets;         // The 3 closest planets after scanning.
     Planet currentPlanet;              // The planet the ship is at
     int radar; // Number of planets from scan (default is 3)
+    double fuel;
+    int maxFuel;
     Inventory* storage;
 
 public:
@@ -28,6 +30,13 @@ public:
     // Radar
     void setRadar(int r);
     int getRadar() const;
+
+    // Fuel
+    void setFuel(double);
+    void subtractFromFuel(double);
+    double getFuel() const;
+    double getMaxFuel() const;
+
 
     // Ship actions
     std::string getNearbyPlanet(const std::vector<Planet>&);            // Scans for planets
