@@ -187,7 +187,7 @@ Game::ValidCommand Game::checkCommand(const Command& command) const {
              getShipFlag()) {
         return ValidCommand::Travel;
     }
-    else if (input.size() == 1 && input[0] == "interact" && getPlanetFlag())
+    else if (input.size() == 3 && input[0] == "interact" && getPlanetFlag())
     {
         return ValidCommand::Talk;
     }
@@ -641,7 +641,7 @@ void Game::gameLoop() {
         break;
         case ValidCommand::Health:
         {
-            string output = "Player health " + to_string(player.getPlayerHealth());
+            string output = "Player health: " + to_string(player.getPlayerHealth());
             setErrorOutput(output);
         }
         break;

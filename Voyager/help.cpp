@@ -4,7 +4,8 @@
 using namespace std;
 
 string Help::getGeneralHelp() const {
-    string text = getScanHelp() + "\n\n" + getTravelHelp();
+    string text = getScanHelp() + "\n\n" + getTravelHelp() + "\n\n" +
+                  getExchangeHelp() + "\n\n" + getStoreHelp();
     return text;
 }
 
@@ -27,5 +28,23 @@ string Help::getTravelHelp() const {
         "Options:\n"
         "\t[-d | --destination] <index>\ttravel to a planet of the given index\n"
         "\t[-p | --position] <x_pos> <y_pos> <z_pos>\tmove to a given (x,y,z) coordinate";
+    return text;
+}
+
+string Help::getExchangeHelp() const {
+    string text = "exchange - trade in points and samples for resources\n\n"
+                  "Usage:\n"
+                  "\texchange [options] <args>\n"
+                  "Options:\n"
+                  "\t[sample] <index>\ttrade in a sample in storage of the "
+                  "given index\n"
+                  "\t[fuel] <points>\texchange your points to refuel the ship\n"
+                  "\t[health] <points>\t exhcange your points to heal";
+    return text;
+}
+string Help::getStoreHelp() const {
+    string text = "store - move items from your inventory to storage\n\n"
+                  "Usage:\n"
+                  "\tstore <index>";
     return text;
 }
