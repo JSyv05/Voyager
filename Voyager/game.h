@@ -40,6 +40,7 @@ private:
         Credits,
         Drop,
         Error,
+        Exchange,
         Quit,
         Help,
         InspectRock,

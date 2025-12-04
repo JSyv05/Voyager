@@ -7,7 +7,8 @@
 #include "help.h"
 #include "planet.h"
 #include "ship.h"
-#include "inventoryh.h"
+#include "inventory.h"
+#include "exchange.h"
 
 // Standard C++ libraries
 #include <array>
@@ -151,6 +152,9 @@ Game::ValidCommand Game::checkCommand(const Command& command) const {
              input[1] == "ship" && getShipFlag()) {
         return ValidCommand::Exit;
     }
+    else if (input.size() == 3 && input[0] == "exchange" && getShipFlag()) {
+        return ValidCommand::Exchange;
+    }
     else if (((input.size() == 1 && input[0] == "menu") ||
         (input.size() >= 2 && input[0] == "main" &&
             input[1] == "menu")) &&
@@ -261,6 +265,7 @@ void Game::gameLoop() {
     Ship ship;
     Art art;
     Help help;
+    ExchangeStation exchange;
 
     PlanetSystem planet_system;
     vector<Rock> all_game_rocks = createMasterRockList();
@@ -343,7 +348,7 @@ void Game::gameLoop() {
             string error = "ERR: Please enter a valid input";
             setErrorOutput(error);
         }
-            break;
+        break;
 
         case ValidCommand::Quit:
             setGameOverFlag(true);
@@ -433,6 +438,22 @@ void Game::gameLoop() {
             setBodyOutput(ship.shipExit());
             setShipFlag(false);
             setPlanetFlag(true);
+            break;
+
+        case ValidCommand::Exchange:
+            if (input[1] == "fuel") {
+                double refuel = exchange.exchangeLootPointForFuel(stoi(input[2]));
+                ship.setFuel(refuel);
+                ostringstream oss;
+                oss << "Refueled " << refuel << " units. Remaining LP: " << exchange.getLootPoint();
+                setErrorOutput(oss.str());
+            }
+            else if (input[1] == "health") {
+                setErrorOutput("ERR: health not implemented yet");
+            }
+            else {
+                setErrorOutput("ERR: Please select either fuel or health 'exchange fuel 15'");
+            }
             break;
 
         case ValidCommand::ShipMainMenu:
