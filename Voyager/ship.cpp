@@ -16,7 +16,8 @@ Ship::Ship()
     previousCoordinates{ 0.0, 0.0, 0.0 },
     currentPlanet("NULL", "EARTH", 0.0, Biome::Barren, 0, { 0,0,0 }),
     radar(3),
-    storage(200) {
+    storage(new Inventory(200)) // FIX: Allocate Inventory object on heap
+{
 }
 // Helper functions - Distance and fuel calcutations
 static double calcDistanceAU(const array<double, 3>& a, const array<double, 3>& b)
@@ -32,18 +33,18 @@ static double calcFuelCost(double distanceAU, double fuelPerAU)
     return distanceAU * fuelPerAU;
 }
 
-Inventory Ship::getShipStorage() {
+Inventory* Ship::getShipStorage() {
     return storage;
 }
 
 string Ship::getStorageContents() {
-    return getShipStorage().getDisplayString();
+    return getShipStorage()->getDisplayString();
 }
 
 void Ship::addToShipStorage(Inventory& inventory, int index) {
     Rock temp_rock = inventory.getRockAtIndex(index-1);
     inventory.removeRock(index - 1);
-    getShipStorage().addRock(temp_rock);
+    getShipStorage()->addRock(temp_rock);
 }
 
 // Coord setter and getter

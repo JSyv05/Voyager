@@ -163,7 +163,7 @@ Game::ValidCommand Game::checkCommand(const Command& command) const {
         getMenuFlag()) {
         return ValidCommand::Start;
     }
-    else if (input.size() == 2 && getShipFlag) {
+    else if (input.size() == 2 && getShipFlag()) {
         return ValidCommand::Store;
     }
     else if (input.size() >= 1 && input[0] == "travel" &&
