@@ -142,7 +142,7 @@
     <ClInclude Include="command.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="help.h" />
-    <ClInclude Include="inventoryh.h" />
+    <ClInclude Include="inventory.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="npc.h" />
     <ClInclude Include="planet.h" />

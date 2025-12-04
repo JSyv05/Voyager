@@ -1,6 +1,7 @@
 #include "art.h"
 #include "ship.h"
 #include "planet.h"
+#include "inventory.h"
 #include <algorithm>
 #include <cmath>
 #include <iomanip>
@@ -12,20 +13,37 @@ using namespace std;
 // Constructor
 Ship::Ship()
     : coordinates{ 0.0, 0.0, 0.0 },
+    previousCoordinates{ 0.0, 0.0, 0.0 },
     currentPlanet("NULL", "EARTH", 0.0, Biome::Barren, 0, { 0,0,0 }),
     radar(3),
-    previousCoordinates{ 0.0, 0.0, 0.0 } // if still declared
-{}
+    storage(200) {
+}
 // Helper functions - Distance and fuel calcutations
 static double calcDistanceAU(const array<double, 3>& a, const array<double, 3>& b)
 {
-    double dx = a[0] - b[0], dy = a[1] - b[1], dz = a[2] - b[2];
-    return sqrt(dx * dx + dy * dy + dz * dz) / 10.0; // scale to AU
+    double dx = a[0] - b[0];
+    double dy = a[1] - b[1];
+    double dz = a[2] - b[2];
+    return sqrt(dx * dx + dy * dy + dz * dz) / 10.0; // scale  to AU
 }
 
 static double calcFuelCost(double distanceAU, double fuelPerAU)
 {
     return distanceAU * fuelPerAU;
+}
+
+Inventory Ship::getShipStorage() {
+    return storage;
+}
+
+string Ship::getStorageContents() {
+    return getShipStorage().getDisplayString();
+}
+
+void Ship::addToShipStorage(Inventory& inventory, int index) {
+    Rock temp_rock = inventory.getRockAtIndex(index-1);
+    inventory.removeRock(index - 1);
+    getShipStorage().addRock(temp_rock);
 }
 
 // Coord setter and getter

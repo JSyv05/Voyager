@@ -14,6 +14,7 @@ private:
     std::vector<Planet> lastScannedPlanets;         // The 3 closest planets after scanning.
     Planet currentPlanet;              // The planet the ship is at
     int radar; // Number of planets from scan (default is 3)
+    Inventory storage;
 
 public:
     Ship();
@@ -30,7 +31,9 @@ public:
 
     // Ship actions
     std::string getNearbyPlanet(const std::vector<Planet>&);            // Scans for planets
-    std::string getShipStorage();
+    Inventory getShipStorage();
+    std::string getStorageContents();
+    void addToShipStorage(Inventory& inventory, int index);
     std::string travelToPlanet(int choice); // Travel/Dock at chosen planet
     std::string returnToShip();               // Returns tp ship
     std::string shipExit();                   // Exits ship

@@ -163,6 +163,9 @@ Game::ValidCommand Game::checkCommand(const Command& command) const {
         getMenuFlag()) {
         return ValidCommand::Start;
     }
+    else if (input.size() == 2 && getShipFlag) {
+        return ValidCommand::Store;
+    }
     else if (input.size() >= 1 && input[0] == "travel" &&
              getShipFlag()) {
         return ValidCommand::Travel;
@@ -300,13 +303,15 @@ void Game::gameLoop() {
 
             if (rock.getElementType() != "Generic") {
                 // Try to add the rock, which fills inventoryMessage
-                if (player_inventory.addRock(rock, inventory_message)) {
+                if (player_inventory.addRock(rock)) {
+                    inventory_message = "Added " + rock.getName() + " to inventory.\n(Type 'inventory' to view your inventory)";
                     setBodyOutput(inventory_message);
                     setErrorOutput("");
                 }
                 else {   // problem - couldn't add the rock to the inventory, but rock already deleted
                     // could ToDo possibly add a new planet method to add a rock and call it to replace the rock
                     // note - should create the method regardless - more intuitive and scalable
+                    inventory_message = "ERR: Inventory is full! Cannot add " + rock.getName() + ".";
                     setBodyOutput("");
                     setErrorOutput(inventory_message);
                 }
@@ -324,26 +329,13 @@ void Game::gameLoop() {
 
         case ValidCommand::Drop:
         { // Added curly braces to create a new scope for variables
-            if (input.size() < 2) {
-                setErrorOutput("ERR: What do you want to drop? (e.g., drop Basalt Shard)");
+            if (input.size() < 3) {
+                setErrorOutput("ERR: Enter the index of the rock you want to drop");
                 break;
             }
 
-            // Combine all words after "drop" into a single string
-            string rockToDrop;
-            for (size_t i = 1; i < input.size(); ++i) {
-                rockToDrop += input[i] + (i == input.size() - 1 ? "" : " ");
-            }
-
-
-            string inventory_message;
-            if (player_inventory.removeRock(rockToDrop, inventory_message)) {
-                setBodyOutput(inventory_message);
-            }
-            else {
-                setBodyOutput("");
-                setErrorOutput(inventory_message); 
-            }
+            string inventory_message = player_inventory.removeRock(stoi(input[3]));
+            setBodyOutput(inventory_message);
         }
         break;
 
@@ -368,21 +360,8 @@ void Game::gameLoop() {
                 break;
             }
 
-            // Combine all words after "inspect rock"
-            string rock_to_inspect;
-            for (size_t i = 2; i < input.size(); ++i) {
-                rock_to_inspect += input[i] + (i == input.size() - 1 ? "" : " ");
-            }
-
             // inspectRock returns the full string, success or error
-            string inspect_result = player_inventory.inspectRock(rock_to_inspect);
-            if (inspect_result.rfind("ERR:", 0) == 0) { // Check if string starts with "ERR:"
-                setBodyOutput("");
-                setErrorOutput(inspect_result);
-            }
-            else {
-                setBodyOutput(inspect_result);
-            }
+            string inspect_result = player_inventory.inspectRock(stoi(input[3]));
         }
         break;
 
@@ -522,6 +501,9 @@ void Game::gameLoop() {
             setErrorOutput(output);
         }
         break;
+        case ValidCommand::Store:
+            ship.addToShipStorage(player_inventory, stoi(input[1]));
+            break;
 
         default:
             string error = "ERR: Please enter a valid input";

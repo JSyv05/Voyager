@@ -30,6 +30,12 @@
     <ClCompile Include="..\Voyager\rock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+	  <ClCompile Include="..\Voyager\inventory.cpp">
+		  <Filter>Source Files</Filter>
+	  </ClCompile>
+	  <ClCompile Include="..\Voyager\ship.cpp">
+		  <Filter>Source Files</Filter>
+	  </ClCompile>
     <ClCompile Include="PlantTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

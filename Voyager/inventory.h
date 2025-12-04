@@ -22,7 +22,7 @@ public:
     /**
     Tries to add a rock to the inventory.
      */
-    bool addRock(const Rock& rock, std::string& message);
+    bool addRock(const Rock& rock);
 
     /**
     Upgrades the inventory's maximum capacity.
@@ -39,12 +39,13 @@ public:
      */
     std::string getDisplayString() const;
 
+    Rock getRockAtIndex(int index);
     /**
     Removes a rock from the inventory by name.
      */
-    bool removeRock(const std::string& rockName, std::string& message);
+    std::string removeRock(const int& index);
 
-    std::string inspectRock(const std::string& rockName) const;
+    std::string inspectRock(const int& index);
 
 
     // --- Getters ---

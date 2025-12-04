@@ -11,11 +11,25 @@ namespace VoyagerautomatedTest {
             Logger::WriteMessage("Testing to see if the ship will list out it's contents");
             Ship ship;
             string not_expected = "";
-            string expected = ship.getShipStorage();
+            string expected = ship.getShipStorage().getDisplayString();
             Assert::IsTrue(not_expected != expected, L"ERR: List did not print properly");
+            Logger::WriteMessage("Confirmed that the storage system is able to list its contents");
         }
         TEST_METHOD(move_from_inventory_to_storage) {
             Logger::WriteMessage("Testing to move from one rock from inventory to storage");
+            Inventory inventory(1);
+            Rock rock("Basalt Shard",
+                "A dark, fine-grained volcanic rock.", "Volcanic",
+                10, "Iron", 5);
+            Ship ship;
+            string before_storage = ship.getStorageContents();
+            inventory.addRock(rock);
+            Inventory temp_inventory = inventory;
+            ship.addToShipStorage(inventory, 1);
+            string after_storage = ship.getStorageContents();
+            Assert::IsTrue(inventory.getDisplayString() != temp_inventory.getDisplayString(), L"Rock was not removed from inventory");
+            Assert::IsTrue(before_storage != after_storage, L"Storage was not updated with new rock");
+            Logger::WriteMessage("Roack was removed from the player's inventory and added to the ship's storage");
         }
     };
 }

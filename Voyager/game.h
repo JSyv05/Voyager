@@ -53,6 +53,7 @@ private:
         Exit,
         ShipMainMenu,
         Start,
+        Store,
         Travel,
         Talk,
         Inventory,

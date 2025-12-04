@@ -74,7 +74,7 @@
     <ClInclude Include="ship.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="inventoryh.h">
+    <ClInclude Include="inventory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="art.h">
