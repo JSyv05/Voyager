@@ -495,15 +495,19 @@ void Game::gameLoop() {
 
             setBodyOutput(output.str());
         } 
+        break;
         case ValidCommand::Health:
         {
             string output = "Player health " + to_string(player.getPlayerHealth());
             setErrorOutput(output);
         }
         break;
-        case ValidCommand::Store:
+        case ValidCommand::Store: {
             ship.addToShipStorage(player_inventory, stoi(input[1]));
-            break;
+            string body_string = ship.getShipStorage()->getDisplayString();
+            setBodyOutput(body_string);
+        }
+        break;
 
         default:
             string error = "ERR: Please enter a valid input";
