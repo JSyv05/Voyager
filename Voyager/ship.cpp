@@ -16,7 +16,9 @@ Ship::Ship()
     previousCoordinates{ 0.0, 0.0, 0.0 },
     currentPlanet("NULL", "EARTH", 0.0, Biome::Barren, 0, { 0,0,0 }),
     radar(3),
-    storage(new Inventory(200)) // FIX: Allocate Inventory object on heap
+    fuel(100.0),
+    maxFuel(100.0),
+    storage(new Inventory(200))
 {
 }
 // Helper functions - Distance and fuel calcutations
@@ -43,8 +45,8 @@ string Ship::getStorageContents() {
 
 void Ship::addToShipStorage(Inventory& inventory, int index) {
     Rock temp_rock = inventory.getRockAtIndex(index-1);
-    inventory.removeRock(index - 1);
     getShipStorage()->addRock(temp_rock);
+    inventory.removeRock(index-1);
 }
 
 // Coord setter and getter
@@ -60,6 +62,33 @@ Planet& Ship::getCurrentPlanet() { return currentPlanet; }
 // Radar setter and getter
 void Ship::setRadar(int r) { radar = r; }
 int Ship::getRadar() const { return radar; }
+
+// fuel setter and getter
+
+double Ship::getFuel() const{
+    return fuel;
+}
+
+double Ship::getMaxFuel() const{
+    return maxFuel;
+}
+
+void Ship::setFuel(double x) {
+    if (fuel + x >= maxFuel) {
+        fuel = maxFuel;
+    }
+    else {
+        fuel += x;
+    }
+}
+void Ship::subtractFromFuel(double x) {
+    if (fuel - x <= 0) {
+        fuel = 0;
+    }
+    else {
+        fuel -= x;
+    }
+}
 
 // Scans for nerby planets
 string Ship::getNearbyPlanet(const vector<Planet>& planet_vector)

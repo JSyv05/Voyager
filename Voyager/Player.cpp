@@ -21,8 +21,7 @@ Player::Player() {
 //gameloop just checks
 
   // returns the current health
-int Player::getPlayerHealth() 
-{
+double Player::getPlayerHealth() const{
 	return playerHealth;
 }
 

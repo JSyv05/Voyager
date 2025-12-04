@@ -7,8 +7,8 @@
 #include "help.h"
 #include "planet.h"
 #include "ship.h"
-#include "inventoryh.h"
-#include "npc.h"
+#include "inventory.h"
+#include "exchange.h"
 
 // Standard C++ libraries
 #include <array>
@@ -161,6 +161,9 @@ Game::ValidCommand Game::checkCommand(const Command& command) const {
              input[1] == "ship" && getShipFlag()) {
         return ValidCommand::Exit;
     }
+    else if (input.size() == 3 && input[0] == "exchange" && getShipFlag()) {
+        return ValidCommand::Exchange;
+    }
     else if (((input.size() == 1 && input[0] == "menu") ||
         (input.size() >= 2 && input[0] == "main" &&
             input[1] == "menu")) &&
@@ -173,8 +176,11 @@ Game::ValidCommand Game::checkCommand(const Command& command) const {
         getMenuFlag()) {
         return ValidCommand::Start;
     }
-    else if (input.size() == 2 && getShipFlag()) {
+    else if (input.size() == 2 && input[0] == "store" && getShipFlag()) {
         return ValidCommand::Store;
+    }
+    else if (input.size() == 1 && input[0] == "storage" && getShipFlag()) {
+        return ValidCommand::Storage;
     }
     else if (input.size() >= 1 && input[0] == "travel" &&
              getShipFlag()) {
@@ -271,6 +277,7 @@ void Game::gameLoop() {
     Ship ship;
     Art art;
     Help help;
+    ExchangeStation exchange;
 
     PlanetSystem planet_system;
     vector<Rock> all_game_rocks = createMasterRockList();
@@ -419,7 +426,7 @@ void Game::gameLoop() {
                 break;
             }
 
-            string inventory_message = player_inventory.removeRock(stoi(input[3]));
+            string inventory_message = player_inventory.removeRock(stoi(input[3]) - 1);
             setBodyOutput(inventory_message);
         }
         break;
@@ -428,7 +435,7 @@ void Game::gameLoop() {
             string error = "ERR: Please enter a valid input";
             setErrorOutput(error);
         }
-            break;
+        break;
 
         case ValidCommand::Quit:
             setGameOverFlag(true);
@@ -531,6 +538,25 @@ void Game::gameLoop() {
             setPlanetFlag(true);
             break;
 
+        case ValidCommand::Exchange:
+            if (input[1] == "fuel") {
+                double refuel = exchange.exchangeLootPointForFuel(stoi(input[2]));
+                ship.setFuel(refuel);
+                ostringstream oss;
+                oss << "Refueled " << refuel << " units. Remaining LP: " << exchange.getLootPoint();
+                setErrorOutput(oss.str());
+            }
+            else if (input[1] == "health") {
+                setErrorOutput("ERR: health not implemented yet");
+            }
+            else if (input[1] == "sample") {
+                exchange.exchangeSampleForLootPoint(ship.getShipStorage(),stoi(input[2]));
+            }
+            else {
+                setErrorOutput("ERR: Please select either fuel or health 'exchange fuel 15'");
+            }
+            break;
+
         case ValidCommand::ShipMainMenu:
             setBodyOutput(menu.setMenu());
             setMenuFlag(true);
@@ -599,12 +625,23 @@ void Game::gameLoop() {
         }
         break;
         case ValidCommand::Store: {
-            ship.addToShipStorage(player_inventory, stoi(input[1]));
-            string body_string = ship.getShipStorage()->getDisplayString();
-            setBodyOutput(body_string);
+            try {
+                int index = stoi(input[1]) - 1;
+                if (index < 0 || index > player_inventory.getCurrentSize()) {
+                    throw out_of_range("ERR: index is out of range");
+                }
+                ship.addToShipStorage(player_inventory, stoi(input[1]));
+                string body_string = ship.getShipStorage()->getDisplayString();
+                setBodyOutput(body_string);
+            } catch (const out_of_range& e) {
+                setErrorOutput(e.what());
+            }
         }
         break;
 
+        case ValidCommand::Storage:
+            setBodyOutput(ship.getStorageContents());
+            break;
         default:
             string error = "ERR: Please enter a valid input";
             setErrorOutput(error);

@@ -2,7 +2,8 @@
 class Player
 {
 private:
-	int playerHealth = 100;
+	double playerHealth = 100;
+	double maxHealth = 100;
 
 public:
 	Player();  // constructor - create a player with initial health

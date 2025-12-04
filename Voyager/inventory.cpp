@@ -86,11 +86,11 @@ Rock Inventory::getRockAtIndex(int index) {
 string Inventory::removeRock(const int& index) {
     ostringstream oss;
     try {
-        if (index - 1 < 0 || index > rocks.size()) {
+        if ((index) < 0 || (index) > rocks.size()) {
             throw out_of_range("ERR: please input a valid index for the inventory system");
         }
-        Rock rock = getRockAtIndex(index - 1);
-        rocks.erase(rocks.begin() + index - 1);
+        Rock rock = getRockAtIndex(index);
+        rocks.erase(rocks.begin() + index);
         oss << "Removed " << rock.getName();
         return oss.str();
     }

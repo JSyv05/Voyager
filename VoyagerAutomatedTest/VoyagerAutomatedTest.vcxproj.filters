@@ -30,18 +30,21 @@
     <ClCompile Include="..\Voyager\rock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-	  <ClCompile Include="..\Voyager\inventory.cpp">
-		  <Filter>Source Files</Filter>
-	  </ClCompile>
-	  <ClCompile Include="..\Voyager\ship.cpp">
-		  <Filter>Source Files</Filter>
-	  </ClCompile>
+    <ClCompile Include="..\Voyager\inventory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Voyager\ship.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="PlantTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Voyager\npc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+	  <ClCompile Include="..\Voyager\exchange.cpp">
+		  <Filter>Source Files</Filter>
+	  </ClCompile>
     <ClCompile Include="RockTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -52,6 +55,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="shipStorageTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="exchangeStationTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
