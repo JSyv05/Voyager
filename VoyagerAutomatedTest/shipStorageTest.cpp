@@ -28,7 +28,7 @@ namespace VoyagerautomatedTest {
             ship.addToShipStorage(inventory, 1);
             string after_storage = ship.getStorageContents();
             string after_move = inventory.getDisplayString();
-            Assert::IsTrue( before_move!= after_move, L"Rock was not removed from inventory");
+            Assert::IsTrue( before_move != after_move, L"Rock was not removed from inventory");
             Logger::WriteMessage("Rock was removed from the player's inventory\n");
             Assert::IsTrue(before_storage != after_storage, L"Storage was not updated with new rock");
             Logger::WriteMessage("Rock was added to the ship's storage");

@@ -221,7 +221,7 @@ string Ship::travelToPlanet(int choice) {
     previousCoordinates = coordinates;
     coordinates = destCoords;
     currentPlanet = destination;
-
+    fuel -= fuelCost;
     ostringstream msg;
     msg << "Traveling to " << currentPlanet.getName() << "...\n";
     msg << "Distance: " << std::fixed << std::setprecision(2) << distanceAU << " AU\n";

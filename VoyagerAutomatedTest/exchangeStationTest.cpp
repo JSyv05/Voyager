@@ -22,12 +22,14 @@ namespace VoyagerautomatedTest {
             Logger::WriteMessage("Added rock to inventory\n");
 
             string before_removal = storage->getDisplayString();
+            Logger::WriteMessage(before_removal.c_str());
             int before_exchange = eStation.getLootPoint();
 
             eStation.exchangeSampleForLootPoint(storage, 1);
             Logger::WriteMessage("Attempted to exchange sample\n");
 
             string after_removal = storage->getDisplayString();
+            Logger::WriteMessage(after_removal.c_str());
             int after_exchange = eStation.getLootPoint();
 
             Assert::AreNotEqual(before_exchange, after_exchange,

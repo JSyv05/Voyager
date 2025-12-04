@@ -9,6 +9,7 @@
 #include "ship.h"
 #include "inventory.h"
 #include "exchange.h"
+#include "npc.h"
 
 // Standard C++ libraries
 #include <array>
@@ -193,6 +194,9 @@ Game::ValidCommand Game::checkCommand(const Command& command) const {
     else if (input.size() == 1 && input[0] == "health")
     {
         return ValidCommand::Health;
+    }
+    else if (input.size() == 1 && input[0] == "fuel" && getShipFlag()) {
+        return ValidCommand::Fuel;
     }
     else {
         return ValidCommand::Error;
@@ -547,10 +551,21 @@ void Game::gameLoop() {
                 setErrorOutput(oss.str());
             }
             else if (input[1] == "health") {
-                setErrorOutput("ERR: health not implemented yet");
+                double heal =
+                    exchange.exchangeLootPointForHealth(stoi(input[2]));
+                player.gainHealth(heal);
+                ostringstream oss;
+                oss << "Healed " << heal
+                    << " units. Remaining LP: " << exchange.getLootPoint();
+                setErrorOutput(oss.str());
             }
             else if (input[1] == "sample") {
                 exchange.exchangeSampleForLootPoint(ship.getShipStorage(),stoi(input[2]));
+                ostringstream oss;
+                oss << "Exchanged! Gained " << exchange.getLootPoint()
+                    << " points!";
+                setBodyOutput(ship.getStorageContents());
+                setErrorOutput(oss.str());
             }
             else {
                 setErrorOutput("ERR: Please select either fuel or health 'exchange fuel 15'");
@@ -582,6 +597,7 @@ void Game::gameLoop() {
                     setBodyOutput(ship.travelToPlanet(index));
                     setArtOutput(getArtForTravelToPlanet(
                         ship.getCurrentPlanet().getBiome(), art));
+
                 }
                 else if (input[1] == "-p" || input[1] == "--position") {
                     checkInputSizeLessThanFive(input);
@@ -591,6 +607,11 @@ void Game::gameLoop() {
                     output << "set coordinates to (" << position[0] << ", "
                         << position[1] << ", " << position[2] << ")";
                     setBodyOutput(output.str());
+                }
+                if (ship.getFuel() <= 0) {
+                    setGameOverFlag(true);
+                    setBodyOutput("Your ship ran out of fuel, you drift off "
+                                  "into nothingness and freeze to death");
                 }
                 else {
                     string error = "ERR: Please pass a valid flag (try 'travel --help')";
@@ -642,6 +663,12 @@ void Game::gameLoop() {
         case ValidCommand::Storage:
             setBodyOutput(ship.getStorageContents());
             break;
+        case ValidCommand::Fuel:
+        {
+            ostringstream oss;
+            oss << "Current fuel level: " << ship.getFuel();
+            setErrorOutput(oss.str());
+        } break;
         default:
             string error = "ERR: Please enter a valid input";
             setErrorOutput(error);

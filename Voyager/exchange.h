@@ -17,7 +17,6 @@ public:
 	ExchangeStation();
 	int getLootPoint() const;
 	void addToLootPoint(int);
-	void subtractFromLootPoint(int);
 	void exchangeSampleForLootPoint(Inventory*, int);
 	double exchangeLootPointForFuel(int);
 	double exchangeLootPointForHealth(int);

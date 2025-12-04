@@ -4,7 +4,7 @@
 
 using namespace std;
 
-string Art::setArtToShip() const const {
+string Art::setArtToShip() const {
     string art= R"(
               `           '              '    . '
         .         .          ,_.-``--.                         .

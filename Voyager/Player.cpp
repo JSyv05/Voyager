@@ -38,6 +38,15 @@ void Player::takeDamage(int dmg)
 		playerHealth = 0;
 }
 
+void Player::gainHealth(int heal) {
+    if (playerHealth + heal >= maxHealth) {
+        playerHealth = maxHealth;
+	}
+    else {
+        playerHealth += heal;
+	}
+}
+
 bool Player::isDead() const
 {
 	return playerHealth <= 0;

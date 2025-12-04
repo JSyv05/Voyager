@@ -7,11 +7,12 @@ private:
 
 public:
 	Player();  // constructor - create a player with initial health
-	int getPlayerHealth();   // returns the current health
+	double getPlayerHealth() const;   // returns the current health
 
 	//Combat
 	int dealDamage() const;
 	void takeDamage(int dmg);
+    void gainHealth(int heal);
 	bool isDead() const;
 	void attackMonster(class Monster& monster) const;
 };

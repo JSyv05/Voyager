@@ -53,6 +53,7 @@ private:
         Save,
         Scan,
         Exit,
+        Fuel,
         ShipMainMenu,
         Sneak,
         Start,

@@ -1,7 +1,7 @@
 #include "exchange.h"
 #include "rock.h"
 
-ExchangeStation::ExchangeStation() : lootPoint(0), lootPointToFuel(2), lootPointToHealth(5) {}
+ExchangeStation::ExchangeStation() : lootPoint(0), lootPointToFuel(2), lootPointToHealth(1) {}
 
 int ExchangeStation::getLootPoint() const {
 	return lootPoint;
