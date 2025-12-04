@@ -1,0 +1,114 @@
+\doxysection{planet.\+h File Reference}
+\hypertarget{planet_8h}{}\label{planet_8h}\index{planet.h@{planet.h}}
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$sstream$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$regex$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$random$>$}\newline
+{\ttfamily \#include $<$memory$>$}\newline
+{\ttfamily \#include $<$iomanip$>$}\newline
+{\ttfamily \#include $<$algorithm$>$}\newline
+{\ttfamily \#include "{}game.\+h"{}}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_planet}{Planet}}
+\item 
+class \mbox{\hyperlink{class_planet_system}{Planet\+System}}
+\item 
+class \mbox{\hyperlink{class_planet_generator}{Planet\+Generator}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{planet_8h_addc943e48d3e353239a2d443df95bd5b}{Biome}} \{ \newline
+\mbox{\hyperlink{planet_8h_addc943e48d3e353239a2d443df95bd5ba000c016d34ff41e245b69c67f22c83ff}{Desert}}
+, \mbox{\hyperlink{planet_8h_addc943e48d3e353239a2d443df95bd5ba583d6a9fe10d672474e2cdca476113b7}{Ice}}
+, \mbox{\hyperlink{planet_8h_addc943e48d3e353239a2d443df95bd5baf41054884f4a8c8cb596222e2a31f098}{Ocean}}
+, \mbox{\hyperlink{planet_8h_addc943e48d3e353239a2d443df95bd5baac12ee4aedb176eb73ce3f6c0d1e9036}{Forest}}
+, \newline
+\mbox{\hyperlink{planet_8h_addc943e48d3e353239a2d443df95bd5ba93caee50969688ecfe6d0d9e5657a268}{Volcanic}}
+, \mbox{\hyperlink{planet_8h_addc943e48d3e353239a2d443df95bd5ba3e07f09b9e68132787658c84fccb75fc}{Gas\+Giant}}
+, \mbox{\hyperlink{planet_8h_addc943e48d3e353239a2d443df95bd5ba861565831545afb68057b15adeaa3045}{Urban}}
+, \mbox{\hyperlink{planet_8h_addc943e48d3e353239a2d443df95bd5ba492e9acd19159730032da8322ed0666f}{Barren}}
+ \}
+\item 
+enum class \mbox{\hyperlink{planet_8h_a1c40db1d9b56c27240e420765695f1c4}{Size}} \{ \mbox{\hyperlink{planet_8h_a1c40db1d9b56c27240e420765695f1c4a2660064e68655415da2628c2ae2f7592}{Small}}
+, \mbox{\hyperlink{planet_8h_a1c40db1d9b56c27240e420765695f1c4a87f8a6ab85c9ced3702b4ea641ad4bb5}{Medium}}
+, \mbox{\hyperlink{planet_8h_a1c40db1d9b56c27240e420765695f1c4a3a69b34ce86dacb205936a8094f6c743}{Large}}
+ \}
+\end{DoxyCompactItemize}
+
+
+\label{doc-enum-members}
+\Hypertarget{planet_8h_doc-enum-members}
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{planet_8h_addc943e48d3e353239a2d443df95bd5b}\index{planet.h@{planet.h}!Biome@{Biome}}
+\index{Biome@{Biome}!planet.h@{planet.h}}
+\doxysubsubsection{\texorpdfstring{Biome}{Biome}}
+{\footnotesize\ttfamily \label{planet_8h_addc943e48d3e353239a2d443df95bd5b} 
+enum class \mbox{\hyperlink{planet_8h_addc943e48d3e353239a2d443df95bd5b}{Biome}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Desert@{Desert}!planet.h@{planet.h}}\index{planet.h@{planet.h}!Desert@{Desert}}}\Hypertarget{planet_8h_addc943e48d3e353239a2d443df95bd5ba000c016d34ff41e245b69c67f22c83ff}\label{planet_8h_addc943e48d3e353239a2d443df95bd5ba000c016d34ff41e245b69c67f22c83ff} 
+Desert&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Ice@{Ice}!planet.h@{planet.h}}\index{planet.h@{planet.h}!Ice@{Ice}}}\Hypertarget{planet_8h_addc943e48d3e353239a2d443df95bd5ba583d6a9fe10d672474e2cdca476113b7}\label{planet_8h_addc943e48d3e353239a2d443df95bd5ba583d6a9fe10d672474e2cdca476113b7} 
+Ice&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Ocean@{Ocean}!planet.h@{planet.h}}\index{planet.h@{planet.h}!Ocean@{Ocean}}}\Hypertarget{planet_8h_addc943e48d3e353239a2d443df95bd5baf41054884f4a8c8cb596222e2a31f098}\label{planet_8h_addc943e48d3e353239a2d443df95bd5baf41054884f4a8c8cb596222e2a31f098} 
+Ocean&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Forest@{Forest}!planet.h@{planet.h}}\index{planet.h@{planet.h}!Forest@{Forest}}}\Hypertarget{planet_8h_addc943e48d3e353239a2d443df95bd5baac12ee4aedb176eb73ce3f6c0d1e9036}\label{planet_8h_addc943e48d3e353239a2d443df95bd5baac12ee4aedb176eb73ce3f6c0d1e9036} 
+Forest&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Volcanic@{Volcanic}!planet.h@{planet.h}}\index{planet.h@{planet.h}!Volcanic@{Volcanic}}}\Hypertarget{planet_8h_addc943e48d3e353239a2d443df95bd5ba93caee50969688ecfe6d0d9e5657a268}\label{planet_8h_addc943e48d3e353239a2d443df95bd5ba93caee50969688ecfe6d0d9e5657a268} 
+Volcanic&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GasGiant@{GasGiant}!planet.h@{planet.h}}\index{planet.h@{planet.h}!GasGiant@{GasGiant}}}\Hypertarget{planet_8h_addc943e48d3e353239a2d443df95bd5ba3e07f09b9e68132787658c84fccb75fc}\label{planet_8h_addc943e48d3e353239a2d443df95bd5ba3e07f09b9e68132787658c84fccb75fc} 
+Gas\+Giant&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Urban@{Urban}!planet.h@{planet.h}}\index{planet.h@{planet.h}!Urban@{Urban}}}\Hypertarget{planet_8h_addc943e48d3e353239a2d443df95bd5ba861565831545afb68057b15adeaa3045}\label{planet_8h_addc943e48d3e353239a2d443df95bd5ba861565831545afb68057b15adeaa3045} 
+Urban&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Barren@{Barren}!planet.h@{planet.h}}\index{planet.h@{planet.h}!Barren@{Barren}}}\Hypertarget{planet_8h_addc943e48d3e353239a2d443df95bd5ba492e9acd19159730032da8322ed0666f}\label{planet_8h_addc943e48d3e353239a2d443df95bd5ba492e9acd19159730032da8322ed0666f} 
+Barren&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{planet_8h_source_l00023}{23}} of file \mbox{\hyperlink{planet_8h_source}{planet.\+h}}.
+
+\Hypertarget{planet_8h_a1c40db1d9b56c27240e420765695f1c4}\index{planet.h@{planet.h}!Size@{Size}}
+\index{Size@{Size}!planet.h@{planet.h}}
+\doxysubsubsection{\texorpdfstring{Size}{Size}}
+{\footnotesize\ttfamily \label{planet_8h_a1c40db1d9b56c27240e420765695f1c4} 
+enum class \mbox{\hyperlink{planet_8h_a1c40db1d9b56c27240e420765695f1c4}{Size}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Small@{Small}!planet.h@{planet.h}}\index{planet.h@{planet.h}!Small@{Small}}}\Hypertarget{planet_8h_a1c40db1d9b56c27240e420765695f1c4a2660064e68655415da2628c2ae2f7592}\label{planet_8h_a1c40db1d9b56c27240e420765695f1c4a2660064e68655415da2628c2ae2f7592} 
+Small&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Medium@{Medium}!planet.h@{planet.h}}\index{planet.h@{planet.h}!Medium@{Medium}}}\Hypertarget{planet_8h_a1c40db1d9b56c27240e420765695f1c4a87f8a6ab85c9ced3702b4ea641ad4bb5}\label{planet_8h_a1c40db1d9b56c27240e420765695f1c4a87f8a6ab85c9ced3702b4ea641ad4bb5} 
+Medium&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Large@{Large}!planet.h@{planet.h}}\index{planet.h@{planet.h}!Large@{Large}}}\Hypertarget{planet_8h_a1c40db1d9b56c27240e420765695f1c4a3a69b34ce86dacb205936a8094f6c743}\label{planet_8h_a1c40db1d9b56c27240e420765695f1c4a3a69b34ce86dacb205936a8094f6c743} 
+Large&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{planet_8h_source_l00028}{28}} of file \mbox{\hyperlink{planet_8h_source}{planet.\+h}}.
+

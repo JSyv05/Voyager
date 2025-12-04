@@ -1,0 +1,91 @@
+\doxysection{game.\+h}
+\hypertarget{game_8h_source}{}\label{game_8h_source}\mbox{\hyperlink{game_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00001}00001\ \textcolor{preprocessor}{\#ifndef\ GAME\_H}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00002}00002\ \textcolor{preprocessor}{\#define\ GAME\_H}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00004}00004\ \textcolor{preprocessor}{\#include"{}\mbox{\hyperlink{command_8h}{command.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00005}00005\ \textcolor{preprocessor}{\#include"{}\mbox{\hyperlink{planet_8h}{planet.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00006}00006\ \textcolor{preprocessor}{\#include"{}\mbox{\hyperlink{menu_8h}{menu.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00008}00008\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00009}00009\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00010}00010\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00012}00012\ \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00013}00013\ \textcolor{comment}{The\ function\ of\ the\ Game\ class\ is\ to\ manage\ the\ overall\ state\ and\ flow\ of\ the\ game.}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00014}00014\ \textcolor{comment}{It\ handles\ all\ text\ and\ art\ output,\ manages\ the\ game\ loop,\ and\ keeps\ track}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00015}00015\ \textcolor{comment}{of\ the\ game\ state\ that\ we\ are\ in\ (on\ menu,\ on\ ship,\ on\ planet,\ etc.).}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00016}00016\ \textcolor{comment}{*/}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00018}\mbox{\hyperlink{class_game}{00018}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_game_ad59df6562a58a614fda24622d3715b65}{Game}}\ \{}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00019}00019\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00020}00020\ \ \ \ \ std::string\ art\_output;\ \ \ \textcolor{comment}{//\ Art\ output}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00021}00021\ \ \ \ \ std::string\ body\_output;\ \ \textcolor{comment}{//\ Text\ output}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00022}00022\ \ \ \ \ std::string\ error\_output;\ \textcolor{comment}{//\ Error\ output}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00023}00023\ \ \ \ \ \textcolor{keywordtype}{bool}\ onMenu;\ \textcolor{comment}{//\ Flag\ to\ check\ if\ in\ menu\ screen}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00024}00024\ \ \ \ \ \textcolor{keywordtype}{bool}\ onShip;\ \textcolor{comment}{//\ Flag\ to\ check\ if\ on\ the\ ship}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00025}00025\ \ \ \ \ \textcolor{keywordtype}{bool}\ onPlanet;\ \textcolor{comment}{//\ Flag\ to\ check\ if\ we\ are\ on\ a\ planet}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00026}00026\ \ \ \ \ \textcolor{keywordtype}{bool}\ gameOver;\ \textcolor{comment}{//\ Flag\ to\ check\ if\ game\ is\ over}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00027}00027\ \ \ \ \ \textcolor{keywordtype}{bool}\ next;\ \textcolor{comment}{//\ Flag\ for\ any\ ingame\ events\ that\ require\ the\ next\ command}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00028}00028\ \ \ \ \ \textcolor{keyword}{enum\ class}\ MainMenuCommand\ \{}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00029}00029\ \ \ \ \ \ \ \ \ Start,}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00030}00030\ \ \ \ \ \ \ \ \ Load,}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00031}00031\ \ \ \ \ \ \ \ \ Instructions,}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00032}00032\ \ \ \ \ \ \ \ \ Credits,}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00033}00033\ \ \ \ \ \ \ \ \ Back,}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00034}00034\ \ \ \ \ \ \ \ \ Exit,}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00035}00035\ \ \ \ \ \ \ \ \ Error}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00036}00036\ \ \ \ \ \};\ \textcolor{comment}{//\ Enum\ to\ give\ simpler\ names\ to\ menu\ commands}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00038}00038\ \ \ \ \ \textcolor{keyword}{enum\ class}\ PlanetCommand\ \{}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00039}00039\ \ \ \ \ \ \ \ \ Scan,}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00040}00040\ \ \ \ \ \ \ \ \ Collect,}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00041}00041\ \ \ \ \ \ \ \ \ Drop,}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00042}00042\ \ \ \ \ \ \ \ \ ReturnToShip,}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00043}00043\ \ \ \ \ \ \ \ \ Error}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00044}00044\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00046}00046\ \ \ \ \ \textcolor{keyword}{enum\ class}\ ShipCommand\ \{}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00047}00047\ \ \ \ \ \ \ \ \ Travel,}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00048}00048\ \ \ \ \ \ \ \ \ Exit,}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00049}00049\ \ \ \ \ \ \ \ \ Save,}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00050}00050\ \ \ \ \ \ \ \ \ Error}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00051}00051\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00053}00053\ \ \ \ \ \textcolor{keyword}{enum\ class}\ NextCommand\ \{}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00054}00054\ \ \ \ \ \ \ \ \ Next,}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00055}00055\ \ \ \ \ \ \ \ \ Error}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00056}00056\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00057}00057\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00058}00058\ \ \ \ \ \mbox{\hyperlink{class_game_ad59df6562a58a614fda24622d3715b65}{Game}}();\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Default\ constructor}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00059}00059\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_a21add3176bb8fb80826d5797a23be594}{setBodyOutput}}(\textcolor{keyword}{const}\ std::string\&);\ \ \textcolor{comment}{//\ Output\ text\ setter}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00060}00060\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_a93919e3196e7d2284870b9facdf71c15}{setArtOutput}}(\textcolor{keyword}{const}\ std::string\&);\ \ \ \textcolor{comment}{//\ Art\ text\ setter}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00061}00061\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_a82e62b77419f947924400b2294906815}{setErrorOutput}}(\textcolor{keyword}{const}\ std::string\&);\ \textcolor{comment}{//\ Error\ text\ setter}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00062}00062\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_afd273a5b8d7de2b0c49c7a512ee02501}{setMenuFlag}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\&);}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00063}00063\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_a621c1cc431af36f39294695ed2e56b3f}{setShipFlag}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\&);}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00064}00064\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_a5e81bc58ba62b16b4d03d28233ae1cf9}{setPlanetFlag}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\&);}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00065}00065\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_a68d0951e440593ca936cb35fbbcd4c6b}{setGameOverFlag}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\&);}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00066}00066\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_a0e8d527b4d3f16adba2660785c52c205}{setNextFlag}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\&);}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00068}00068\ \ \ \ \ std::string\ \mbox{\hyperlink{class_game_aca5a1dc61690dc3a0b20b5b5890420ec}{getBodyOutput}}()\ \textcolor{keyword}{const};\ \ \ \ \ \ \textcolor{comment}{//\ Output\ text\ getter}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00069}00069\ \ \ \ \ std::string\ \mbox{\hyperlink{class_game_a440561687a5e74d9e58fcbcbd210a420}{getArtOutput}}()\ \textcolor{keyword}{const};\ \ \ \ \ \ \ \textcolor{comment}{//\ Art\ text\ getter}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00070}00070\ \ \ \ \ std::string\ \mbox{\hyperlink{class_game_aeb7a5b90b5d60b66f90f24718fc653cf}{getErrorOutput}}()\ \textcolor{keyword}{const};\ \ \ \ \ \textcolor{comment}{//\ Error\ text\ getter}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00071}00071\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_game_a1b092e5be94d3feffe72aeec5ae3858f}{getMenuFlag}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00072}00072\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_game_afe44ba3fa159cdf3fbf20901c782e5cb}{getShipFlag}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00073}00073\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_game_ab30f0f8467eeb6e63662a49c10face1a}{getPlanetFlag}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00074}00074\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_game_abfd46ffe22582a6674537c3b6f5b39c1}{getGameOverFlag}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00075}00075\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_game_a1fe03632a75d625d952d88e9498b57c2}{getNextFlag}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00077}00077\ \ \ \ \ MainMenuCommand\ \mbox{\hyperlink{class_game_a0a391f0b32c06c75437bf88642119ad2}{checkMenuCommand}}(\mbox{\hyperlink{class_command}{Command}}\&)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00078}00078\ \ \ \ \ PlanetCommand\ \mbox{\hyperlink{class_game_a96c14a7f8a1a349cb777e79f0afa7d38}{checkPlanetCommand}}(\mbox{\hyperlink{class_command}{Command}}\&)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00079}00079\ \ \ \ \ NextCommand\ \mbox{\hyperlink{class_game_a9c072e57dac47b2bb9568ebc78b3e3e7}{checkNextCommand}}(\mbox{\hyperlink{class_command}{Command}}\&)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00081}00081\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_a87f611d77629e4b9e134d1a2b609bfa0}{clearScreen}}()\ \textcolor{keyword}{const};\ \ \ \textcolor{comment}{//\ Clears\ the\ console\ screen}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00082}00082\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_a0a691558b17c2b649f2518b0ccafb4ad}{displayOutput}}()\ \textcolor{keyword}{const};\ \textcolor{comment}{//\ Displays\ text,\ art,\ and\ input\ field}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00083}00083\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_ac6835dbedff0e39926955c555b2cabe0}{gameLoop}}(\mbox{\hyperlink{class_game_ad59df6562a58a614fda24622d3715b65}{Game}}\&)\ \textcolor{keyword}{const};\ \textcolor{comment}{//\ Main\ game\ loop}}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00084}00084\ \};}
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00085}00085\ }
+\DoxyCodeLine{\Hypertarget{game_8h_source_l00086}00086\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

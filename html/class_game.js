@@ -1,0 +1,26 @@
+var class_game =
+[
+    [ "Game", "class_game.html#ad59df6562a58a614fda24622d3715b65", null ],
+    [ "checkMenuCommand", "class_game.html#a0a391f0b32c06c75437bf88642119ad2", null ],
+    [ "checkNextCommand", "class_game.html#a9c072e57dac47b2bb9568ebc78b3e3e7", null ],
+    [ "checkPlanetCommand", "class_game.html#a96c14a7f8a1a349cb777e79f0afa7d38", null ],
+    [ "clearScreen", "class_game.html#a87f611d77629e4b9e134d1a2b609bfa0", null ],
+    [ "displayOutput", "class_game.html#a0a691558b17c2b649f2518b0ccafb4ad", null ],
+    [ "gameLoop", "class_game.html#ac6835dbedff0e39926955c555b2cabe0", null ],
+    [ "getArtOutput", "class_game.html#a440561687a5e74d9e58fcbcbd210a420", null ],
+    [ "getBodyOutput", "class_game.html#aca5a1dc61690dc3a0b20b5b5890420ec", null ],
+    [ "getErrorOutput", "class_game.html#aeb7a5b90b5d60b66f90f24718fc653cf", null ],
+    [ "getGameOverFlag", "class_game.html#abfd46ffe22582a6674537c3b6f5b39c1", null ],
+    [ "getMenuFlag", "class_game.html#a1b092e5be94d3feffe72aeec5ae3858f", null ],
+    [ "getNextFlag", "class_game.html#a1fe03632a75d625d952d88e9498b57c2", null ],
+    [ "getPlanetFlag", "class_game.html#ab30f0f8467eeb6e63662a49c10face1a", null ],
+    [ "getShipFlag", "class_game.html#afe44ba3fa159cdf3fbf20901c782e5cb", null ],
+    [ "setArtOutput", "class_game.html#a93919e3196e7d2284870b9facdf71c15", null ],
+    [ "setBodyOutput", "class_game.html#a21add3176bb8fb80826d5797a23be594", null ],
+    [ "setErrorOutput", "class_game.html#a82e62b77419f947924400b2294906815", null ],
+    [ "setGameOverFlag", "class_game.html#a68d0951e440593ca936cb35fbbcd4c6b", null ],
+    [ "setMenuFlag", "class_game.html#afd273a5b8d7de2b0c49c7a512ee02501", null ],
+    [ "setNextFlag", "class_game.html#a0e8d527b4d3f16adba2660785c52c205", null ],
+    [ "setPlanetFlag", "class_game.html#a5e81bc58ba62b16b4d03d28233ae1cf9", null ],
+    [ "setShipFlag", "class_game.html#a621c1cc431af36f39294695ed2e56b3f", null ]
+];

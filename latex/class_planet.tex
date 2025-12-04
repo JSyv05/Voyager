@@ -1,0 +1,143 @@
+\doxysection{Planet Class Reference}
+\hypertarget{class_planet}{}\label{class_planet}\index{Planet@{Planet}}
+
+
+{\ttfamily \#include $<$planet.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_planet_a32db8fbf15c52a0867b44753e955f910}{Planet}} (string id, string name, double distance\+AU, \mbox{\hyperlink{planet_8h_addc943e48d3e353239a2d443df95bd5b}{Biome}} biome, int loot)
+\item 
+const string \& \mbox{\hyperlink{class_planet_aba385fb870fb2bd15bb0bb51556cd6b1}{get\+Id}} () const
+\item 
+const string \& \mbox{\hyperlink{class_planet_a2734577beb825016099903df6152e1f1}{get\+Name}} () const
+\item 
+double \mbox{\hyperlink{class_planet_a4f191f5fd06ff76fc18dcd3519c13727}{get\+Distance\+AU}} () const
+\item 
+\mbox{\hyperlink{planet_8h_addc943e48d3e353239a2d443df95bd5b}{Biome}} \mbox{\hyperlink{class_planet_ad8e9425641d5047283f54caa022bd784}{get\+Biome}} () const
+\item 
+double \mbox{\hyperlink{class_planet_a4da7f763a368d4f5bcbdf9da27477229}{travel\+Fuel\+Cost}} (double fuel\+Per\+AU) const
+\item 
+string \mbox{\hyperlink{class_planet_a3c25e5bf73361987bdd29e59d072a4bb}{quick\+Row}} (double fuel\+Per\+AU) const
+\item 
+string \mbox{\hyperlink{class_planet_a9414bc5be483b8b92977333da3f1ac0c}{describe}} () const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static string \mbox{\hyperlink{class_planet_a8e6d2c6060596d04a363e2b42a2a4188}{biome\+To\+String}} (\mbox{\hyperlink{planet_8h_addc943e48d3e353239a2d443df95bd5b}{Biome}} b)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{planet_8h_source_l00033}{33}} of file \mbox{\hyperlink{planet_8h_source}{planet.\+h}}.
+
+
+
+\label{doc-constructors}
+\Hypertarget{class_planet_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_planet_a32db8fbf15c52a0867b44753e955f910}\index{Planet@{Planet}!Planet@{Planet}}
+\index{Planet@{Planet}!Planet@{Planet}}
+\doxysubsubsection{\texorpdfstring{Planet()}{Planet()}}
+{\footnotesize\ttfamily \label{class_planet_a32db8fbf15c52a0867b44753e955f910} 
+Planet\+::\+Planet (\begin{DoxyParamCaption}\item[{string}]{id}{, }\item[{string}]{name}{, }\item[{double}]{distance\+AU}{, }\item[{\mbox{\hyperlink{planet_8h_addc943e48d3e353239a2d443df95bd5b}{Biome}}}]{biome}{, }\item[{int}]{loot}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{planet_8cpp_source_l00016}{16}} of file \mbox{\hyperlink{planet_8cpp_source}{planet.\+cpp}}.
+
+
+
+\label{doc-func-members}
+\Hypertarget{class_planet_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_planet_a8e6d2c6060596d04a363e2b42a2a4188}\index{Planet@{Planet}!biomeToString@{biomeToString}}
+\index{biomeToString@{biomeToString}!Planet@{Planet}}
+\doxysubsubsection{\texorpdfstring{biomeToString()}{biomeToString()}}
+{\footnotesize\ttfamily \label{class_planet_a8e6d2c6060596d04a363e2b42a2a4188} 
+string Planet\+::biome\+To\+String (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{planet_8h_addc943e48d3e353239a2d443df95bd5b}{Biome}}}]{b}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{planet_8cpp_source_l00055}{55}} of file \mbox{\hyperlink{planet_8cpp_source}{planet.\+cpp}}.
+
+\Hypertarget{class_planet_a9414bc5be483b8b92977333da3f1ac0c}\index{Planet@{Planet}!describe@{describe}}
+\index{describe@{describe}!Planet@{Planet}}
+\doxysubsubsection{\texorpdfstring{describe()}{describe()}}
+{\footnotesize\ttfamily \label{class_planet_a9414bc5be483b8b92977333da3f1ac0c} 
+string Planet\+::describe (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Definition at line \mbox{\hyperlink{planet_8cpp_source_l00036}{36}} of file \mbox{\hyperlink{planet_8cpp_source}{planet.\+cpp}}.
+
+\Hypertarget{class_planet_ad8e9425641d5047283f54caa022bd784}\index{Planet@{Planet}!getBiome@{getBiome}}
+\index{getBiome@{getBiome}!Planet@{Planet}}
+\doxysubsubsection{\texorpdfstring{getBiome()}{getBiome()}}
+{\footnotesize\ttfamily \label{class_planet_ad8e9425641d5047283f54caa022bd784} 
+\mbox{\hyperlink{planet_8h_addc943e48d3e353239a2d443df95bd5b}{Biome}} Planet\+::get\+Biome (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{planet_8h_source_l00049}{49}} of file \mbox{\hyperlink{planet_8h_source}{planet.\+h}}.
+
+\Hypertarget{class_planet_a4f191f5fd06ff76fc18dcd3519c13727}\index{Planet@{Planet}!getDistanceAU@{getDistanceAU}}
+\index{getDistanceAU@{getDistanceAU}!Planet@{Planet}}
+\doxysubsubsection{\texorpdfstring{getDistanceAU()}{getDistanceAU()}}
+{\footnotesize\ttfamily \label{class_planet_a4f191f5fd06ff76fc18dcd3519c13727} 
+double Planet\+::get\+Distance\+AU (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{planet_8h_source_l00048}{48}} of file \mbox{\hyperlink{planet_8h_source}{planet.\+h}}.
+
+\Hypertarget{class_planet_aba385fb870fb2bd15bb0bb51556cd6b1}\index{Planet@{Planet}!getId@{getId}}
+\index{getId@{getId}!Planet@{Planet}}
+\doxysubsubsection{\texorpdfstring{getId()}{getId()}}
+{\footnotesize\ttfamily \label{class_planet_aba385fb870fb2bd15bb0bb51556cd6b1} 
+const string \& Planet\+::get\+Id (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{planet_8h_source_l00046}{46}} of file \mbox{\hyperlink{planet_8h_source}{planet.\+h}}.
+
+\Hypertarget{class_planet_a2734577beb825016099903df6152e1f1}\index{Planet@{Planet}!getName@{getName}}
+\index{getName@{getName}!Planet@{Planet}}
+\doxysubsubsection{\texorpdfstring{getName()}{getName()}}
+{\footnotesize\ttfamily \label{class_planet_a2734577beb825016099903df6152e1f1} 
+const string \& Planet\+::get\+Name (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{planet_8h_source_l00047}{47}} of file \mbox{\hyperlink{planet_8h_source}{planet.\+h}}.
+
+\Hypertarget{class_planet_a3c25e5bf73361987bdd29e59d072a4bb}\index{Planet@{Planet}!quickRow@{quickRow}}
+\index{quickRow@{quickRow}!Planet@{Planet}}
+\doxysubsubsection{\texorpdfstring{quickRow()}{quickRow()}}
+{\footnotesize\ttfamily \label{class_planet_a3c25e5bf73361987bdd29e59d072a4bb} 
+string Planet\+::quick\+Row (\begin{DoxyParamCaption}\item[{double}]{fuel\+Per\+AU}{}\end{DoxyParamCaption}) const}
+
+
+
+Definition at line \mbox{\hyperlink{planet_8cpp_source_l00026}{26}} of file \mbox{\hyperlink{planet_8cpp_source}{planet.\+cpp}}.
+
+\Hypertarget{class_planet_a4da7f763a368d4f5bcbdf9da27477229}\index{Planet@{Planet}!travelFuelCost@{travelFuelCost}}
+\index{travelFuelCost@{travelFuelCost}!Planet@{Planet}}
+\doxysubsubsection{\texorpdfstring{travelFuelCost()}{travelFuelCost()}}
+{\footnotesize\ttfamily \label{class_planet_a4da7f763a368d4f5bcbdf9da27477229} 
+double Planet\+::travel\+Fuel\+Cost (\begin{DoxyParamCaption}\item[{double}]{fuel\+Per\+AU}{}\end{DoxyParamCaption}) const}
+
+
+
+Definition at line \mbox{\hyperlink{planet_8cpp_source_l00021}{21}} of file \mbox{\hyperlink{planet_8cpp_source}{planet.\+cpp}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{planet_8h}{planet.\+h}}\item 
+\mbox{\hyperlink{planet_8cpp}{planet.\+cpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,210 @@
+\doxysection{planet.\+cpp}
+\hypertarget{planet_8cpp_source}{}\label{planet_8cpp_source}\mbox{\hyperlink{planet_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00001}00001\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{planet_8h}{planet.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00002}00002\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{menu_8h}{menu.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00003}00003\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{command_8h}{command.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00004}00004\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{game_8h}{game.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00005}00005\ \textcolor{comment}{//\ \#include\ "{}npc.h"{}}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00007}00007\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00008}00008\ \textcolor{preprocessor}{\#include\ <iomanip>}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00009}00009\ \textcolor{preprocessor}{\#include\ <cstdlib>}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00010}00010\ \textcolor{preprocessor}{\#include\ <ctime>}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00011}00011\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00013}00013\ \textcolor{keyword}{using\ namespace\ }std;}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00015}00015\ \textcolor{comment}{//\ Planet\ Class\ Implementation}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00016}\mbox{\hyperlink{class_planet_a32db8fbf15c52a0867b44753e955f910}{00016}}\ \mbox{\hyperlink{class_planet_a32db8fbf15c52a0867b44753e955f910}{Planet::Planet}}(\textcolor{keywordtype}{string}\ \textcolor{keywordtype}{id},\ \textcolor{keywordtype}{string}\ name,\ \textcolor{keywordtype}{double}\ distanceAU,\ \mbox{\hyperlink{planet_8h_addc943e48d3e353239a2d443df95bd5b}{Biome}}\ biome,\ \textcolor{keywordtype}{int}\ loot)}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00017}00017\ \ \ \ \ :\ id(move(id)),\ name(move(name)),\ distanceAU(distanceAU),\ biome(biome),\ lootLevel(loot)\ \{}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00018}00018\ \}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00021}\mbox{\hyperlink{class_planet_a4da7f763a368d4f5bcbdf9da27477229}{00021}}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_planet_a4da7f763a368d4f5bcbdf9da27477229}{Planet::travelFuelCost}}(\textcolor{keywordtype}{double}\ fuelPerAU)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00022}00022\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00023}00023\ \ \ \ \ \textcolor{keywordflow}{return}\ distanceAU\ *\ fuelPerAU;}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00024}00024\ \}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00026}\mbox{\hyperlink{class_planet_a3c25e5bf73361987bdd29e59d072a4bb}{00026}}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{class_planet_a3c25e5bf73361987bdd29e59d072a4bb}{Planet::quickRow}}(\textcolor{keywordtype}{double}\ fuelPerAU)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00027}00027\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00028}00028\ \ \ \ \ ostringstream\ ss;}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00029}00029\ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}["{}}\ <<\ \textcolor{keywordtype}{id}\ <<\ \textcolor{stringliteral}{"{}]"{}}\ <<\ name}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00030}00030\ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ |\ "{}}\ <<\ \mbox{\hyperlink{class_planet_a8e6d2c6060596d04a363e2b42a2a4188}{biomeToString}}(biome)}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00031}00031\ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ |\ "{}}\ <<\ fixed\ <<\ setprecision(2)\ <<\ distanceAU\ <<\ \textcolor{stringliteral}{"{}\ AU"{}}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00032}00032\ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ |\ Fuel\ Cost:\ "{}}\ <<\ \mbox{\hyperlink{class_planet_a4da7f763a368d4f5bcbdf9da27477229}{travelFuelCost}}(fuelPerAU);}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00033}00033\ \ \ \ \ \textcolor{keywordflow}{return}\ ss.str();}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00034}00034\ \}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00036}\mbox{\hyperlink{class_planet_a9414bc5be483b8b92977333da3f1ac0c}{00036}}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{class_planet_a9414bc5be483b8b92977333da3f1ac0c}{Planet::describe}}()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00037}00037\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00038}00038\ \ \ \ \ ostringstream\ ss;}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00039}00039\ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n-\/-\/-\/\ "{}}\ <<\ name\ <<\ \textcolor{stringliteral}{"{}\ -\/-\/-\/\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00040}00040\ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}Biome:\ "{}}\ <<\ \mbox{\hyperlink{class_planet_a8e6d2c6060596d04a363e2b42a2a4188}{biomeToString}}(biome)\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00041}00041\ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}Distance:\ "{}}\ <<\ fixed\ <<\ setprecision(2)\ <<\ distanceAU\ <<\ \textcolor{stringliteral}{"{}\ AU\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00042}00042\ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}Loot\ Level:\ "{}}\ <<\ lootLevel\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00043}00043\ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}Surface\ Conditions:\ "{}}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00044}00044\ \ \ \ \ \ \ \ \ <<\ (biome\ ==\ \mbox{\hyperlink{planet_8h_addc943e48d3e353239a2d443df95bd5ba93caee50969688ecfe6d0d9e5657a268}{Biome::Volcanic}}\ ?\ \textcolor{stringliteral}{"{}Molten\ terrain\ and\ unstable\ geysers."{}}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ :\ biome\ ==\ \mbox{\hyperlink{planet_8h_addc943e48d3e353239a2d443df95bd5baf41054884f4a8c8cb596222e2a31f098}{Biome::Ocean}}\ ?\ \textcolor{stringliteral}{"{}Vast\ seas\ with\ strong\ currents."{}}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ :\ biome\ ==\ \mbox{\hyperlink{planet_8h_addc943e48d3e353239a2d443df95bd5baac12ee4aedb176eb73ce3f6c0d1e9036}{Biome::Forest}}\ ?\ \textcolor{stringliteral}{"{}Dense\ vegetation\ and\ humid\ climate."{}}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ :\ biome\ ==\ \mbox{\hyperlink{planet_8h_addc943e48d3e353239a2d443df95bd5ba861565831545afb68057b15adeaa3045}{Biome::Urban}}\ ?\ \textcolor{stringliteral}{"{}Ruins\ of\ an\ advanced\ civilization."{}}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ :\ biome\ ==\ \mbox{\hyperlink{planet_8h_addc943e48d3e353239a2d443df95bd5ba583d6a9fe10d672474e2cdca476113b7}{Biome::Ice}}\ ?\ \textcolor{stringliteral}{"{}Frozen\ wastelands\ under\ dim\ sunlight."{}}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ :\ biome\ ==\ \mbox{\hyperlink{planet_8h_addc943e48d3e353239a2d443df95bd5ba000c016d34ff41e245b69c67f22c83ff}{Biome::Desert}}\ ?\ \textcolor{stringliteral}{"{}Endless\ dunes\ and\ scorching\ heat."{}}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ :\ \textcolor{stringliteral}{"{}Barren\ and\ lifeless\ terrain."{}})}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00051}00051\ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00052}00052\ \ \ \ \ \textcolor{keywordflow}{return}\ ss.str();}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00053}00053\ \}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00055}\mbox{\hyperlink{class_planet_a8e6d2c6060596d04a363e2b42a2a4188}{00055}}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{class_planet_a8e6d2c6060596d04a363e2b42a2a4188}{Planet::biomeToString}}(\mbox{\hyperlink{planet_8h_addc943e48d3e353239a2d443df95bd5b}{Biome}}\ b)}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00056}00056\ \{}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00057}00057\ \ \ \ \ \textcolor{keywordflow}{switch}\ (b)}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00058}00058\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00059}00059\ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{planet_8h_addc943e48d3e353239a2d443df95bd5ba000c016d34ff41e245b69c67f22c83ff}{Biome::Desert}}:\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Desert"{}};}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00060}00060\ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{planet_8h_addc943e48d3e353239a2d443df95bd5ba583d6a9fe10d672474e2cdca476113b7}{Biome::Ice}}:\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Ice"{}};}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00061}00061\ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{planet_8h_addc943e48d3e353239a2d443df95bd5baf41054884f4a8c8cb596222e2a31f098}{Biome::Ocean}}:\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Ocean"{}};}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00062}00062\ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{planet_8h_addc943e48d3e353239a2d443df95bd5baac12ee4aedb176eb73ce3f6c0d1e9036}{Biome::Forest}}:\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Forest"{}};}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00063}00063\ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{planet_8h_addc943e48d3e353239a2d443df95bd5ba93caee50969688ecfe6d0d9e5657a268}{Biome::Volcanic}}:\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Volcanic"{}};}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00064}00064\ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{planet_8h_addc943e48d3e353239a2d443df95bd5ba3e07f09b9e68132787658c84fccb75fc}{Biome::GasGiant}}:\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}GasGiant"{}};}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00065}00065\ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{planet_8h_addc943e48d3e353239a2d443df95bd5ba861565831545afb68057b15adeaa3045}{Biome::Urban}}:\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Urban"{}};}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00066}00066\ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{planet_8h_addc943e48d3e353239a2d443df95bd5ba492e9acd19159730032da8322ed0666f}{Biome::Barren}}:\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Barren"{}};}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00067}00067\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00068}00068\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}UNKNOWN"{}};}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00069}00069\ \}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00070}\mbox{\hyperlink{class_planet_generator_aef93b8188f6fefa76149e4407d75c0aa}{00070}}\ \mbox{\hyperlink{class_planet_generator_aef93b8188f6fefa76149e4407d75c0aa}{PlanetGenerator::PlanetGenerator}}()\ :\ rng(random\_device\{\}())\ \{\}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00072}00072\ \textcolor{keywordtype}{string}\ PlanetGenerator::generateName()}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00073}00073\ \{}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00074}00074\ \ \ \ \ vector<string>\ prefixes\ =\ \{\ \textcolor{stringliteral}{"{}RX"{}},\ \textcolor{stringliteral}{"{}M52"{}},\ \textcolor{stringliteral}{"{}NX"{}},\ \textcolor{stringliteral}{"{}LX"{}},\ \textcolor{stringliteral}{"{}KZ"{}},\ \textcolor{stringliteral}{"{}ULS"{}},\ \textcolor{stringliteral}{"{}AD"{}}\ \};}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00075}00075\ \ \ \ \ vector<string>\ suffixes\ =\ \{\ \textcolor{stringliteral}{"{}-\/1b"{}},\ \textcolor{stringliteral}{"{}-\/3c"{}},\ \textcolor{stringliteral}{"{}-\/Prime"{}},\ \textcolor{stringliteral}{"{}-\/Alpha"{}},\ \textcolor{stringliteral}{"{}-\/Vega"{}},\ \textcolor{stringliteral}{"{}-\/9"{}},\ \textcolor{stringliteral}{"{}-\/Tau"{}}\ \};}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00076}00076\ \ \ \ \ uniform\_int\_distribution<int>\ num(10,\ 999);}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00078}00078\ \ \ \ \ \textcolor{keywordtype}{string}\ pre\ =\ prefixes[rng()\ \%\ prefixes.size()];}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00079}00079\ \ \ \ \ \textcolor{keywordtype}{string}\ suf\ =\ suffixes[rng()\ \%\ suffixes.size()];}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00081}00081\ \ \ \ \ ostringstream\ name;}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00082}00082\ \ \ \ \ name\ <<\ pre\ <<\ \textcolor{stringliteral}{"{}-\/"{}}\ <<\ num(rng)\ <<\ suf;}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00083}00083\ \ \ \ \ \textcolor{keywordflow}{return}\ name.str();}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00084}00084\ \}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00085}00085\ }
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00086}\mbox{\hyperlink{class_planet_generator_a242e20564fd6afad19add6df7dffdf59}{00086}}\ \mbox{\hyperlink{class_planet}{Planet}}\ \mbox{\hyperlink{class_planet_generator_a242e20564fd6afad19add6df7dffdf59}{PlanetGenerator::generatePlanet}}(\textcolor{keywordtype}{int}\ index)\ \{}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00087}00087\ \ \ \ \ uniform\_real\_distribution<double>\ distAU(0.5,\ 10.0);}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00088}00088\ \ \ \ \ \textcolor{keywordtype}{double}\ distance\ =\ distAU(rng);}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00090}00090\ \ \ \ \ uniform\_int\_distribution<int>\ distBiome(0,\ 7);}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00091}00091\ \ \ \ \ \mbox{\hyperlink{planet_8h_addc943e48d3e353239a2d443df95bd5b}{Biome}}\ biome\ =\ \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{planet_8h_addc943e48d3e353239a2d443df95bd5b}{Biome}}\textcolor{keyword}{>}(distBiome(rng));}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00092}00092\ }
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00093}00093\ \ \ \ \ uniform\_int\_distribution<int>\ distLoot(1,\ 10);}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00094}00094\ \ \ \ \ \textcolor{keywordtype}{int}\ lootLevel\ =\ distLoot(rng);}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00095}00095\ }
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00096}00096\ \ \ \ \ \textcolor{keywordtype}{string}\ name\ =\ generateName();}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00097}00097\ \ \ \ \ ostringstream\ id;}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00098}00098\ \ \ \ \ \textcolor{keywordtype}{id}\ <<\ \textcolor{stringliteral}{"{}P"{}}\ <<\ setw(3)\ <<\ setfill(\textcolor{charliteral}{'0'})\ <<\ index;}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00099}00099\ }
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00100}00100\ \ \ \ \ \mbox{\hyperlink{class_planet}{Planet}}\ planet(\textcolor{keywordtype}{id}.str(),\ name,\ distance,\ biome,\ lootLevel);}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00101}00101\ \ \ \ \ \textcolor{keywordflow}{return}\ planet;}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00102}00102\ \}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00103}00103\ }
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00104}00104\ \textcolor{comment}{//\ PlanetSystem\ -\/\ Random\ generation\ and\ exploration}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00105}\mbox{\hyperlink{class_planet_system_af9c29381e8f7fead00c3ac28298cd7d9}{00105}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_planet_system_af9c29381e8f7fead00c3ac28298cd7d9}{PlanetSystem::run}}(\mbox{\hyperlink{class_game}{Game}}\&\ g)}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00106}00106\ \{}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00107}00107\ \ \ \ \ srand((\textcolor{keywordtype}{unsigned})time(\textcolor{keyword}{nullptr}));}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00108}00108\ }
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00109}00109\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Generate\ random\ planets\ using\ PlanetGenerator\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00110}00110\ \ \ \ \ \mbox{\hyperlink{class_planet_generator}{PlanetGenerator}}\ generator;}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00111}00111\ \ \ \ \ vector<Planet>\ planets;}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00112}00112\ }
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00113}00113\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ NUM\_PLANETS\ =\ 3;}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00114}00114\ \ \ \ \ \textcolor{keywordtype}{double}\ fuelPerAU\ =\ 2.5;}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00115}00115\ }
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00116}00116\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ NUM\_PLANETS;\ ++i)}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00117}00117\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00118}00118\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_planet}{Planet}}\ p\ =\ generator.\mbox{\hyperlink{class_planet_generator_a242e20564fd6afad19add6df7dffdf59}{generatePlanet}}(i\ +\ 1);}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00119}00119\ \ \ \ \ \ \ \ \ planets.push\_back(std::move(p));}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00120}00120\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00121}00121\ }
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00122}00122\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Display\ generated\ planets\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00123}00123\ \ \ \ \ ostringstream\ planetDisplay;}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00124}00124\ \ \ \ \ planetDisplay\ <<\ \textcolor{stringliteral}{"{}-\/-\/Nearby\ Planets\ Detected-\/-\/\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00125}00125\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ p\ :\ planets)}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00126}00126\ \ \ \ \ \ \ \ \ planetDisplay\ <<\ p.quickRow(fuelPerAU)\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00127}00127\ }
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00128}00128\ \ \ \ \ planetDisplay\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n(Type\ 1,\ 2,\ or\ 3\ to\ travel\ to\ a\ planet,\ or\ 'menu'\ to\ return\ to\ main\ menu.)"{}};}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00129}00129\ }
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00130}00130\ \ \ \ \ g.\mbox{\hyperlink{class_game_a21add3176bb8fb80826d5797a23be594}{setBodyOutput}}(planetDisplay.str());}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00131}00131\ \ \ \ \ g.\mbox{\hyperlink{class_game_a82e62b77419f947924400b2294906815}{setErrorOutput}}(\textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00132}00132\ \ \ \ \ g.\mbox{\hyperlink{class_game_a0a691558b17c2b649f2518b0ccafb4ad}{displayOutput}}();}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00133}00133\ }
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00134}00134\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/\ Handle\ input\ loop\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00135}00135\ \ \ \ \ \mbox{\hyperlink{class_command}{Command}}\ c;}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00136}00136\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00137}00137\ \textcolor{comment}{\ \ \ \ while\ (true)}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00138}00138\ \textcolor{comment}{\ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00139}00139\ \textcolor{comment}{\ \ \ \ \ \ \ \ c.setInput();}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00140}00140\ \textcolor{comment}{\ \ \ \ \ \ \ \ if\ (c.getInput()-\/>empty())\ continue;}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00141}00141\ \textcolor{comment}{\ \ \ \ \ \ \ \ string\ choice\ =\ (*c.getInput())[0];}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00142}00142\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00143}00143\ \textcolor{comment}{\ \ \ \ \ \ \ \ if\ (choice\ ==\ "{}1"{}\ ||\ choice\ ==\ "{}2"{}\ ||\ choice\ ==\ "{}3"{})}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00144}00144\ \textcolor{comment}{\ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00145}00145\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ int\ index\ =\ stoi(choice)\ -\/\ 1;}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00146}00146\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ if\ (index\ >=\ 0\ \&\&\ index\ <\ (int)planets.size())}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00147}00147\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00148}00148\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ g.clearScreen();}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00149}00149\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ostringstream\ travelMsg;}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00150}00150\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ travelMsg\ <<\ "{}You\ are\ now\ orbiting\ planet\ "{}\ <<\ planets[index].getName()\ <<\ "{}.\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00151}00151\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ //\ <<\ "{}Fuel\ Used:\ "{}\ <<\ cost\ <<\ "{}\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00152}00152\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ //\ <<\ "{}Remaining\ fuel:\ "{}\ <<\ playerFuel\ <<\ "{}\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00153}00153\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ planets[index].describe()}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00154}00154\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ "{}\(\backslash\)n(Type\ 'menu'\ to\ return\ to\ main\ menu\ or\ 'back'\ to\ view\ nearby\ planets.)"{};}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00155}00155\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00156}00156\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ g.setBodyOutput(travelMsg.str());}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00157}00157\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ g.setErrorOutput("{}"{});}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00158}00158\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ g.displayOutput();}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00159}00159\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00160}00160\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ //\ stay\ on\ planet\ until\ 'back'\ or\ 'menu'}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00161}00161\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ while\ (true)}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00162}00162\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00163}00163\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ c.setInput();}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00164}00164\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (c.getInput()-\/>empty())\ continue;}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00165}00165\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ string\ sub\ =\ (*c.getInput())[0];}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00166}00166\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00167}00167\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (sub\ ==\ "{}menu"{})}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00168}00168\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00169}00169\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ g.clearScreen();}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00170}00170\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Menu\ m;}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00171}00171\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Command\ cmd;}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00172}00172\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ m.MainMenu(cmd,\ g);}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00173}00173\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return;}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00174}00174\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00175}00175\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ else\ if\ (sub\ ==\ "{}back"{})}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00176}00176\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00177}00177\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ g.clearScreen();}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00178}00178\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ g.setBodyOutput(planetDisplay.str());}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00179}00179\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ g.setErrorOutput("{}"{});}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00180}00180\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ g.displayOutput();}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00181}00181\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ break;}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00182}00182\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00183}00183\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ else}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00184}00184\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00185}00185\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ g.setErrorOutput("{}ERR)\ Invalid\ input.\ Type\ 'menu'\ or\ 'back'."{});}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00186}00186\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ g.displayOutput();}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00187}00187\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00188}00188\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00189}00189\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00190}00190\ \textcolor{comment}{\ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00191}00191\ \textcolor{comment}{\ \ \ \ \ \ \ \ else\ if\ (choice\ ==\ "{}menu"{})}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00192}00192\ \textcolor{comment}{\ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00193}00193\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ g.clearScreen();}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00194}00194\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ Menu\ m;}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00195}00195\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ Command\ cmd;}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00196}00196\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ m.MainMenu(cmd,\ g);}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00197}00197\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ return;}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00198}00198\ \textcolor{comment}{\ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00199}00199\ \textcolor{comment}{\ \ \ \ \ \ \ \ else}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00200}00200\ \textcolor{comment}{\ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00201}00201\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ g.setErrorOutput("{}ERR)\ Invalid\ input.\ Type\ 1,\ 2,\ 3,\ or\ 'menu'."{});}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00202}00202\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ g.displayOutput();}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00203}00203\ \textcolor{comment}{\ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00204}00204\ \textcolor{comment}{\ \ \ \ \}*/}}
+\DoxyCodeLine{\Hypertarget{planet_8cpp_source_l00205}00205\ \}}
+
+\end{DoxyCode}

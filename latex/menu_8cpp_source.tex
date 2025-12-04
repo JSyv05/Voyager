@@ -1,0 +1,136 @@
+\doxysection{menu.\+cpp}
+\hypertarget{menu_8cpp_source}{}\label{menu_8cpp_source}\mbox{\hyperlink{menu_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00001}00001\ \textcolor{preprocessor}{\#include<iostream>}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00003}00003\ \textcolor{preprocessor}{\#include"{}\mbox{\hyperlink{command_8h}{command.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00004}00004\ \textcolor{preprocessor}{\#include"{}\mbox{\hyperlink{game_8h}{game.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00005}00005\ \textcolor{preprocessor}{\#include"{}\mbox{\hyperlink{menu_8h}{menu.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00006}00006\ \textcolor{preprocessor}{\#include"{}\mbox{\hyperlink{planet_8h}{planet.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00008}00008\ \textcolor{keyword}{using\ namespace\ }std;}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00010}\mbox{\hyperlink{class_menu_aac2b0c3bc1eaeea9f8dfb9d8ed63ad49}{00010}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_menu_aac2b0c3bc1eaeea9f8dfb9d8ed63ad49}{Menu::setMenu}}(\mbox{\hyperlink{class_game}{Game}}\&\ game)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00011}00011\ \ \ \ \ \textcolor{keywordtype}{string}\ art\ =\ R\textcolor{stringliteral}{"{}(}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00012}00012\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :::\ \ \ \ \ :::\ ::::::::\ :::\ \ \ :::\ \ :::\ \ \ \ \ ::::::::\ :::::::::::::::::::\ \ \ \ \ \ \ \ \ \ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00013}00013\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ \ :+::+:\ \ \ \ :+::+:\ \ \ :+::+:\ :+:\ \ :+:\ \ \ \ :+::+:\ \ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ \ \ \ \ \ \ \ \ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00014}00014\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ +:++:+\ \ \ \ +:+\ +:+\ +:++:+\ \ \ +:+\ +:+\ \ \ \ \ \ \ +:+\ \ \ \ \ \ \ +:+\ \ \ \ +:+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00015}00015\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\ \ \ \ \ +:++\#+\ \ \ \ +:+\ \ +\#++:+\#++:++\#++::\#:\ \ \ \ \ \ \ +\#++:++\#\ \ +\#++:++\#:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00016}00016\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\ \ \ +\#+\ +\#+\ \ \ \ +\#+\ \ \ +\#+\ +\#+\ \ \ \ \ +\#++\#+\ \ \ \ +\#+\#+\#\ \ \ \ \ \ \ +\#+\ \ +\#+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00017}00017\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \#+\#+\#+\#\ \ \#+\#\ \ \ \ \#+\#\ \ \ \#+\#\ \#+\#\ \ \ \ \ \#+\#\#+\#\ \ \ \ \#+\#\#+\#\ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00018}00018\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\#\#\ \ \ \ \ \#\#\#\#\#\#\#\#\ \ \ \ \#\#\#\ \#\#\#\ \ \ \ \ \#\#\#\ \#\#\#\#\#\#\#\#\ \#\#\#\#\#\#\#\#\#\#\#\#\#\ \ \ \ \#\#\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00019}00019\ \textcolor{stringliteral}{\_\_\_\_\ \_\ \ \_\ \_\_\_\_\ \_\_\_\_\ \_\ \ \ \_\ \_\_\_\_\ \_\_\_\_\ \_\_\_\_\ \_\_\_\_\ \_\ \_\_\_\_\ \_\ \_\_\_\_\ \_\_\_\_\ \_\ \ \_\ \_\_\_\_\ \_\_\_\ \_\_\_\ \_\_\_\_\ \_\_\_\_\ \_\_\_\_\ }}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00020}00020\ \textcolor{stringliteral}{|\_\_\_\ |\ \ |\ |\_\_\_\ |\_\_/\ \ \(\backslash\)\_/\ \ [\_\_\ \ |\_\_|\ |\ \ \ \ |\_\_/\ |\ |\_\_\_\ |\ |\ \ \ \ |\_\_\_\ |\(\backslash\)/|\ |\_\_|\ \ |\ \ \ |\ \ |\_\_\_\ |\_\_/\ [\_\_\ \ }}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00021}00021\ \textcolor{stringliteral}{|\_\_\_\ \ \(\backslash\)/\ \ |\_\_\_\ |\ \ \(\backslash\)\ \ \ |\ \ \ \_\_\_]\ |\ \ |\ |\_\_\_\ |\ \ \(\backslash\)\ |\ |\ \ \ \ |\ |\_\_\_\ |\_\_\_\ |\ \ |\ |\ \ |\ \ |\ \ \ |\ \ |\_\_\_\ |\ \ \(\backslash\)\ \_\_\_]\ )"{};\ }\textcolor{comment}{//\ ASCII\ art\ title\ screen\ ooooooo}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00023}00023\ \ \ \ \ \textcolor{keywordtype}{string}\ text\ =\ }
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00024}00024\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}>\ Start\ Game\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00025}00025\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}>\ Load\ Game\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00026}00026\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}>\ Instructions\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00027}\mbox{\hyperlink{class_menu_ad15ca999561d0d2380d4b3aacc9eb11d}{00027}}\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}>\ Credits\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00028}00028\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}>\ Exit\(\backslash\)n\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00030}00030\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Please\ enter\ your\ choice."{}};\ \textcolor{comment}{//\ Main\ menu\ text}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00032}00032\ \ \ \ \ game.\mbox{\hyperlink{class_game_a93919e3196e7d2284870b9facdf71c15}{setArtOutput}}(art);\ \ \ \textcolor{comment}{//\ Sets\ art\ to\ title\ screen}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00033}00033\ \ \ \ \ game.\mbox{\hyperlink{class_game_a82e62b77419f947924400b2294906815}{setErrorOutput}}(\textcolor{stringliteral}{"{}"{}});\ \ \textcolor{comment}{//\ Clears\ error\ output}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00034}00034\ \ \ \ \ game.\mbox{\hyperlink{class_game_a21add3176bb8fb80826d5797a23be594}{setBodyOutput}}(text);\ \textcolor{comment}{//\ Sets\ text\ to\ menu\ options}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00035}00035\ \ \ \ \ \textcolor{comment}{//\ Implementation\ for\ setting\ up\ the\ main\ menu}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00036}00036\ \}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00037}00037\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_menu_ad15ca999561d0d2380d4b3aacc9eb11d}{Menu::setInstructions}}(\mbox{\hyperlink{class_game}{Game}}\&\ game)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00038}00038\ \ \ \ \ \textcolor{keywordtype}{string}\ art\ =\ R\textcolor{stringliteral}{"{}(}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00039}00039\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :::\ \ \ \ \ :::\ ::::::::\ :::\ \ \ :::\ \ :::\ \ \ \ \ ::::::::\ :::::::::::::::::::\ \ \ \ \ \ \ \ \ \ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00040}00040\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ \ :+::+:\ \ \ \ :+::+:\ \ \ :+::+:\ :+:\ \ :+:\ \ \ \ :+::+:\ \ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ \ \ \ \ \ \ \ \ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00041}00041\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ +:++:+\ \ \ \ +:+\ +:+\ +:++:+\ \ \ +:+\ +:+\ \ \ \ \ \ \ +:+\ \ \ \ \ \ \ +:+\ \ \ \ +:+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00042}00042\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\ \ \ \ \ +:++\#+\ \ \ \ +:+\ \ +\#++:+\#++:++\#++::\#:\ \ \ \ \ \ \ +\#++:++\#\ \ +\#++:++\#:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00043}00043\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\ \ \ +\#+\ +\#+\ \ \ \ +\#+\ \ \ +\#+\ +\#+\ \ \ \ \ +\#++\#+\ \ \ \ +\#+\#+\#\ \ \ \ \ \ \ +\#+\ \ +\#+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00044}00044\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \#+\#+\#+\#\ \ \#+\#\ \ \ \ \#+\#\ \ \ \#+\#\ \#+\#\ \ \ \ \ \#+\#\#+\#\ \ \ \ \#+\#\#+\#\ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00045}00045\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\#\#\ \ \ \ \ \#\#\#\#\#\#\#\#\ \ \ \ \#\#\#\ \#\#\#\ \ \ \ \ \#\#\#\ \#\#\#\#\#\#\#\#\ \#\#\#\#\#\#\#\#\#\#\#\#\#\ \ \ \ \#\#\#)"{};}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00046}00046\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00047}00047\ \textcolor{stringliteral}{\ \ \ \ }\textcolor{keywordtype}{string}\ text\ =\ }
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00048}00048\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}the\ goal\ of\ Voyager\ is\ to\ collect\ as\ many\ samples\ as\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00049}00049\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}possible,\ explore\ as\ many\ planets\ as\ possible,\ and\ then\(\backslash\)n"{}}\ }
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00050}00050\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}return\ to\ Earth\ safely.\ You\ will\ be\ able\ to\ use\ commands\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00051}00051\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}to\ navigate\ around\ the\ solar\ system\ simply\ by\ typing\ in\ a\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00052}00052\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}simple\ word\ command.\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00053}00053\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}(\(\backslash\)"{}Examine\ Granite\(\backslash\)"{},\ \(\backslash\)"{}Trade\ meat\ with\ merchant\(\backslash\)"{},\ etc.)\(\backslash\)n\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00054}\mbox{\hyperlink{class_menu_a6af3fe522511c60c9ac29255174ede2f}{00054}}\ }
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00055}00055\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}The\ challenge\ is\ resource\ management.\ You\ will\ have\ to\ spend\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00056}00056\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}samples\ to\ maintain\ the\ health\ of\ your\ ship\ and\ yourself.\ You\ will\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00057}00057\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}also\ lose\ resources\ from\ random\ events\ that\ will\ occur.\ You\ will\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00058}00058\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}have\ to\ make\ strategic\ decisions\ on\ what\ to\ spend\ resources\ on\ as\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00059}00059\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}well\ as\ what\ items\ you\ need\ to\ survive.\(\backslash\)n\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00061}00061\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}When\ it\ comes\ to\ space\ exploration,\ there\ is\ only\ one\ saying:\(\backslash\)n\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00062}00062\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\(\backslash\)"{}Every\ Sacrifice\ Matters\(\backslash\)"{}\(\backslash\)n\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00064}00064\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Type\ 'back'\ to\ return\ to\ main\ menu\ "{}};}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00066}00066\ \ \ \ \ game.\mbox{\hyperlink{class_game_a93919e3196e7d2284870b9facdf71c15}{setArtOutput}}(art);\ \textcolor{comment}{//\ Sets\ art\ to\ instructions\ screen}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00067}00067\ \ \ \ \ game.\mbox{\hyperlink{class_game_a82e62b77419f947924400b2294906815}{setErrorOutput}}(\textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00068}00068\ \ \ \ \ game.\mbox{\hyperlink{class_game_a21add3176bb8fb80826d5797a23be594}{setBodyOutput}}(text);\ \textcolor{comment}{//\ Sets\ text\ to\ instructions}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00069}\mbox{\hyperlink{class_menu_a8a590af033d2a0affba206991071a42c}{00069}}\ \}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00071}00071\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_menu_a6af3fe522511c60c9ac29255174ede2f}{Menu::setCredits}}(\mbox{\hyperlink{class_game}{Game}}\&\ game)\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00072}00072\ \ \ \ \ \textcolor{keywordtype}{string}\ art\ =\ R\textcolor{stringliteral}{"{}(}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00073}00073\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :::\ \ \ \ \ :::\ ::::::::\ :::\ \ \ :::\ \ :::\ \ \ \ \ ::::::::\ :::::::::::::::::::\ \ \ \ \ \ \ \ \ \ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00074}00074\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ \ :+::+:\ \ \ \ :+::+:\ \ \ :+::+:\ :+:\ \ :+:\ \ \ \ :+::+:\ \ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ \ \ \ \ \ \ \ \ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00075}00075\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ +:++:+\ \ \ \ +:+\ +:+\ +:++:+\ \ \ +:+\ +:+\ \ \ \ \ \ \ +:+\ \ \ \ \ \ \ +:+\ \ \ \ +:+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00076}00076\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\ \ \ \ \ +:++\#+\ \ \ \ +:+\ \ +\#++:+\#++:++\#++::\#:\ \ \ \ \ \ \ +\#++:++\#\ \ +\#++:++\#:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00077}00077\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\ \ \ +\#+\ +\#+\ \ \ \ +\#+\ \ \ +\#+\ +\#+\ \ \ \ \ +\#++\#+\ \ \ \ +\#+\#+\#\ \ \ \ \ \ \ +\#+\ \ +\#+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00078}00078\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \#+\#+\#+\#\ \ \#+\#\ \ \ \ \#+\#\ \ \ \#+\#\ \#+\#\ \ \ \ \ \#+\#\#+\#\ \ \ \ \#+\#\#+\#\ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00079}00079\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\#\#\ \ \ \ \ \#\#\#\#\#\#\#\#\ \ \ \ \#\#\#\ \#\#\#\ \ \ \ \ \#\#\#\ \#\#\#\#\#\#\#\#\ \#\#\#\#\#\#\#\#\#\#\#\#\#\ \ \ \ \#\#\#)"{};}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00080}00080\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00081}00081\ \textcolor{stringliteral}{\ \ \ \ }\textcolor{keywordtype}{string}\ text\ =\ \textcolor{stringliteral}{"{}Team\ Members:\(\backslash\)nAlina\ Betances\(\backslash\)nAnthony\ Pinto\(\backslash\)nElias\ "{}}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Reeves\(\backslash\)nMatthew\ Silva\(\backslash\)nJohn\ Syvertsen\(\backslash\)n\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Scrum\ Master:\(\backslash\)nJohn\ Syvertsen\(\backslash\)n\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Programmers:\(\backslash\)nAlina\ Betances\(\backslash\)nAnthony\ Pinto\(\backslash\)nElias\ "{}}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Reeves\(\backslash\)nMatthew\ Silva\(\backslash\)nJohn\ Syvertsen\(\backslash\)n\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Type\ back\ to\ return\ to\ the\ main\ menu."{}};}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00088}00088\ \ \ \ \ game.\mbox{\hyperlink{class_game_a93919e3196e7d2284870b9facdf71c15}{setArtOutput}}(art);}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00089}00089\ \ \ \ \ game.\mbox{\hyperlink{class_game_a21add3176bb8fb80826d5797a23be594}{setBodyOutput}}(text);}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00090}00090\ \ \ \ \ game.\mbox{\hyperlink{class_game_a82e62b77419f947924400b2294906815}{setErrorOutput}}(\textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00091}00091\ \}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00092}00092\ }
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00093}00093\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_menu_a8a590af033d2a0affba206991071a42c}{Menu::setIntro}}(\mbox{\hyperlink{class_game}{Game}}\&\ game)\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00094}\mbox{\hyperlink{class_menu_ac371112cccc00f718627ead43d06ba23}{00094}}\ \ \ \ \ \textcolor{keywordtype}{string}\ art\ =\ R\textcolor{stringliteral}{"{}(}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00095}00095\ \textcolor{stringliteral}{\ \ \ \ \ \ \ <<Legions\ of\ Earth>>}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00096}00096\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ .-\/-\/-\/.\ \ \ \ \ \ \ \ .-\/-\/-\/.}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00097}00097\ \textcolor{stringliteral}{\ \ \ \ \ \ \ /\ \ \ \ \ \(\backslash\)\ \ \_\_\ \ /\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00098}00098\ \textcolor{stringliteral}{\ \ \ \ \ \ /\ /\ \ \ \ \ \(\backslash\)(\ \ )/\ \ \ \ \ \(\backslash\)\ \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00101}00101\ \ \ \ //\ /\ \ \ /\ \ /`\ \ \ \ '\(\backslash\)\ \ \(\backslash\)\ \ \ \(\backslash\)\ \(\backslash\)\(\backslash\)}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00102}00102\ \ \ //\ \ \ \ \ \ \ \ \ \ //..\(\backslash\)\(\backslash\)\ \ /-\//\ \ |\ \ \ \(\backslash\)}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00103}00103\ \ \ \ \ \ \ \ \ <====UU====UU====-\/-\/O-\/-\/}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ '//||\(\backslash\)\(\backslash\)`\ \(\backslash\)-\/\(\backslash\)\ \ |}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ''``}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00106}00106\ \ \ <<Dept.\ of\ Space\ Exploration>>)"{};}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00107}00107\ }
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00108}00108\ \ \ \ \ \textcolor{keywordtype}{string}\ text\ =\ }
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00109}00109\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}VOYAGER\ PROGRAM:\ LOG\ ALPHA-\/01\(\backslash\)n\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00110}00110\ }
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00111}00111\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}After\ decades\ of\ preparation,\ the\ Voyager\ Program\ has\ finally\ launched.\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00112}00112\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Our\ mission:\ explore\ the\ outer\ systems,\ gather\ samples\ from\ uncharted\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00113}00113\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}worlds,\ and\ return\ home\ before\ the\ fuel\ cells\ run\ dry.\(\backslash\)n\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00114}00114\ }
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00115}00115\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Each\ planet\ brings\ its\ own\ challenge,\ but\ every\ discovery\ will\ push\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00116}00116\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}humanity\ one\ step\ closer\ to\ glory.\(\backslash\)n\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00117}00117\ }
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00118}00118\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}You\ are\ going\ to\ be\ the\ start\ of\ Humanities\ duty\ to\ explore\ the\ galaxy.\(\backslash\)n\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00119}00119\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Remember,\ Voyager:\ \(\backslash\)"{}Every\ Sacrifice\ Matters\(\backslash\)"{}.\(\backslash\)n\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00120}00120\ }
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00121}00121\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/\ Grand\ Overseer\ of\ the\ Legion\ Atreitus\(\backslash\)n\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00122}00122\ }
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00123}00123\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Type\ 'next'\ and\ press\ Enter\ to\ continue..."{}};}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00124}00124\ }
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00125}00125\ \ \ \ \ game.\mbox{\hyperlink{class_game_a93919e3196e7d2284870b9facdf71c15}{setArtOutput}}(art);}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00126}00126\ \ \ \ \ game.\mbox{\hyperlink{class_game_a21add3176bb8fb80826d5797a23be594}{setBodyOutput}}(text);}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00127}00127\ \ \ \ \ game.\mbox{\hyperlink{class_game_a82e62b77419f947924400b2294906815}{setErrorOutput}}(\textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00128}00128\ \}}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00129}00129\ }
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00130}00130\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_menu_ac371112cccc00f718627ead43d06ba23}{Menu::setError}}(\mbox{\hyperlink{class_game}{Game}}\&\ game)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00131}00131\ \ \ \ \ \textcolor{keywordtype}{string}\ error\ =\ \textcolor{stringliteral}{"{}ERR:\ Please\ input\ a\ valid\ command\(\backslash\)n\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00132}00132\ \ \ \ \ game.\mbox{\hyperlink{class_game_a82e62b77419f947924400b2294906815}{setErrorOutput}}(error);}
+\DoxyCodeLine{\Hypertarget{menu_8cpp_source_l00133}00133\ \}}
+
+\end{DoxyCode}
