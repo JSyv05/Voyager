@@ -13,4 +13,6 @@ ____ _  _ ____ ____ _   _ ____ ____ ____ ____ _ ____ _ ____ ____ _  _ ____ ___ _
 ```
 
 ## Objective
-The Original Goal of Voyager was to make a game that would runf orever, where you travel across a set of randomly generated planets, collecting as many samples as possible. The scope has changed, so here is where I, and anyone who chooses to continue working on Voyager, will do it.
+Voyager was a project that I worked on for a class, and it turned out to be one of the most fun and exciting things that I had ever worked on. After the class concluded, I decided to fork the original project and begin working on it for my own personal interest. Any of the former team members that worked on the original project are totally free to join. This will be what Voyager was intended to be.
+
+- John, original Scrum Master
